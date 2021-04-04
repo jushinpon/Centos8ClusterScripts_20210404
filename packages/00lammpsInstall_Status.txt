@@ -1,0 +1,2 @@
+===========Process status (0 is ok): sysytem call purpose============
+:wget -O lammps or git clone https://github.com/lammps/lammps.git

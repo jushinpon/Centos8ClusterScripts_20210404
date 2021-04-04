@@ -1,0 +1,23 @@
+# Global parameters
+[global]
+	netbios name = SAMBA_NETBIOS
+	security = USER
+	server string = SAMBA SERVER
+	workgroup = SAMBA
+	idmap config * : backend = tdb
+
+
+[jsp]
+	comment = Shared
+	create mask = 0755
+	path = /home/jsp
+	read only = No
+	valid users = jsp
+
+
+[pitotech]
+	comment = Shared
+	create mask = 0755
+	path = /home/jsp
+	read only = No
+	valid users = pitotech

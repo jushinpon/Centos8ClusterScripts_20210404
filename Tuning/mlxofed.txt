@@ -1,0 +1,45 @@
+yum install tk tcsh tcl
+Do you want to continue?[y/N]:y
+
+Installation finished successfully.
+
+
+Verifying...                          ################################# [100%]
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:mlnx-fw-updater-5.2-2.2.0.0      ################################# [100%]
+
+Added 'RUN_FW_UPDATER_ONBOOT=no to /etc/infiniband/openib.conf
+
+Initializing...
+Attempting to perform Firmware update...
+Querying Mellanox devices firmware ...
+
+Device #1:
+----------
+
+  Device Type:      ConnectX4LX
+  Part Number:      MCX4111A-XCA_Ax
+  Description:      ConnectX-4 Lx EN network interface card; 10GbE single-port SFP28+; PCIe3.0 x8; ROHS R6
+  PSID:             MT_2410110004
+  PCI Device Name:  01:00.0
+  Base MAC:         0c42a1798b14
+  Versions:         Current        Available
+     FW             14.26.1040     14.29.2002
+     PXE            3.5.0803       3.6.0204
+     UEFI           14.19.0014     14.22.0016
+
+  Status:           Update required
+
+---------
+Found 1 device(s) requiring firmware update...
+
+Device #1: Updating FW ...
+FSMST_INITIALIZE -   OK
+Writing Boot image component -   OK                                                                                                                                                                        Done
+
+Restart needed for updates to take effect.
+Log File: /tmp/XL7_yyNIWM
+Real log file: /tmp/MLNX_OFED_LINUX.44461.logs/fw_update.log
+To load the new driver, run:
+/etc/init.d/openibd restart

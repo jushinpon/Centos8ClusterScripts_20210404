@@ -1,0 +1,3 @@
+===========Process status (0 is ok): sysytem call purpose============
+0:wget thermo_pw.1.3.2.tar.gz 
+0: tar -xvzf thermo_pw.1.3.2.tar.gz

@@ -1,0 +1,4 @@
+===========Process status (0 is ok): sysytem call purpose============
+0:wget -O or git clone qe https://github.com/QEF/q-e.git
+0: configure qe
+512: make qe

@@ -1,0 +1,1280 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MVAPICH :: Download</title>
+
+    
+	<link rel="icon" href="/static/images/MVAPICH_favicon.png" />
+
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="/static/css/generic.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    
+    <meta name="keywords" content="MPI, MVAPICH, high performance computing, parallel computing, cluster">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-37133620-1', 'ohio-state.edu');
+      ga('send', 'pageview');
+    
+    </script>
+
+  </head>
+
+  <body>
+    <div class="navbar navbar-default center navbar-static-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+            <a class="navbar-brand" href="/">MVAPICH</a>
+
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li class="home "><a href="/">Home</a></li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Overview<b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                    <li><a href="/overview/">Overview</a></li>
+                    <li><a href="/features/">Features</a></li>
+	          </ul>
+                </li>
+                <li class="dropdown ">
+                <li class="active"><a href="/register/">Download</a></li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Performance<b class="caret"></b></a>
+                  <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu2">
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>Job Startup</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                            <li><a href="/performance/job-startup/">Performance</a></li>
+	                    </ul>
+                    </li>
+
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                            <li><a href="/performance/pt_to_pt/">Pt-to-Pt</a></li>
+                            <li><a href="/performance/collectives/">Collectives</a></li>
+	                    </ul>
+                    </li>
+
+                   <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-Azure</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                            <li><a href="/performance/mv2-azure-pt_to_pt/">Pt-to-Pt</a></li>
+                            </ul>
+                    </li>
+
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-X</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                                    <li><a href="/performance/mv2x-pt_to_pt/">XPMEM Pt-to-Pt</a></li>
+		                   
+		                    <li><a href="/performance/openshmem/">OpenSHMEM</a></li>
+		                    <li><a href="/performance/upc/">UPC</a></li>
+		                    <li><a href="/performance/upcxx/">UPC++</a></li>
+	                    </ul>
+                    </li>
+
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-X-AWS</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                                    <li><a href="/performance/mv2x-aws-pt_to_pt/">Pt-to-Pt</a></li>
+                                    <li><a href="/performance/mv2x-aws-applications/">Applications</a></li>
+                                    <li><a href="/performance/mv2x-aws-collectives/">Collectives</a></li>
+	                    </ul>
+                    </li>
+
+                   <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-X-Azure</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+			    <li><a href="/performance/mv2x-azure-pt_to_pt/">Pt-to-Pt</a></li>
+                            </ul>
+                    </li>
+    
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-GDR</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+		                    <li><a href="/performance/gdr-pt_to_pt/">Pt-to-Pt</a></li>
+		                    <li><a href="/performance/gdr-collectives/">Collectives</a></li>
+                            <!-- <li><a href="/performance/gdr-application/">Applications</a></li> -->
+	                    </ul>
+                    </li>
+
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-MIC</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                            <li><a href="/performance/mic-pt_to_pt/">Microbenchmarks</a></li>
+	                    </ul>
+                    </li>
+
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-Virt</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+		                    <li><a href="/performance/v-pt_to_pt/">Virtual Machine Pt-to-Pt</a></li>
+		                    <li><a href="/performance/v-application/">Virtual Machine Applications</a></li>
+		                    <li><a href="/performance/cont-pt_to_pt/">Docker Pt-to-Pt</a></li>
+		                    <li><a href="/performance/cont-application/">Docker Applications</a></li>
+		                    <li><a href="/performance/singularity-pt_to_pt/">Singularity Pt-to-Pt</a></li>
+		                    <li><a href="/performance/singularity-application/">Singularity Applications</a></li>
+	                    </ul>
+                    </li>
+
+                    <li role="presentation" class="divider"></li>
+
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><h5>MV2-EA</h5></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                            <li><a href="/performance/ea-application/">Applications</a></li>
+	                    </ul>
+                    </li>
+	              </ul>
+                </li>
+                <li class=""><a href="/benchmarks/">Benchmarks</a></li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/tools/oemt/">OEMT</a></li>
+                    <li><a href="/tools/osu-inam/">OSU INAM</a></li>
+                  </ul>
+                </li>
+                <li class=""><a href="/publications/">Publications</a></li>
+                <li class=""><a href="/talks/">Talks</a></li>
+                <li class=""><a href="/users/">Users</a></li>
+                <li class=""><a href="/best_practices/">Best Practices</a></li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/userguide/">Userguide</a></li>
+                    <li><a href="/mailinglists/">Mailing Lists</a></li>
+                    <li><a href="/faq/">FAQ</a></li>
+                    <li><a href="/help/">Help</a></li>
+                  </ul>
+                </li>
+                <li><a href="http://mug.mvapich.cse.ohio-state.edu/">MUG</a></li>
+                <li><a href="http://nowlab.cse.ohio-state.edu/jobs/">Jobs</a></li>
+
+
+          </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+
+    <div class="container" id="header">
+      
+ 
+      
+      
+      
+          <div class="text-center">
+            <div class="hidden-sm col-md-2">
+              <img class="img-rounded img-polaroid fitwidth" data-src="holder.js/300x200" src="/static/images/MVAPICH-Stacked.png" alt="mvapich2" />
+            </div>
+            <div class="col-sm-12 col-md-8 ">
+              <h3>MVAPICH: MPI over InfiniBand, Omni-Path, Ethernet/iWARP, and RoCE</h4>
+              <p><a href="http://nowlab.cse.ohio-state.edu/">Network-Based Computing Laboratory</a> <br />
+            </div>
+            <div class="hidden-sm col-md-2">
+              <img class="img-rounded img-polaroid fitwidth" data-src="holder.js/300x200" src="/static/images/TheOhioStateUniversity-Stacked-RGBHEX.png" alt="OSU Logo" />
+            </div>
+          </div>
+
+    </div>
+
+    <hr>
+
+    
+    <div id="maincontent" class="container justify">
+
+      
+
+
+<div class="panel panel-default">
+<table class="table table-condensed table-hover table-bordered table-striped">
+  <thead>
+    <tr><td>Requirements</td><td nowrap>Library to Use</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MPI with Support for InfiniBand, Omni-Path, Ethernet/iWARP and, RoCE (v1/v2)</td>
+      <td nowrap><a href="#mv2">MVAPICH2</a></td>
+    </tr>
+    <tr>
+      <td>Optimized Support for Microsoft Azure Platform with InfiniBand</td>
+      <td nowrap><a href="#mv2-azure">MVAPICH2-Azure</a></td>
+    </tr>
+    <tr>
+      <td>Advanced MPI features/support (UMR, ODP, DC, Core-Direct, SHArP, XPMEM), OSU INAM (InfiniBand Network Monitoring and Analysis), PGAS (OpenSHMEM, UPC, UPC++, and CAF), MPI+PGAS (OpenSHMEM, UPC, UPC++, and CAF) with IB and RoCE (v1/v2)</td>
+      <td nowrap><a href="#mv2x-23">MVAPICH2-X</a></td>
+    </tr>
+    <tr>
+      <td>Optimized Support of MVAPICH2-X for Microsoft Azure Platform with InfiniBand</td>
+      <td nowrap><a href="#mv2-x-azure">MVAPICH2-X-Azure</a></td>
+    </tr>
+    <tr>
+      <td>Advanced MPI features (SRD and XPMEM) with support for Amazon Elastic Fabric Adapter (EFA)</td>
+      <td nowrap><a href="#mv2x-aws-23">MVAPICH2-X-AWS</a></td>
+    </tr>
+    <tr>
+      <td>Optimized MPI for clusters with NVIDIA GPUs and for GPU-enabled Deep Learning Applications</td>
+      <td nowrap><a href="#mv2gdr-23">MVAPICH2-GDR</a></td>
+      </td>
+    </tr>
+    <tr>
+      <td>OSU InfiniBand Network Analysis and Monitoring (OSU INAM) Tool</td>
+      <td nowrap><a href="#osu-inam">OSU INAM</a></td>
+    <tr>
+      <td>MPI with IB & MIC</td>
+      <td nowrap><a href="#mv2mic">MVAPICH2-MIC</a></td>
+    </tr>
+    <tr>
+      <td>Hypervisor and container based (Docker and Singularity) HPC cloud with MPI & IB (SR-IOV)</td>
+      <td nowrap><a href="#mv2v">MVAPICH2-Virt</a></td>
+    </tr>
+    <tr>
+      <td>Energy-Aware MPI with IB, iWARP, and RoCE (v1/v2)</td>
+      <td nowrap><a href="#mv2ea">MVAPICH2-EA</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<div id="scrollnav" data-spy="affix" class="navbar navbar-default highlight-scroll" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#scrollnavbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="#">Versions</a>
+    </div>
+    <div class="navbar-collapse collapse" id="scrollnavbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#mv2.3.4">MV2 2.3.4</a></li>
+        <li><a href="#mv2-azure">MV2-Azure 2.3.3</a></li>
+
+        <li><a href="#mv2x-23">MV2-X 2.3</a></li>
+        <li><a href="#mv2-x-azure">MV2-X-Azure 2.3rc3</a></li>
+        <li><a href="#mv2x-aws-23">MV2-X-AWS 2.3</a></li>
+        <li><a href="#mv2gdr-23">MV2-GDR 2.3.4</a></li>
+        <li><a href="#osu-inam">OSU INAM</a></li>
+        <li><a href="#mv2mic">MV2-MIC 2.0</a></li>
+        <li><a href="#mv2v">MV2-Virt 2.2</a></li>
+        <li><a href="#mv2ea">MV2-EA 2.1</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="well well-sm" id="mv2.3.4">
+  <h3>MVAPICH2 2.3.4 Source Code, Quick Start Guide and User Guide</h3>
+  <ul>
+
+    <li>The MVAPICH2 library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2.TXT">BSD License</a>.</li>
+    <li>OSU MVAPICH2 2.3.4 (06/01/20), integrated and ABI compatible with MPICH-3.2.1.
+    <ul>
+        <li><a onclick="return trackDownload(this,'mvapich2','2.3.4');" href="/download/mvapich/mv2/mvapich2-2.3.4.tar.gz">Source Tarball</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '15.08.8');" href="/download/mvapich/osu-shmempmi-slurm-15.08.8.patch">Patch to add PMI Extensions with SLURM 15</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '16.05.5');" href="/download/mvapich/osu-shmempmi-slurm-16.05.5.patch">Patch to add PMI Extensions with SLURM 16</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '17.02.2');" href="/download/mvapich/osu-shmempmi-slurm-17.02.2.patch">Patch to add PMI Extensions with SLURM 17</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '18.08.3');" href="/download/mvapich/osu-shmempmi-slurm-18.08.3.patch">Patch to add PMI Extensions with SLURM 18</a></li>
+    </ul>
+    </li>
+    <li><a href="/static/media/mvapich/MV2_CHANGELOG-2.3.4.txt">CHANGELOG</a></li>
+    <li> MVAPICH2 Quick Start Guide: A short document with the necessary information for users to download, install, and use MVAPICH2. (<a href="/static/media/mvapich/mvapich2-2.3.4-quickstart.html">HTML</a>, <a href="/static/media/mvapich/mvapich2-2.3.4-quickstart.pdf">PDF</a>) </li>
+    <li> MVAPICH2 User Guide: A detailed user guide with instructions to build, install MVAPICH2 and execute MPI programs is available. This document also contains guidelines for troubleshooting and performance tuning. (<a href="/static/media/mvapich/mvapich2-2.3.4-userguide.html">HTML</a>, <a href="/static/media/mvapich/mvapich2-2.3.4-userguide.pdf">PDF</a>) </li>
+    <li><span class="important">Installation using Spack:</span> A detailed user guide with instructions to
+    install MVAPICH2 using Spack is available <a
+            href="http://mvapich.cse.ohio-state.edu/userguide/userguide_spack/">here</a>.
+</li>
+  </ul>
+</div>
+
+<div class="well well-sm" id="mv2-azure">
+  <h3>MVAPICH2-Azure 2.3.3 Deployment</h3>
+  <ul>
+
+    <li>The MVAPICH2 library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2.TXT">BSD License</a>.</li>
+    <li>OSU MVAPICH2-Azure 2.3.3 (05/20/20), integrated and ABI compatible with MPICH-3.2.1.
+    <ul>
+
+    <li><a onclick="return trackDownload(this,'mvapich2-x-azure-2.3rc3');" href="https://github.com/Azure/azhpc-images/releases/tag/centos-7.6-hpc-20200417">Azure CentOS 7.6 HPC Image</a></li>
+    <li><a onclick="return trackDownload(this,'mvapich2-x-azure-2.3rc3');" href="https://github.com/Azure/azhpc-images/releases/tag/centos-7.7-hpc-20200417">Azure CentOS 7.7 HPC Image</a></li>
+    <li><a onclick="return trackDownload(this,'mvapich2-x-azure-2.3rc3');" href="https://github.com/Azure/azhpc-images/releases/tag/centos-8.1-hpc-20200409">Azure CentOS 8.1 HPC Image</a></li>
+    </ul>
+    </li>
+    <li> MVAPICH2 User Guide: A detailed user guide with instructions to build, install MVAPICH2 and execute MPI programs is available. This document also contains guidelines for troubleshooting and performance tuning. (<a href="/static/media/mvapich/mvapich2-2.3.3-userguide.html">HTML</a>, <a href="/static/media/mvapich/mvapich2-2.3.3-userguide.pdf">PDF</a>) </li>
+  </ul>
+</div>
+
+
+
+<div class="well well-sm" id="mv2x-23">
+  <h3> MVAPICH2-X 2.3 Library and User Guide </h3>
+  <ul>
+    <li>The MVAPICH2-X 2.3 library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2X.TXT">BSD License</a>.</li>
+    <li>OSU MVAPICH2-X 2.3 (06/10/20), ABI compatible with MPICH-3.2.1.
+      <ul>
+        <li><a href="/static/media/mvapich/MV2X_CHANGELOG-2.3.txt"> CHANGELOG for MVAPICH2-X 2.3</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '15.08.8');" href="/download/mvapich/osu-shmempmi-slurm-15.08.8.patch">Patch to add PMI Extensions with SLURM 15</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '16.05.5');" href="/download/mvapich/osu-shmempmi-slurm-16.05.5.patch">Patch to add PMI Extensions with SLURM 16</a></li>
+        <li><a onclick="return trackDownload(this, 'slurm-patch', '17.02.2');" href="/download/mvapich/osu-shmempmi-slurm-17.02.2.patch">Patch to add PMI Extensions with SLURM 17</a></li>
+      </ul>
+    </li>
+    <li>MVAPICH2-X User Guide: A detailed user guide with instructions to install MVAPICH2-X and execute MPI/UPC/UPC++/OpenSHMEM/CAF/Hybrid programs is available. (<a href="/static/media/mvapich/mvapich2-x-2.3-userguide.html">HTML</a>, <a href="/static/media/mvapich/mvapich2-x-2.3-userguide.pdf">PDF</a>)</li>
+    <li><span class="important">Installation using Spack:</span> A detailed user guide with instructions to
+        install MVAPICH2-X using Spack is available
+            <a href="http://mvapich.cse.ohio-state.edu/userguide/userguide_spack/">here</a>.
+                </li>
+    <li><a class="important">Installation Guide</a>
+	<ul>
+	    <li>These tarballs contain the MVAPICH2-X software for Redhat and Debian
+        based systems combined together in one combined package.
+	    <li>Running the install.sh script in the tarball will install the libraries.
+	    <li>These RPMs are relocatable and advanced users may skip the install.sh script to directly use alternate commands to install the desired RPMs.
+	</ul>
+    </li>
+    <li><a class="important">Which RPM should I Install?</a>
+        <ul>
+
+<li>
+<!--<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#mv2x_features_ib" aria-expanded="false" aria-controls="mv2x_features_ib">
+    InfiniBand / RoCE System
+</button>
+<div class="collapse" id="mv2x_features_ib">-->
+<th>InfiniBand / RoCE System</th>
+<div class="card card-body">
+<table class='table table-bordered table-striped'>
+  <tr>
+    <th>Features for InifiniBand (OFA-IB-CH3) and ROCE (OFA-RoCE-CH3)</th>
+    <th>Basic</th>
+    <th>Basic-XPMEM</th>
+	<th>Advanced</th>
+	<th>Advanced-XPMEM</th>
+  </tr>
+  <tr>
+    <td>Architecture Specific Point-to-point and Collective Optimizations for x86, OpenPOWER, and ARM</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>Optimized Support for PGAS models(UPC, UPC++, OpenSHMEM, CAF) and Hybrid MPI+PGAS models</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>CMA-Aware Collectives</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>Cooperative Rendezvous Protocols</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>Optimized Asynchronous Progress*</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>InfiniBand Hardware Multicast-based MPI_Bcast*+</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>OSU InfiniBand Network Analysis and Monitoring (INAM)*+$</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+	<td>XPMEM-based Point-to-Point and Collectives</td>
+	<td></td>
+	<td>&#x2714 </td>
+	<td></td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+	<td>Direct Connected (DC) Transport Protocol*+</td>
+	<td></td>
+	<td></td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+	<td>User mode Memory Registration (UMR)*+$</td>
+	<td></td>
+	<td></td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+	<td>Core-direct based Collective Offload*+$</td>
+	<td></td>
+	<td></td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+	<td>SHARP-based Collective Offload*+</td>
+	<td></td>
+	<td></td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td colspan="100%">
+        * indicates disabled by default at runtime. Must use appropriate
+        environment variable in MVAPICH2-X user guide to enable it. <br/>
+        + indicates features only tested with InfiniBand network.</br>  
+        $ Advanced features available on request.
+    <td>
+
+  </tr>
+</table>
+</div>
+</li>
+
+<li>
+<!--<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#mv2x_features_psm" aria-expanded="false" aria-controls="mv2x_features_psm">
+    Omni-Path System
+</button>-->
+<th>Omni-Path System</th>
+<!--<div class="collapse" id="mv2x_features_psm">-->
+<div class="card card-body">
+<table class='table table-bordered table-striped'>
+  <tr>
+    <th>Features for Omni-Path</th>
+    <th>Basic</th>
+    <th>Basic-XPMEM</th>
+  </tr>
+  <tr>
+    <td>Architecture Specific Point-to-point and Collective Optimizations for x86, OpenPOWER, and ARM</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>CMA-Aware Collectives</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td>Optimized Asynchronous Progress*</td>
+	<td>&#x2714 </td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+	<td>XPMEM-based Collectives</td>
+	<td></td>
+	<td>&#x2714 </td>
+  </tr>
+  <tr>
+    <td colspan="100%">
+        * indicates disabled by default at runtime. Must use appropriate
+        environment variable in MVAPICH2-X user guide to enable it. <br/>
+    </td>
+  </tr>
+  
+</table>
+</div>
+</li>
+
+</ul>
+
+    </li>
+    <li><a class="important">Advanced Install Options</a>
+      <ul>
+        <li>Install library using a prefix other than the default of /opt/mvapich2/.
+          <pre><tt>$ rpm --prefix /custom/install/prefix -Uvh --nodeps mvapich2-x-basic-mofed3.4-gnu4.8.5-2.3-1.el7.centos.x86_64.rpm</tt></pre>
+        </li>
+        <li>If you do not have root permission or are on a system that does not use RPMs you can use rpm2cpio to extract the library.
+          <pre><tt>$ rpm2cpio mvapich2-x-basic-mofed3.4-gnu4.3-1.el7.centos.x86_64.rpm | cpio -id</tt></pre>
+        When using the rpm2cpio method, you will need to update the MPI compiler scripts, such as mpicc, in order to point to the correct path of where you place the library.</li>
+        <li>Tip: If you are using a Debian based system such as Ubuntu you can convert the rpm to a deb using a tool such as alien or follow the rpm2cpio instructions above.</li>
+      </ul>
+    </li>
+  </ul>
+
+      <div class="rpm_table">
+            <table class='table table-bordered table-striped sortable'>
+                <thead>
+                    <tr>
+                        <th colspan='100%'>Combined RPM Tarballs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+		    <th></th>
+                    <th>Stock OFED</th>
+                    <th>MOFED 4.X*</th>
+                    <th>INTEL IFS 10.10</th>
+                </tr>
+		<tr>
+		    <td>x86_64</td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','stock');" href="/download/mvapich/mv2x/2.3/mvapich2-x-stock-gnu4.8.5-2.3-1.el7.tgz">[GNU 4.8.5]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','mofed4.5');" href="/download/mvapich/mv2x/2.3/mvapich2-x-mofed4.5-gnu4.8.5-2.3-1.el7.tgz">[GNU 4.8.5]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','intelift10.10mpirun');" href="/download/mvapich/mv2x/2.3/mvapich2-x-ifs10.10-gnu4.8.5-omnipath-2.3-1.el7.tgz">[GNU 4.8.5]</a><br />
+                    </td>
+		</tr>
+                <tr>
+                    <td colspan="100%">
+                      *Note that the MOFED 4.X RPMs were built against MOFED 4.5</li>
+                        <ul>
+                          <li>However, these RPMs should work against the other MOFEDs with the same major MOFED version number</li>
+                          <li>e.g MOFED 4.X RPMs should work if you have MOFED 4.0, MOFED 4.2, MOFED 4.4, or MOFED 4.5</li>
+                          <li>Please email mvapich-help@cse.ohio-state.edu if you encounter any issues</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <table class='table table-bordered table-striped sortable'>
+                <thead>
+                    <tr>
+                        <th colspan='100%'>OpenPOWER and ARM RPMs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th>GNU 4.9.3</th>
+                    <th>GNU 4.9.3 (w/ jsrun)</th>
+                    <th>GNU 7.3.1</th>
+                    <th>GNU 7.3.1 (w/ jsrun)</th>
+                    <th>GNU 8.3.1</th>
+                    <th>GNU 8.3.1 (w/ jsrun)</th>
+                    <th>CLANG 8.0.1</th>
+                    <th>CLANG 8.0.1 (w/ jsrun)</th>
+                    <th>XLC 16.01</th>
+                    <th>XLC 16.01 (w/ jsrun)</th>
+                </tr>
+                <tr>
+		    <td>OpenPOWER</td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU4.9.3');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu4.9.3-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advGNU4.9.3');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu4.9.3-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU4.9.3jsrun');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu4.9.3-jsrun-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advGNU4.9.3jsrun');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu4.9.3-jsrun-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU7.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu7.3.1-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advGNU7.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu7.3.1-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU7.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu7.3.1-jsrun-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advGNU7.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu7.3.1-jsrun-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU8.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu8.3.1-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advGNU8.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu8.3.1-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU8.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu8.3.1-jsrun-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advGNU8.3.1');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu8.3.1-jsrun-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicclang');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-clang8.0.0-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advclang');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-clang8.0.0-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicclang');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-clang8.0.0-jsrun-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advclang');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-clang8.0.0-jsrun-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicXLC16.01');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-xlc16.01.0001.0006-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advXLC16.01');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-xlc16.01.0001.0006-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicXLC16.01');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-xlc16.01.0001.0006-jsrun-2.3-1.ch6_2.ppc64le.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advXLC16.01');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-xlc16.01.0001.0006-jsrun-2.3-1.ch6_2.ppc64le.rpm">[ADV.]</a><br />
+                    </td>
+                </tr>
+                </tbody>
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th>GNU 4.8.5</th>
+                    <th>GNU 7.3.0</th>
+                    <th>GNU 8.3.0</th>
+                    <th>CLANG 7.0.1</th>
+                </tr>
+                <tr>
+                    <td>AARCH64 RPMs</rd>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU4.8.5');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu4.8.5-2.3-1.el7.centos.a.aarch64.rpm">[BASIC]</a><br />
+                    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicGNU7.3.0');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu7.3.0-2.3-1.el7.centos.a.aarch64.rpm">[BASIC]</a><br />
+		    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicARM8.3.0');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu8.3.0-2.3-1.el7.centos.a.aarch64.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advancedARM8.3.0');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-gnu8.3.0-2.3-1.el7.centos.a.aarch64.rpm">[ADV.]</a><br />
+		    </td>
+		    <td>
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','basicclang');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-clang7.0.1-2.3-1.el7.centos.a.aarch64.rpm">[BASIC]</a><br />
+                    <a onclick="return trackDownload(this,'mvapich2-x-2.3','advclang');" href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-clang7.0.1-2.3-1.el7.centos.a.aarch64.rpm">[ADV.]</a><br />
+                    </td>
+                </tr>
+                </tbody>
+                <tbody>
+                <tr>
+                    
+            </table>
+      </div>
+      <div class="extra_rpms">
+        <p class="text-center bold">User Requested RPMs</p>
+        <hr>
+                          <li>MOFED4.5
+                    <ul>
+                        <li><a href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-clang9.0.0-2.3-1.ch6_2.ppc64le.rpm">mvapich2-x-advanced-mofed4.5-clang9.0.0-2.3-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-advanced-mofed4.5-clang9.0.0-jsrun-2.3-1.ch6_2.ppc64le.rpm">mvapich2-x-advanced-mofed4.5-clang9.0.0-jsrun-2.3-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-clang9.0.0-2.3-1.ch6_2.ppc64le.rpm">mvapich2-x-basic-mofed4.5-clang9.0.0-2.3-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-clang9.0.0-jsrun-2.3-1.ch6_2.ppc64le.rpm">mvapich2-x-basic-mofed4.5-clang9.0.0-jsrun-2.3-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/mv2x/2.3/mofed4.5/mvapich2-x-basic-mofed4.5-gnu4.8.5-slurm-2.3-1.el7.x86_64.rpm">mvapich2-x-basic-mofed4.5-gnu4.8.5-slurm-2.3-1.el7.x86_64.rpm</a></li>
+                    </ul>
+                  </li>
+
+                <hr>
+        <p>Please email us at <font color="red">mvapich-help@cse.ohio-state.edu</font> if your configuration does 
+        not appear on the list or if you experience any trouble installing the 
+        library on your system.</p>
+      </div>
+
+
+
+  </ul>
+</div>
+
+
+<div class="well well-sm" id="mv2-x-azure">
+  <h3>MVAPICH2-X-Azure 2.3rc3 Deployment</h3>
+  <ul>
+
+    <li>The MVAPICH2-X 2.3rc3 library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2X.TXT">BSD License</a>.</li>
+    <li>OSU MVAPICH2-X 2.3rc3 (05/20/20), ABI compatible with MPICH-3.2.
+    <ul>
+
+    <li><a onclick="return trackDownload(this,'mvapich2-x-azure-2.3rc3');" href="https://github.com/Azure/azhpc-images/releases/tag/centos-7.6-hpc-20200417">Azure CentOS 7.6 HPC Image</a></li>
+    <li><a onclick="return trackDownload(this,'mvapich2-x-azure-2.3rc3');" href="https://github.com/Azure/azhpc-images/releases/tag/centos-7.7-hpc-20200417">Azure CentOS 7.7 HPC Image</a></li>
+    <li><a onclick="return trackDownload(this,'mvapich2-x-azure-2.3rc3');" href="https://github.com/Azure/azhpc-images/releases/tag/centos-8.1-hpc-20200409">Azure CentOS 8.1 HPC Image</a></li>
+    </ul>
+    </li>
+    <li>MVAPICH2-X User Guide: A detailed user guide with instructions to install MVAPICH2-X and execute MPI programs is available. (<a href="/static/media/mvapich/mvapich2-x-2.3rc3-userguide.html">HTML</a>, <a href="/static/media/mvapich/mvapich2-x-2.3rc3-userguide.pdf">PDF</a>)</li>
+  </ul>
+</div>
+
+<div class="well well-sm" id="mv2x-aws-23">
+  <h3> MVAPICH2-X-AWS 2.3 Library and User Guide </h3>
+  <ul>
+    <li>The MVAPICH2-X-AWS 2.3 library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2X.TXT">BSD License</a>.</li>
+    <li>OSU MVAPICH2-X-AWS 2.3 (09/24/20), ABI compatible with MPICH-3.2.
+      <ul>
+        <li><a href="/static/media/mvapich/MV2X_CHANGELOG-aws.txt"> CHANGELOG for MVAPICH2-X-AWS 2.3</a></li>
+      </ul>
+    </li>
+    <li>This package is targeted for AWS Amazon Linux 2 installations built using gcc compilers.
+     <ul>
+       <li><a onclick="return trackDownload(this,'mvapich2x-aws','2.3');" href="/download/mvapich/mv2x/2.3/mofed4.6/mvapich2-x-aws-xpmem-mofed4.6-gnu7.3.1-2.3rc3XAWS-2.amzn2.x86_64.rpm">MVAPICH2-X-AWS-2.3 .rpm</a></li>
+       <li><a onclick="return trackDownload(this,'mvapich2x-aws','2.3');" href="/download/mvapich/mv2x/2.3/mofed4.6/mvapich2-x-aws-xpmem-mofed4.6-gnu7.3.1_2.3rc3XAWS-2.amzn2_amd64.deb">MVAPICH2-X-AWS-2.3 .deb</a></li>
+     </ul>
+    <li>For <a class="important">INSTALL and usage information</a> please refer to the <a href="/userguide/mv2x-aws/">userguide</a>.</li>
+    <li><a class="important">Installation Guide</a>
+	<ul>
+	    <li>The tarball contains the MVAPICH2-X-AWS software for AWS Amazon Linux 2
+        based systems.
+	    <li>This RPM is relocatable and advanced users may use alternate commands to install the desired RPMs.
+	</ul>
+    </li>
+    <li><a class="important">Advanced Install Options</a>
+      <ul>
+        <li>Install library using a prefix other than the default of /opt/mvapich2/.
+          <pre><tt>$ rpm --prefix=/custom/install/prefix -Uvh --nodeps mvapich2-x-intermediate-aws-ofed-gnu7.3.1-2.3-2.amzn2.x86_64.rpm</tt></pre>
+        </li>
+        <li>If you do not have root permission or are on a system that does not use RPMs you can use rpm2cpio to extract the library.
+          <pre><tt>$ rpm2cpio mvapich2-x-intermediate-aws-ofed-gnu7.3.1-2.3-2.amzn2.x86_64.rpm | cpio -id</tt></pre>
+        When using the rpm2cpio method, you will need to update the MPI compiler scripts, such as mpicc, in order to point to the correct path of where you place the library.</li>
+        <li>Tip: If you are using a Debian based system such as Ubuntu you can convert the rpm to a deb using a tool such as alien or follow the rpm2cpio instructions above.</li>
+      </ul>
+    </li>
+</div>
+<div class="well well-sm" id="mv2gdr-23">
+    <h3> MVAPICH2-GDR 2.3.4 Library</h3>
+    <ul>
+        <li>The MVAPICH2-GDR library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2GDR.TXT">BSD License</a>.</li>
+        <li>OSU MVAPICH2-GDR 2.3.4 (06/04/2020), ABI compatible with MPICH-3.2.1.</li>
+        <ul>
+            <li><a href="/static/media/mvapich/MV2GDR_CHANGELOG-2.3.4.txt"> CHANGELOG for MVAPICH2-GDR 2.3.4</a>.</li>
+        </ul>
+        <li>MVAPICH2-GDR User Guide: A detailed <a href="/userguide/gdr/">user guide</a> with instructions to build, install MVAPICH2-GDR and execute MPI programs over GPU buffers is available.</li>
+        <li><span class="important">Installation using Spack:</span> A detailed user guide with instructions to
+    install MVAPICH2-GDR using Spack is available 
+    <a href="http://mvapich.cse.ohio-state.edu/userguide/userguide_spack/">here</a>.
+        <li>These RPMs contain the MVAPICH2-GDR software on the corresponding
+distro. <span class="important">Please note that the RHEL RPMs are compatible
+with CentOS as well. For Debian/Ubuntu users, please follow the instructions in
+the  <a href="/userguide/gdr/#_installing_mvapich2_gdr_library">install section in the userguide</a>.</span>
+            <!-- RHEL 7 RPMs -->
+            <table class='table table-bordered table-striped sortable'>
+                <thead>
+                    <tr>
+                        <th colspan='100%'>OpenPOWER RPMs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+		    <th></th>
+                    <th>GNU 4.9.3</th>
+                    <th>GNU 4.9.3 (w/ jsrun)</th>
+                    <th>GNU 7.3.1</th>
+                    <th>GNU 7.3.1 (w/ jsrun)</th>
+                    <th>PGI 19.10</th>
+                    <th>PGI 19.10 (w/ jsrun)</th>
+                    <th>PGI 20.4</th>
+                    <th>PGI 20.4 (w/ jsrun)</th>
+                    <th>XLC 16.01</th>
+                    <th>XLC 16.01 (w/ jsrun)</th>
+                </tr>
+                <tr>
+                    <td>MLNX-OFED 4.5(Lassen/Sierra)</td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu4.9.3-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.9.3-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu4.9.3.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.9.3.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu7.3.1-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu7.3.1-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu7.3.1.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu7.3.1.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.pgi19.10-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.pgi19.10-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.pgi19.10.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.pgi19.10.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.pgi20.4-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.pgi20.4-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.pgi20.4.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.pgi20.4.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.xlc16.01.0001.0007-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.xlc16.01.0001.0007-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.xlc16.01.0001.0007.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.1]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.xlc16.01.0001.0007.jsrun-2.3.4-1.ch6_2.ppc64le.rpm"><font size="-2">[CUDA 10.2]</a><br />
+                    </td>
+                </tr>
+                </tbody>
+                <tbody>
+                <tr>
+		    <th></th>
+                    <th>GNU 4.8.5</th>
+                    <th>GNU 4.8.5 (w/ jsrun)</th>
+                    <th>GNU 7.4.0</th>
+                    <th>GNU 7.4.0 (w/ jsrun)</th>
+                    <th>PGI 19.10</th>
+                    <th>PGI 19.10 (w/ jsrun)</th>
+                    <th>XLC 16.01</th>
+                    <th>XLC 16.01 (w/jsrun)</th>
+                </tr>
+                <tr>
+                    <td>MLNX-OFED 4.7(Summit)</td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda9.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda9.2.148.mofed4.7.gnu4.8.5-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 9.2]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu4.8.5-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda9.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda9.2.148.mofed4.7.gnu4.8.5.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 9.2]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu4.8.5.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda9.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda9.2.148.mofed4.7.gnu7.4.0-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 9.2]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu7.4.0-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda9.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda9.2.148.mofed4.7.gnu7.4.0.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 9.2]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu7.4.0.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.pgi19.10-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.pgi19.10.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda9.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda9.2.148.mofed4.7.xlc16.01.0001.0007-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 9.2]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.xlc16.01.0001.0005-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                    <td>
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda9.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda9.2.148.mofed4.7.xlc16.01.0001.0007.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 9.2]</font></a><br />
+                    <a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.xlc16.01.0001.0005.jsrun-2.3.4-1.el7a.ppc64le.rpm"><font size="-2">[CUDA 10.1]</a><br />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class='table table-bordered table-striped sortable'>
+                <thead>
+                    <tr>
+                        <th colspan='100%'>RHEL/CENTOS 7 RPMs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+		    <th></th>
+                    <th>GNU 4.8.5 (w/o SLURM)</th>
+                    <th>GNU 4.8.5 (w/ SLURM)</th>
+                    <th>GNU 4.8.5 (w/ PBS)</th>
+                    <th>PGI (w/o SLURM)</th>
+                    <th>PGI (w/ SLURM)</th>
+                    <th>PGI (w/ PBS)</th>
+                </tr>
+                <!--<tr>
+                    <td>MLNX-OFED 3.X*</td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+		    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+		    <td>
+                    </td>
+
+                </tr>-->
+		<tr>
+		    <td>MLNX-OFED 4.6-4.7</td>
+		    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu4.8.5-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu4.8.5-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.2]</font></a><br />
+                    </td>
+                    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu4.8.5.slurm-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu4.8.5.slurm-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.2]</font></a><br />
+                    </td>
+		    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.gnu4.8.5.pbs-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu4.8.5.pbs-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.2]</font></a><br />
+                    </td>
+                    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.pgi19.10-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.pgi19.10-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.2]</font></a><br />
+                    </td>
+                    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.pgi19.10.slurm-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.pgi19.10.slurm-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.2]</font></a><br />
+                    </td>
+		    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.pgi19.10.pbs-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.2');" href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.pgi19.10.pbs-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.2]</font></a><br />
+                    </td>
+		</tr>
+                </tbody>
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th>GNU 8.3.0</th>
+                    <th>Intel 18.0.5</th>
+                    <th>Intel 19.0.5</th>
+                </tr>
+                <tr>
+                    <td>MLNX-OFED 4.6(Frontera-RTX)</td>
+                    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda10.1.mofed4.6.gnu8.3.0-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+                    </td>
+                    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda10.1.mofed4.6.intel18.0.5-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+                    </td>
+                    <td>
+			<a onclick="return trackDownload(this,'mvapich2gdr','2.3.4-cuda10.1');" href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda10.1.mofed4.6.intel19.0.5.281-2.3.4-1.el7.x86_64.rpm"><font size="-1">[CUDA 10.1]</font></a><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="100%">
+                      *Note that the MOFED 4.6-4.7 RPMs were built against MOFED 4.7</li>
+                        <ul>
+                          <li>However, these RPMs should work against the other MOFEDs with the same major MOFED version number</li>
+                          <li>e.g MOFED 4.6-4.7 RPMs should work if you have MOFED 4.6, MOFED 4.7</li>
+                          <li>Please email mvapich-help@cse.ohio-state.edu if you encounter any issues</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+
+        <li>Please note that, unless otherwise specified, all RPMs were built using the following version of the respective compilers:
+          <ul>
+            <li>GNU (GCC) 4.8.5</li>
+            <li>PGI 18.10 64-bit target on x86-64 Linux (CUDA 9.2)</li>
+            <li>PGI 19.1 64-bit target on x86-64 Linux (CUDA 10.1)</li>
+          </ul>
+        </li>
+        <li>For <a class="important">INSTALL and usage information</a> please refer to the <a href="/userguide/gdr/">userguide</a>
+          <ul>
+            <li>The RPMs contained in our libraries are relocatable and can be installed using a prefix other than the default of /opt/mvapich2/.</li>
+            <li>Install library specifying custom prefix
+              <pre><tt>$ rpm --prefix /custom/install/prefix -Uvh --nodeps mvapich2-gdr-mcast.cuda9.2.mofed4.3.pgi18.5.pbs-2.3-2.el7.x86_64.rpm</tt></pre>
+            </li>
+            <li>If you do not have root permission or are on a system that does not use RPMs you can use rpm2cpio to extract the library.
+              <pre><tt>$ rpm2cpio mvapich2-gdr-mcast.cuda9.2.mofed4.3.pgi18.5.pbs-2.3-2.el7.x86_64.rpm | cpio -id</tt></pre>
+            When using the rpm2cpio method, you will need to update the MPI compiler scripts, such as mpicc, in order to point to the correct path of where you place the library.</li>
+            <li>Tip: If you are using a Debian based system such as Ubuntu you can convert the rpm to a deb using a tool such as alien or follow the rpm2cpio instructions above.</li>
+          </ul>
+        </li>
+        <li>Check the list below if your system configuration does not match any from the tables above.</li>
+        <hr>
+        <div class="extra_rpms">
+          <p class="text-center bold">User Requested RPMs/DEBs</p>
+                            <li>MOFED4.4
+                    <ul>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.4/mvapich2-gdr-mcast.cuda10.0.mofed4.4.intel18.0.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.0.mofed4.4.intel18.0.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.4/mvapich2-gdr-mcast.cuda10.1.mofed4.4.gnu4.8.5-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.4.gnu4.8.5-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.4/mvapich2-gdr-mcast.cuda10.1.mofed4.4.gnu4.8.5.pbs-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.4.gnu4.8.5.pbs-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.4/mvapich2-gdr-mcast.cuda10.1.mofed4.4.gnu4.8.5.slurm-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.4.gnu4.8.5.slurm-2.3.4-1.el7.x86_64.rpm</a></li>
+                    </ul>
+                  </li>
+                  <li>MOFED4.5
+                    <ul>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.0.mofed4.5.gnu4.8.5-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.0.mofed4.5.gnu4.8.5-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.0.mofed4.5.pgi18.4.pbs-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.0.mofed4.5.pgi18.4.pbs-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu8.3.1-2.3.4-1.ch6_2.ppc64le.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu8.3.1-2.3.4-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu8.3.1.jsrun-2.3.4-1.ch6_2.ppc64le.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.5.gnu8.3.1.jsrun-2.3.4-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.8.5-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.8.5-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.8.5.pbs-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.8.5.pbs-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.8.5.slurm-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu4.8.5.slurm-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu8.3.1-2.3.4-1.ch6_2.ppc64le.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu8.3.1-2.3.4-1.ch6_2.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.5/mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu8.3.1.jsrun-2.3.4-1.ch6_2.ppc64le.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.5.gnu8.3.1.jsrun-2.3.4-1.ch6_2.ppc64le.rpm</a></li>
+                    </ul>
+                  </li>
+                  <li>MOFED4.6
+                    <ul>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda10.0.mofed4.6.gnu7.4.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.0.mofed4.6.gnu7.4.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda10.1.mofed4.6.gnu7.4.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.6.gnu7.4.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda10.2.mofed4.6.gnu8.3.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.6.gnu8.3.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.6/mvapich2-gdr-mcast.cuda11.0.mofed4.6.gnu9.3.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda11.0.mofed4.6.gnu9.3.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                    </ul>
+                  </li>
+                  <li>MOFED4.7
+                    <ul>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.1.mofed4.7.intel19.0.3.199-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.1.mofed4.7.intel19.0.3.199-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu7.3.0.slurm-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu7.3.0.slurm-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu8.4.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu8.4.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu8.4.0.slurm-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.7.gnu8.4.0.slurm-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.intel19.0.3.199-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.7.intel19.0.3.199-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed4.7/mvapich2-gdr-mcast.cuda10.2.mofed4.7.intel19.0.3.199.slurm-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed4.7.intel19.0.3.199.slurm-2.3.4-1.el7.x86_64.rpm</a></li>
+                    </ul>
+                  </li>
+                  <li>MOFED5.0
+                    <ul>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed5.0/mvapich2-gdr-mcast.cuda10.2.mofed5.0.gnu4.8.5-2.3.4-1.el7.ppc64le.rpm">mvapich2-gdr-mcast.cuda10.2.mofed5.0.gnu4.8.5-2.3.4-1.el7.ppc64le.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed5.0/mvapich2-gdr-mcast.cuda10.2.mofed5.0.gnu7.4.0-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda10.2.mofed5.0.gnu7.4.0-2.3.4-1.el7.x86_64.rpm</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed5.0/mvapich2-gdr-mcast.cuda10.2.mofed5.0.gnu7.4.0_2.3.4-1.el7_amd64.deb">mvapich2-gdr-mcast.cuda10.2.mofed5.0.gnu7.4.0_2.3.4-1.el7_amd64.deb</a></li>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed5.0/mvapich2-gdr-mcast.cuda11.0.mofed5.0.gnu7.3.0.slurm-2.3.4-1.el7.x86_64.rpm">mvapich2-gdr-mcast.cuda11.0.mofed5.0.gnu7.3.0.slurm-2.3.4-1.el7.x86_64.rpm</a></li>
+                    </ul>
+                  </li>
+                  <li>MOFED5.1
+                    <ul>
+                        <li><a href="/download/mvapich/gdr/2.3.4/mofed5.1/mvapich2-gdr-mcast.cuda11.0.mofed5.1.gnu8.3.1-2.3.4-1.el8.x86_64.rpm">mvapich2-gdr-mcast.cuda11.0.mofed5.1.gnu8.3.1-2.3.4-1.el8.x86_64.rpm</a></li>
+                    </ul>
+                  </li>
+
+        </div>
+        <hr>
+        <li>Please email us at mvapich-help@cse.ohio-state.edu if you require a rpm built against a different version of CUDA or OFED.  Also let us know if you experience any trouble installing the library on your system.</li>
+    </ul>
+</div>
+
+<div class="well well-sm" id="osu-inam">
+  <h3>OSU INAM</h3>
+    <p>
+        OSU InfiniBand Network Analysis and Monitoring (OSU INAM) Tool v0.9.6 (06/08/20)
+    </p>
+    <ul>
+        <li>
+            The OSU INAM package is distributed under the
+            <a href="/static/media/mvapich/LICENSE-OSU-INAM.TXT">
+                 BSD License
+            </a>
+            .
+        </li>
+        <li>
+            A detailed user guide with instructions to build, install and run OSU INAM is available
+            <a href="/userguide/osu-inam/">here</a>.
+            This document also contains guidelines for troubleshooting and best practice deployment.
+        </li>
+        <li>
+            Please see
+            <a href="/static/media/mvapich/OSU_INAM_CHANGELOG-0.9.6.txt">
+                 CHANGES
+            </a>
+             for the full changelog.
+        </li>
+        <li>
+            To estimate the expected size of the database on your system, please see the 
+            <a href="http://mvapich.cse.ohio-state.edu/tools/osu-inam/#db_calc"> Database Size Calculator </a> section.
+        </li>
+        <li>
+            If you need OSU INAM for specific architecture and OFED version please email us at
+                <a href="mailto:mvapich-help@cse.ohio-state.edu">
+                     mvapich-help@cse.ohio-state.edu
+                </a>
+                .
+        </li>
+        <li> These RPMs contain the OSU-INAM software on the corresponding distro. 
+            Please note that the RHEL RPMs are compatible with CentOS as well. 
+            For Debian/Ubuntu users, please follow the instructions in the install section in the userguide.   
+        </li>
+    </ul>
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>
+                    Environment
+                </th>
+                <th>
+                    Download link
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    x86_64 MOFED 4.5
+                </td>
+                <td>
+                    <a href="/download/mvapich/inam/osu-inam-0.9.6-1.el7.x86_64_mofed45.rpm">
+                         Download EL7 MOFED 4.5 RPM (RHEL7/CentOS7)
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    x86_64 MOFED 4.6 &amp; MOFED 4.7
+                </td>
+                <td>
+                    <a href="/download/mvapich/inam/osu-inam-0.9.6-1.el7.x86_64-mofed46.rpm.rpm">
+                         Download EL7 MOFED 4.6 &amp; 4.7 RPM (RHEL7/CentOS7)
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    x86_64 MOFED 5.0
+                </td>
+                <td>
+                    <a href="/download/mvapich/inam/osu-inam-0.9.6-1.el7.x86_64-mofed50.rpm">
+                         Download EL7 MOFED 5.0 RPM (RHEL7/CentOS7)
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ARM MOFED 4.5
+                </td>
+                <td>
+                    <a href="/download/mvapich/inam/osu-inam-0.9.6-1.el7.centos.a.aarch64.rpm">
+                         Download ARM EL7 MOFED 4.5 RPM (RHEL7/CentOS7)
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+        <p> Please note that, all RPMs were built using GNU (GCC) 4.8.5</p>
+</div>
+
+<div class="well well-sm" id="mv2mic">
+  <h3> MVAPICH2-MIC 2.0 Library</h3>
+  <ul>
+   <li>The MVAPICH2-MIC library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2MIC.TXT">BSD License</a>.</li>
+   <li>OSU MVAPICH2-MIC 2.0 (12/02/2014).</li>
+     <ul>
+       <li><a href="/static/media/mvapich/MV2-MIC_CHANGELOG-2.0.txt"> CHANGELOG for MVAPICH2-MIC 2.0</a>.</li>
+     </ul>
+   <li>As an initial technology preview, we are providing a self extracting binary library.  This library is targeted for RHEL6 + MPSS 3.3/3.4 installations built using Intel 14 compilers. <span class="important">Please note that the RHEL RPMs are compatible with CentOS as well.</span>
+     <ul>
+       <li><a onclick="return trackDownload(this,'mvapich2mic','2.0-0.1.mpss3.3');" href="/download/mvapich/mic/mvapich2-mic-2.0_mpss-3.3.run">MVAPICH2-MIC 2.0 Self Extracting Library (MPSS 3.3)</a></li>
+       <li><a onclick="return trackDownload(this,'mvapich2mic','2.0-0.1.mpss3.4');" href="/download/mvapich/mic/mvapich2-mic-2.0_mpss-3.4_OFED-MIC-3.5-1.run">MVAPICH2-MIC 2.0 Self Extracting Library (MPSS 3.4 + OFED-MIC 3.5-2)</a></li>
+     </ul>
+ 
+   <li><a href="/static/media/mvapich/MV2-MIC-INSTALL.txt">INSTALL</a></li>
+   <li><a href="/static/media/mvapich/MV2-MIC-README.txt">README</a></li>
+   <li>Please email us at mvapich-help@cse.ohio-state.edu if this library does not install or operate correctly on your system.</li>
+ </ul>
+</div>
+<div class="well well-sm" id="mv2v">
+  <h3> MVAPICH2-Virt 2.2 Package</h3>
+  <ul>
+   <li>The MVAPICH2-Virt package is distributed under the <a href="/static/media/mvapich/LICENSE-MV2VIRT.TXT">BSD License</a>.</li>
+   <li>OSU MVAPICH2-Virt 2.2 (04/26/2017), ABI compatible with MPICH-3.1.4.</li>
+     <ul>
+       <li><a href="/static/media/mvapich/MV2VIRT_CHANGELOG-2.2.txt"> CHANGELOG for MVAPICH2-Virt 2.2</a>.</li>
+     </ul>
+   <li>This package is targeted for CentOS7 installations built using gcc compilers. <span class="important">Please note that the CentOS RPMs are compatible with RHEL as well.</span>
+     <ul>
+       <li><a onclick="return trackDownload(this,'mvapich2v','2.2');" href="/download/mvapich/virt/mvapich2-virt-2.2-1.el7.centos.x86_64.rpm">MVAPICH2-Virt 2.2</a></li>
+     </ul>
+   <li>For INSTALL and usage information please refer to the <a href="/userguide/virt/">userguide</a>  </li>
+   <li>Please email us at mvapich-help@cse.ohio-state.edu if this library does not install or operate correctly on your system.</li>
+ </ul>
+</div>
+<div class="well well-sm" id="mv2ea">
+  <h3> MVAPICH2-EA 2.1 Library</h3>
+  <ul>
+   <li>The MVAPICH2-EA library is distributed under the <a href="/static/media/mvapich/LICENSE-MV2EA.TXT">BSD License</a>.</li>
+   <li>OSU MVAPICH2-EA 2.1 (08/28/2015), ABI compatible with MPICH-3.1.4.</li>
+     <ul>
+       <li><a href="/static/media/mvapich/MV2EA_CHANGELOG-2.1.txt"> CHANGELOG for MVAPICH2-EA 2.1</a>.</li>
+     </ul>
+  <li>As an initial technology preview, we are providing RHEL6 RPMs.  Please
+  note that the RHEL RPMs are compatible with CentOS as well.</li>
+    <ul>
+      <li> <a onclick="return trackDownload(this,'mvapich2-ea-2.1','2.1-1');" href="/download/mvapich/mv2ea/mvapich2-ea-2.1.ofed-1.5.4.tar.gz">RedHat Enterprise Linux 6 (OFED 1.5.4) [GCC 4.4.7 &amp; INTEL 14.0.3]</a>
+        <ul>
+          <li>Compatible with OFED 1.5.4.1 and MLNX_OFED 1.5.3</li>
+        </ul>
+      </li>
+      <li> <a onclick="return trackDownload(this,'mvapich2-ea-2.1','2.1-1');" href="/download/mvapich/mv2ea/mvapich2-ea-2.1.ofed-3.5.tar.gz">RedHat Enterprise Linux 6 (Stock InfiniBand Packages) [GCC 4.4.7 &amp; INTEL 14.0.3]</a>
+        <ul>
+          <li>Compatible with OFED 3.5 and RHEL6 InfiniBand packages</li>
+        </ul>
+      </li>
+      <li> <a onclick="return trackDownload(this,'mvapich2-ea-2.1','2.1-1');" href="/download/mvapich/mv2ea/mvapich2-ea-2.1.mlnx-2.2.tar.gz">RedHat Enterprise Linux 6 (MLNX-OFED) [GCC 4.4.7 &amp; INTEL 14.0.3]</a>
+        <ul>
+          <li>Compatible with MLNX_OFED 2.2 &amp; 2.3</li>
+        </ul>
+      </li>
+    </ul>
+   <li>For INSTALL and usage information please refer to the <a href="/userguide/ea/">userguide</a>  </li>
+   <li>Please email us at mvapich-help@cse.ohio-state.edu if this library does not install or operate correctly on your system.</li>
+ </ul>
+</div>
+
+<p class="text-center">Web Downloads: 1100471</p>
+<p class="text-center">SVN Downloads: 22723</p>
+
+
+    </div>
+    
+
+    <div id="footer">
+      
+      <div class="container">
+        
+    <div class="container-fluid">
+        <div class="col-md-4 pull-left">
+          Contact: <a href="http://www.cse.ohio-state.edu/~panda/">Dhabaleswar K. (DK) Panda</a><br>
+          <a href="http://www.cse.ohio-state.edu/">Dept of Computer Science and Engineering</a><br>
+          2001-2020 NBCL. All rights reserved.
+        </div>
+    
+        <div class="hidden-sm col-md-2">
+    	    <a href="http://hibd.cse.ohio-state.edu/">
+    	        <img data-src="holder.js/300x200" src="/static/images/hibd_full.png" alt="HiBD Logo">
+    	    </a>
+    	</div>
+        <div class="hidden-sm col-md-2">
+    	    <a href="http://hidl.cse.ohio-state.edu/">
+    	        <img data-src="holder.js/300x200" src="/static/images/hidl-trans.png" alt="HiDL Logo">
+    	    </a>
+    	</div>
+    
+        <div class="col-md-4 pull-right text-right">
+          774 Dreese Laboratories <br />
+          2015 Neil Avenue <br />
+          Columbus, OH 43210
+        </div>
+    </div>
+
+      </div>
+      
+    </div>
+    <script src="/static/js/jquery.min.js" ></script>
+    <script src="/static/js/jquery-ui.min.js" ></script>
+    <script src="/static/js/bootstrap.js" ></script>
+    <script src="/static/js/highlight-scroll.js" ></script>
+    <script src="/static/js/generic.js" ></script>
+    
+    
+  </body>
+</html>
+
