@@ -122,6 +122,7 @@ system("systemctl mask iptables");
 #system("cpan Env::Modify --force");
 system("cpan App::cpanminus");
 system("cpanm Env::Modify --force");
+#system("cpan install IPC::PerlSSH");
 if($?){
 		print $pack "Env::Modify installation failed!!!!!\n";
 	}
