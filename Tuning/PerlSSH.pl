@@ -10,9 +10,9 @@ use Parallel::ForkManager;
 
 my $forkNo = 10;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my $remote_perl = "remote_setting.pl";
-#my $remote_perl = "parted.pl";
-for (1..3){
+#my $remote_perl = "remote_setting.pl";
+my $remote_perl = "parted.pl";
+for (1..1){
     $pm->start and next;
     my $nodeindex=sprintf("%02d",$_);
     my $nodename= "node"."$nodeindex";

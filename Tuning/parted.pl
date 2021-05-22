@@ -18,7 +18,7 @@ use warnings;
 #die;
 ########
 
-my $partedDev = "sda";
+my $partedDev = "sdb";
 my $nfs = "no"; #yes or no, if yes, /etc/exports will be modified
 my $type = "ext4"; 
 my $install = `rpm -qa| grep "parted"`;

@@ -17,8 +17,8 @@ use MCE::Shared;
 my $expectT = 5;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = "XXXX"; ##For all roots of nodes
-my $user = "XXX";
+my $pass = "j0409leeChu?#*"; ##For all roots of nodes
+my $user = "jsp";
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;

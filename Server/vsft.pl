@@ -12,6 +12,8 @@ system("perl -p -i.bak -e 's/\#?listen=.+/listen=NO/g' vsftpd.conf");
 system("perl -p -i.bak -e 's/\#?write_enable.+/write_enable=YES/g'  vsftpd.conf");
 system("perl -p -i.bak -e 's/\#?local_enable.+/local_enable=YES/g'  vsftpd.conf");
 system("perl -p -i.bak -e 's/\#?local_umask=.+/local_umask=000/g'  vsftpd.conf");
+system("echo 'local_max_rate=0' >> vsftpd.conf");
+ 
 #system("perl -p -i.bak -e 's/\#?ftb_banner=.+/ftb_banner=bigwind so good./g'  vsftpd.conf"); xxxx可以設定登入時的歡迎詞
 system("systemctl restart vsftpd ");
 
