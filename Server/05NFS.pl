@@ -42,6 +42,7 @@ system("exportfs -arv"); # make setting work!
 print "\n\n***###03NFS.pl: set NFS done******\n\n";
 # mount|grep nfs
 # rpcinfo -t localhost nfs
+#rpcinfo -p|grep nfs
 # for internal?
 # firewall-cmd --permanent --add-service=nfs
 # firewall-cmd --permanent --add-service=rpc-bind

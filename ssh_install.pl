@@ -1,4 +1,4 @@
-# ssh nodeXXX
+# ssh nodeXXX test
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
@@ -27,13 +27,17 @@ for (1..3){
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
-    
     ##infiniband driver, reboot is needed.
-    system("$cmd 'yum install -y ntfs-3g'");
+    #system("$cmd 'yum install -y ntfs-3g'");
+    system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
     #system("$cmd 'dnf install -y iftop'");
     #system("$cmd 'poweroff'");
     
+    # install progress
+    #system("$cmd 'dnf install perl-Statistics-Descriptive -y;'");
+    
     ##perl module
+    
     #system("$cmd 'dnf install perl-Statistics-Descriptive -y'");
     #print "Check $nodename status\n ";
     #system("$cmd 'ibv_devinfo'");    

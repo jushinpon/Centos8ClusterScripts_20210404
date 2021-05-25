@@ -1,23 +1,17 @@
 # Global parameters
 [global]
-	netbios name = SAMBA_NETBIOS
+	netbios name = 190_MASTER
 	security = USER
 	server string = SAMBA SERVER
 	workgroup = SAMBA
 	idmap config * : backend = tdb
 
 
-[jsp]
+[190_master]
 	comment = Shared
-	create mask = 0755
-	path = /home/jsp
+	create mask = 0777
+	directory mask = 0777
+	force user = root
+	path = /
 	read only = No
-	valid users = jsp
-
-
-[pitotech]
-	comment = Shared
-	create mask = 0755
-	path = /home/jsp
-	read only = No
-	valid users = pitotech
+	valid users = root

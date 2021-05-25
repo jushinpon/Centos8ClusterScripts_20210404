@@ -1,3 +1,17 @@
+=b
+If you create a new directory, such as a new top-level directory, label it
+ with samba_share_t so that SELinux allows Samba to read and write to it. Do
+ not label system directories, such as /etc/ and /home/, with samba_share_t, as
+ such directories should already have an SELinux label.
+
+ Run the "ls -ldZ /path/to/directory" command to view the current SELinux
+ label for a given directory.
+
+ Set SELinux labels only on files and directories you have created. Use the
+ chcon command to temporarily change a label:
+ chcon -t samba_share_t /path/to/directory
+=cut
+
 #!/usr/bin/perl
 # smbpasswd: change smb passwd by each user (default passwd: mem4268)
 use strict;
@@ -5,20 +19,20 @@ use warnings;
 use Expect;
 
 system ("systemctl stop smb");
-system("yum install samba -y");
+if ( !`rpm -qa|grep "samb"`){system("yum install samba -y");}
 system("firewall-cmd --zone=external --add-port=139/tcp --permanent"); # for samba port
 system ("firewall-cmd --reload"); #reload
 
 my $ConfPath = '/etc/samba/smb.conf'; # path of smb.conf
-my @UserList = ("jsp","pitotech"); # the users (you want to use samba)
-my @smb_obj = (["jsp","jsp","/home/jsp"]);# obj name, user (more than one is ok. like "jsp,pitotech"), and corresponding path
+my @UserList = ("jsp"); # the users (you want to use samba)
+my @smb_obj = (["190_master","root","/"]);# obj name, user (more than one is ok. like "jsp,pitotech"), and corresponding path
 
 ## some settings
 my $defaultPass = "XXXXX";
 my $description = 'Shared'; 
 my $browseable = 'yes';
 my $readonly = 'No';
-my $Authority = '755';
+my $Authority = '0777';
 
 system("rm -f $ConfPath");
 system("touch $ConfPath");
@@ -26,9 +40,10 @@ system("touch $ConfPath");
 #smb global setting
 `echo '[global]
 	workgroup = SAMBA
-	netbios name = SAMBA_NETBIOS
+	netbios name = 190_master
 	server string = SAMBA SERVER	 
-	security = user' >> $ConfPath
+	security = user
+	unix extensions = no' >> $ConfPath
 	`;
 
 for my $objID (0..$#smb_obj){
@@ -37,13 +52,19 @@ for my $objID (0..$#smb_obj){
 	
 	`echo "\n\[$smb_obj[$objID][0]\]" >> $ConfPath`;
 	`echo "	valid users = $smb_obj[$objID][1]" >> $ConfPath`;
+	`echo "	force user = $smb_obj[$objID][1]" >> $ConfPath`;
 	`echo "	path = $smb_obj[$objID][2]" >> $ConfPath`;
 	`echo "	comment = $description" >> $ConfPath`;
 	`echo "	browseable = $browseable" >> $ConfPath`;
 	`echo "	writable = $browseable" >> $ConfPath`;
 	`echo "	create mask = $Authority" >> $ConfPath`;
 	`echo "	directory mask = $Authority" >> $ConfPath`;
-	`echo "	read only = $readonly" >> $ConfPath`;	
+	`echo "	read only = $readonly" >> $ConfPath`;
+	`echo "	public = yes" >> $ConfPath`;
+	`echo "	follow symlinks = yes" >> $ConfPath`;
+	`echo "	strict locking = no" >> $ConfPath`;
+	`echo "	wide links = yes" >> $ConfPath`;
+	#write list = root		
 }
 
 my $expectT = 5;
@@ -61,4 +82,6 @@ foreach (@UserList){
 system("echo -e '\n'| testparm > smbCheck.txt");#for test the install process done or not 
 system ("systemctl start smb");
 system ("systemctl enable smb");
-system ("setsebool -P samba_enable_home_dirs on");
+system ("setsebool -P samba_enable_home_dirs on");#share /home
+system ("setsebool -P samba_domain_controller on");#enable root 
+system ("setsebool -P samba_export_all_rw on");#enable system file writable
