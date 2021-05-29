@@ -10,6 +10,10 @@
 #3. for geany: export DISPLAY=:0.0 into /etc/profile 
 
 ## basic setting
+#/etc/ssh/sshd_config
+#＃Port 22 -> systemctl restart sshd.service
+#firewall-cmd zone=external add-port=10837/tcp permanent
+#PermitRootLogin no
 
 use strict;
 use warnings;
@@ -94,7 +98,7 @@ system("dnf config-manager --set-enable powertools");
 system("rm -rf /var/run/yum.pid");
 #"iptables-services" not installed for Centos 8, replaced by "firewalld"
 my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make"
-			, "openssh*", "nfs-utils", "ypserv" ,"yp-tools","geany","geany-plugins-*","psmisc","cockpit"
+			, "openssh*", "nfs-utils", "ypserv" ,"yp-tools","geany","geany-plugins-*","psmisc"
 			,"firewalld", "ypbind" , "rpcbind","perl-Expect","gcc-gfortran"
 			,"perl-MCE-Shared","perl-Parallel-ForkManager","xauth","tmux","perl-CPAN","yum-utils","gtk*");
 #my $packcounter;

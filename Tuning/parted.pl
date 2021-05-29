@@ -24,17 +24,18 @@ use warnings;
 #die;
 ########
 
-my $partedDev = "sda";
+my $partedDev = "sdg";
 my $mount_path = "/freespace";
 my $nfs = "no"; #yes or no, if yes, /etc/exports will be modified
 my $type = "ext4"; 
-my $install = `rpm -qa| grep "parted"`;
-if (!$install){system("dnf install parted -y");} #if not installed
+#my $install = `rpm -qa| grep "parted"`;
+#if (!$install){system("dnf install parted -y");} #if not installed
 
-system("umount /dev/$partedDev");
+system("umount -l /dev/$partedDev");
 system("parted -s -a opt /dev/$partedDev mklabel gpt mkpart 1 $type 0% 100%");
 system("echo \"yes\"| mkfs.$type /dev/$partedDev");
-  
+
+die;  
 my $blkid = `blkid`; #: UUID=\"(\w+)\"\s+
 $blkid =~ /\/dev\/$partedDev:\s+UUID="(.*?)"/;# non-greedy match by?
 chomp $1;

@@ -1,0 +1,23 @@
+
+#
+# /etc/fstab
+# Created by anaconda on Thu Aug 20 05:24:07 2020
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk/'.
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info.
+#
+# After editing this file, run 'systemctl daemon-reload' to update systemd
+# units generated from this file.
+#
+/dev/mapper/cl-root     /                       xfs     defaults        0 0
+UUID=3b15e6db-8d20-4828-b1f7-620a222dddf3 /boot                   ext4    defaults        1 2
+UUID=12B3-E52B          /boot/efi               vfat    umask=0077,shortname=winnt 0 2
+/dev/mapper/cl-home     /home                   xfs     defaults        0 0
+/dev/mapper/cl-swap     swap                    swap    defaults        0 0
+UUID=b62e9f53-ed9f-4425-8513-1613f2707465  /freespace/sdc      ext4    rw,auto,user,exec   0      2
+UUID=9b7bf2bb-45f2-4392-ad67-eb734f71193d  /freespace/sda      ext4    rw,auto,user,exec   0      2
+UUID=6002720a-5c95-46bc-95b3-9bbaa29855dd  /freespace/sdb      ext4    rw,auto,user,exec   0      2
+UUID=72fe655f-9deb-44b3-ac07-8fdfe2da2c13  /freespace/sde      ext4    rw,auto,user,exec   0      2
+UUID=deb11669-5a41-4f62-a530-bf4c61cd6f90  /freespace/sdf      ext4    rw,auto,user,exec   0      2
+UUID=c3df749b-0f4c-4e48-ba82-ba866734f016  /freespace/sdg      ext4    rw,auto,user,exec   0      2
+/freespace/sdc:/freespace/sda:/freespace/sdb:/freespace/sde:/freespace/sdf:/freespace/sdg  /mnt/Vdisk    fuse.mergerfs   defaults,auto,allow_other,use_ino,minfreespace=1M,ignorepponrename=true 0 0

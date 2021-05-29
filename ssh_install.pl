@@ -31,7 +31,8 @@ for (1..3){
     #system("$cmd 'yum install -y ntfs-3g'");
     system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
     #system("$cmd 'dnf install -y iftop'");
-    #system("$cmd 'poweroff'");
+    system("$cmd 'mount -a'");
+    system("$cmd 'df -h'");
     
     # install progress
     #system("$cmd 'dnf install perl-Statistics-Descriptive -y;'");

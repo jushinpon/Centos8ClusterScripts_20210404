@@ -7,6 +7,7 @@ may set new IPs for newly installed nodes.
 nutanix@cvm$ ping REMOTE_HOSTNAME -c 10 -M do -s 8972
 ping REMOTE_HOSTNAME -f -l 8972
 setsebool -P use_nfs_home_dirs 1  for each node by root 
+*****NIS and NFS should be workable in advance.
 =cut
 use strict;
 use warnings;
@@ -17,8 +18,8 @@ use MCE::Shared;
 my $expectT = 5;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = "XXXXXX"; ##For all roots of nodes
-my $user = "XXXXX";
+my $pass = "XXXX"; ##For all roots of nodes
+my $user = "XXXX";
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
@@ -66,8 +67,16 @@ for (@avaIP){
 								my $self = shift ;
 								$self->send("yes\n");	#first time to ssh into this node				        
 								#Are you sure you want to continue connecting (yes/no)?
+								exp_continue;
 							}
-					]
+					],
+					[
+                    qr/password:/i,
+                    sub {
+                            my $self = shift ;
+                            $self->send("$pass\n");     
+                         }
+                          ]
                  ); # end of exp	
    $exp -> send("exit\n") if ($exp->expect($expectT,"$user"));#back to user@master
    $exp -> send("exit\n") if ($exp->expect($expectT,"$user"));#back to root@master
@@ -79,6 +88,7 @@ for (@avaIP){
 
 $pm->wait_all_children;
 sleep(1);
+
 ## go through nodename fingerprint again
 
 for (@avaIP){	
@@ -101,7 +111,20 @@ for (@avaIP){
 								#Are you sure you want to continue connecting (yes/no)?
 							}
 					]
-                 ); # end of exp	
+                 ); # end of exp
+$exp->expect($expectT,					
+					[
+                    qr/password:/i,
+                    sub {
+                            my $self = shift ;
+                            $self->send("$pass\n");     
+                         }
+                          ]
+                 ); # end of exp  
+                 
+                 
+                
+                 	
    $exp -> send("exit\n") if ($exp->expect($expectT,"$user"));#back to user@master
    $exp -> send("exit\n") if ($exp->expect($expectT,"$user"));#back to root@master
 

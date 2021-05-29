@@ -18,8 +18,8 @@ system("umount -l master:/opt"); # umount the nfs of master first
 
 system("perl -p -i.bak -e 's/master:.+//g;' /etc/fstab");# remove old setting lines
 
-`echo master:/home /home nfs4 noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
-`echo master:/opt /opt nfs4 noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
+`echo master:/home /home nfs noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
+`echo master:/opt /opt nfs noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
 
 if(!`grep 'mount -a' /etc/rc.local`){
 	`echo mount -a >> /etc/rc.local`;}
