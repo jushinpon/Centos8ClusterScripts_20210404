@@ -23,11 +23,11 @@ sub ld_setting {
 	$ENV{'LD_LIBRARY_PATH'} = "$attached_ld:$ld_library_path";		
 }
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
+my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
 path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-3.4.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 ld_setting($mattached_ld);
 
 #!/bin/sh
@@ -35,7 +35,7 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
+my $wgetORgit = "yes";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -50,7 +50,7 @@ system("rpm --import https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTE
 if($?){die "import intel repo key failed!\n";}
 system("yum install -y intel-mkl");
 
-my $prefix = "/opt/QEGCC_MPICH3.3.2";
+my $prefix = "/opt/QEGCC_MPICH3.4.2";
 my $package = "q-e";
 my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
 my $unzipFolder = "q-e-qe-6.5";#***** the unzipped folder of this package (check the latest one if possible)
@@ -65,11 +65,11 @@ my $URL1 = "http://people.sissa.it/~dalcorso/thermo_pw/"."$currentVer1";#url to 
 
 my $script_CurrentPath = getcwd(); #get perl code path
 
-chdir("/opt");# cd to this dir for downloading the packages
-system("rm -rf /opt/QEpot");
-system("tar -xvzf $script_CurrentPath/QEpot.tar.gz");
-if($?){die "tar QEpot.tar.gz failed!!\n";}
-die;
+#chdir("/opt");# cd to this dir for downloading the packages
+#system("rm -rf /opt/QEpot");
+#system("tar -xvzf $script_CurrentPath/QEpot.tar.gz");
+#if($?){die "tar QEpot.tar.gz failed!!\n";}
+#die;
 
 chdir("$script_CurrentPath");# cd to this dir for downloading the packages
 if($wgetORgit eq "yes"){

@@ -35,7 +35,7 @@ use strict;
 use Cwd; #Find Current Path
 use File::Copy; # Copy File
 
-my $wgetORgit = "yes";
+my $wgetORgit = "no";
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -49,11 +49,11 @@ my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
 chomp $thread4make;
 print "Total threads can be used for make: $thread4make\n";
 
-my $currentVer = "mpich-3.3.2";#***** the latest version of this package
-my $prefixPath = "/opt/pgi-$currentVer";#you may use your own
+my $currentVer = "mpich-3.4.2";#***** the latest version of this package
+my $prefixPath = "/opt/$currentVer";#you may use your own
 system ("rm -rf $prefixPath");# remove the older directory first
-my $URL = "http://www.mpich.org/static/downloads/3.3.2/mpich-3.3.2.tar.gz";
-my $Dir4download = "$packageDir/pgi-$currentVer"."_download"; #the directory we download MPICH
+my $URL = "http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz";
+my $Dir4download = "$packageDir/$currentVer"."_download"; #the directory we download MPICH
 
 ###
 if($wgetORgit eq "yes"){
@@ -76,9 +76,9 @@ if ($?){die "tar -xvzf mpich failed\n";}
 chdir("$Dir4download/$currentVer");#$currentVer is the directory name after tar
 unlink "Makefile";
 sleep(1);
-#--enable-fast=all,O3 --with-slurm-include=/usr/local/include/slurmCPPFLAGS=-I/home/packages/mpich_download/mpich-3.3.2/src/pmi/pmi2/include
-#system("./configure --prefix=$prefixPath --with-device=ch4:ucx --enable-fast=all,O3");# --with-slurm=[/usr/local] VERBOSE=1 |tee 00mpich_configure.txt"); #./configure
-system("./configure   CC=pgcc F77=pgf77 FC=pgf90 CXX=pgc++ --prefix=$prefixPath --disable-builtin-atomics --with-device=ch4:ucx --enable-fast=all,O3 ");# --with-slurm=[/usr/local] VERBOSE=1 |tee 00mpich_configure.txt"); #./configure
+# --enable-fast=all,O3 --with-slurm-include=/usr/local/include/slurmCPPFLAGS=-I/home/packages/mpich_download/mpich-3.3.2/src/pmi/pmi2/include
+system("./configure --prefix=$prefixPath --with-device=ch4:ucx --enable-fast=all,O3");# --with-slurm=[/usr/local] VERBOSE=1 |tee 00mpich_configure.txt"); #./configure
+#system("./configure   CC=pgcc F77=pgf77 FC=pgf90 CXX=pgc++ --prefix=$prefixPath --disable-builtin-atomics --with-device=ch4:ucx --enable-fast=all,O3 ");# --with-slurm=[/usr/local] VERBOSE=1 |tee 00mpich_configure.txt"); #./configure
 #CC=pgcc F77=pgf77 FC=pgf90 CXX=pgc++
 if($?){die "config $currentVer failed!\nReason $?:$!\n";}
 

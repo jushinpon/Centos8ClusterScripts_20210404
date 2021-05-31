@@ -22,10 +22,10 @@ sub ld_setting {
 }
 
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-3.4.1/bin";#attached path in main script
+my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
 path_setting($mattached_path);#:/opt/intel/mkl/lib/intel64
 #my $mattached_ld = "/opt/mpich-3.3.2/lib";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-3.4.1/lib";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-3.4.2/lib";#attached ld path in main script
 ld_setting($mattached_ld);
 
 #my $mattached_path = "/opt/openmpi-4.1.0/bin";#attached path in main script
@@ -42,7 +42,7 @@ use Cwd; #Find Current Path
 use File::Copy; # Copy File
 #use Env::Modify qw(:sh source);
 
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -63,8 +63,8 @@ my $currentPath = getcwd(); #get perl code path
 	my $getdat ="date"." $datformat ";
 	my $test=`$getdat`;
 	chomp $test;
-	my $lmp_exe = "/opt/lammps-mpich-3.4.1"."/lmp"."_$test";### make date information
-	my $lmp_exeDir = "/opt/lammps-mpich-3.4.1/";### make date information
+	my $lmp_exe = "/opt/lammps-mpich-3.4.2"."/lmp"."_$test";### make date information
+	my $lmp_exeDir = "/opt/lammps-mpich-3.4.2/";### make date information
     #my $lmp_exe = "/opt/lammps-openmpi-4.1.0"."/lmp"."_$test";### make date information
 	#my $lmp_exeDir = "/opt/lammps-openmpi-4.1.0/";### make date information
     #my $lmp_exe = "/opt/lammps-mvapich-2.3.5_srunMrail"."/lmp"."_$test";### make date information
