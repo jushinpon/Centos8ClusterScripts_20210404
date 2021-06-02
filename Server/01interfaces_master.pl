@@ -100,7 +100,7 @@ system("rm -rf /var/run/yum.pid");
 my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make"
 			, "openssh*", "nfs-utils", "ypserv" ,"yp-tools","geany","geany-plugins-*","psmisc"
 			,"firewalld", "ypbind" , "rpcbind","perl-Expect","gcc-gfortran"
-			,"perl-MCE-Shared","perl-Parallel-ForkManager","xauth","tmux","perl-CPAN","yum-utils","gtk*");
+			,"perl-MCE-Shared","perl-Parallel-ForkManager","xauth","tmux","perl-CPAN","yum-utils","gtk*","xorg-x11*");
 #my $packcounter;
 #my @failedPack;
 foreach(@package){
@@ -134,8 +134,8 @@ if($?){
 close($pack);
 system("dnf -y upgrade");
 #set x11 forwarding: enable x11 forwarding  
-#`sed -i "/X11Forwarding/d" /etc/ssh/ssh_config`;#remove old setting first
-#`sed -i '\$ a X11Forwarding yes' /etc/ssh/ssh_config`;# $ a for sed appending
+`sed -i "/X11Forwarding/d" /etc/ssh/ssh_config`;#remove old setting first
+`sed -i '\$ a X11Forwarding yes' /etc/ssh/ssh_config`;# $ a for sed appending
 system("systemctl restart sshd");
 system("dnf install -y chrony");#time sync
 system("systemctl start chronyd");#time sync
@@ -154,9 +154,9 @@ system("systemctl disable dnf-automatic");
 system("dnf remove dnf-automatic -y");
 
 # setting parameters in /etc/profile and then source it
-if(!`grep 'export export DISPLAY=:0.0' /etc/profile`){
-`echo 'export DISPLAY=:0.0' >> /etc/profile`;
-}
+#if(!`grep 'export export DISPLAY=:0.0' /etc/profile`){
+#`echo 'export DISPLAY=:0.0' >> /etc/profile`;
+#}
 system(". /etc/profile");
 if($?) {print ". /etc/profile failed!!!\n";}
 

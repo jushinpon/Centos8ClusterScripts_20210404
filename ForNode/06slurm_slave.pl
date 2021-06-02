@@ -29,8 +29,8 @@ my $Dir4download = "$packageDir/slurm_download"; #the directory we download slur
 #my $pmix_installPath = "/opt/pmix/3.1";
 
 # slurm for slave
-my $currentVer = "slurm-19.05.4.tar.bz2";#***** the latest version of this package (check the latest one if possible)
-my $unzipFolder = "slurm-19.05.4";#***** the latest version of this package (check the latest one if possible)
+my $currentVer = "slurm-20.11.7.tar.bz2";#***** the latest version of this package (check the latest one if possible)
+my $unzipFolder = "slurm-20.11.7";#***** the latest version of this package (check the latest one if possible)
 my $buildPath = "/root/slurm";# the upper level path to configure, make, and install slurm
 
 # stop old slurm, and uninstall slurm 

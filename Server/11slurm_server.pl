@@ -23,7 +23,7 @@ use Parallel::ForkManager;
 use MCE::Shared;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "yes";
+my $wgetORgit = "no";
 
 # find all threads to make this package
 my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
@@ -108,8 +108,8 @@ system("systemctl stop slurmctld.service");
 system("systemctl stop slurmd.service");
 system("dnf remove slurm*");# if you use rpm to install before
 #install Slurms
-my $currentVer = "slurm-19.05.4.tar.bz2";#***** the latest version of this package (check the latest one if possible)
-my $unzipFolder = "slurm-19.05.4";#***** the latest version of this package (check the latest one if possible)
+my $currentVer = "slurm-20.11.7.tar.bz2";#***** the latest version of this package (check the latest one if possible)
+my $unzipFolder = "slurm-20.11.7";#***** the latest version of this package (check the latest one if possible)
 my $URL = "https://download.schedmd.com/slurm/$currentVer";#url to download
 my $Dir4download = "$packageDir/slurm_download"; #the directory we download slurm source code
 my $buildPath = "/root/slurm";# the path to configure, make, and install slurm

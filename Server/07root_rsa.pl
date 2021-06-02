@@ -16,10 +16,10 @@ use MCE::Shared;
 
 my $newnodes = "no"; # no for brand new installation, yesy for adding new nodes into cluster
 
-my $expectT = 5;# time peroid for expect
+my $expectT = 10;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = "XXXXX"; ##For all roots of nodes
+my $pass = "XXX"; ##For all roots of nodes
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
@@ -35,7 +35,7 @@ my $forkNo = @avaIP;
 print "forkNo: $forkNo\n";
 
 if ($newnodes eq "no"){
-	system("rm -f /root/\.ssh/*");# remove unexpect thing first
+	system("rm -rf /root/\.ssh/*");# remove unexpect thing first
 	system("mkdir /root/\.ssh/*");
 	chdir("/root/.ssh");
 	system("ssh-keygen -t rsa -N \"\" -f id_rsa");
@@ -176,7 +176,7 @@ print "***** WATCH OUT!!!!!\n";
 print "***** Begin  ssh passwordless test node by node!!!!!\n\n";
 sleep(3);
 for (@avaIP){	
-	#$pm->start and next;
+	$pm->start and next;
 	$_ =~/192.168.0.(\d{1,3})/;#192.168.0.X
 	my $temp= $1 - 1;
     my $nodeindex=sprintf("%02d",$temp);
@@ -184,8 +184,9 @@ for (@avaIP){
     print "**nodename**:$nodename\n";
 	system("ssh $nodename \"echo '$nodename done!'; exit\"");
 	print "\n\n*****";
-	#$pm->finish;
+	$pm->finish;
 }# for loop
+$pm->wait_all_children;
 print "\n\n***###05root_rsa.pl: root passwordless setting done******\n\n";
 print "\n\n***IMPORTANT!!! Remove unsafe information in this script!!!!******\n\n";
 
