@@ -35,7 +35,7 @@ use strict;
 use Cwd; #Find Current Path
 use File::Copy; # Copy File
 
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	

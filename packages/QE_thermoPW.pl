@@ -148,10 +148,10 @@ system("make install");
 #if($?){die "make install failed!\n";}
 print "QE with thermo_pw has been successfully installed!!\n";
 
-if(!-e "/opt/QEsssp"){# if no /home/packages, make this folder	
-	system("mkdir /opt/QEsssp");	
-	system("mkdir /opt/QEsssp/Efficiency");	
-	system("mkdir /opt/QEsssp/Precision");	
-}
+#if(!-e "/opt/QEsssp"){# if no /home/packages, make this folder	
+#	system("mkdir /opt/QEsssp");	
+#	system("mkdir /opt/QEsssp/Efficiency");	
+#	system("mkdir /opt/QEsssp/Precision");	
+#}
 
 print "\n*****You need to download SSSP potential for QE!!\n";

@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Parallel::ForkManager;
 ## make NFS client (slave node)
 #!/usr/bin/perl
 #setsebool -P use_nfs_home_dirs boolean 1
@@ -12,11 +11,27 @@ use Parallel::ForkManager;
 use strict;
 use warnings;
 
-my @temp = `df -h`;
-for (0..$#temp){chomp $temp[$_]; print "$_ $temp[$_]\n";}
-my @nfs4nodes = grep {if(m/(master:\/\w+)/) 
-	          {print "***Mounted nfs disk: $1\n";$_ = $1;}} @temp;
-for (@nfs4nodes){chomp;system("umount -l $_");}
+my %nfs = (# disks you want to share with server
+	node01 => ["free","sdb"],#8G,/free:888G,/sdb:931Gib
+	node02 => ["free","sda"],#16G,/free:878G,/sda:1.7T 
+	node03 => ["free","sda"] #16G,/free:878G,/sda:870G
+	);
+my $hostname = `hostname`;
+chomp $hostname;
+system("rm -f /etc/exports");
+system("touch /etc/exports");
+for ( @{$nfs{$hostname}} ){
+	`chmod -R 777 /$_`;
+	`echo "/$_ 192.168.0.0/24(rw,no_root_squash,no_subtree_check,async)" >> /etc/exports`;
+}
+
+`systemctl enable nfs-server`;
+`systemctl start nfs-server`;
+system("exportfs -auv"); # umount all first if you have mounted some previously!
+system("exportfs -arv"); # make setting work!
+
+
+#
 #system("perl -p -i.bak -e 's/master:.+//g;' /etc/fstab");# remove old setting lines
 #
 #`echo master:/home /home nfs4 noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;

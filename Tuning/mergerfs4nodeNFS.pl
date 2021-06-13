@@ -6,25 +6,11 @@ use strict;
 use warnings;
 use Cwd;
 
-
-my %mergerfs = (# disks you want to merge in /mnt/merger_disk
-    master => ["sda","sdb","sdd","sde","sdf","sdg"],
-	node01 => ["/free","/sdb","/sdb",2,10,2],#8G,/free:888G,/sdb:931Gib
-	node02 => ["/free","/sda","/sda",3,10,2],#16G,/free:878G,/sda:1.7T 
-	node03 => ["/free","/sda","/sda",3,10,2] #16G,/free:878G,/sda:870G
-#	#node02 => [ ]	
+my %nfs = (# disks you want to share with server
+	node01 => ["free","sdb"],
+	node02 => ["free","sda"],
+	node03 => ["free","sda"] 
 	);
-
-my %disk_UUID;
-for (`blkid|grep \"sd[a-z]\"`){
-	chomp;
-	/(sd[a-z][1-9]?).+UUID="(.+?)"/;
-	chomp ($1,$2);
-	#print "$1 => UUID: $2\n";
-	$disk_UUID{$1} = "$2";
-	#print "$1 => UUID: $disk_UUID{$1}\n";
-	if(!$1 or !$2){die "You don't get $1 or $2\n";}	
-}
 
 my $wgetORgit = "no";
 my $packageDir = "/home/packages";
@@ -49,52 +35,46 @@ system("dnf localinstall -y ./mergerfs*");
 if($?){die "install mergerfs failed\n";}
 chdir("$currentPath");# cd to this dir for downloading the packages
 
-my $hostname = `hostname`;
-chomp $hostname;
-#print $mergerfs{$hostname}."\n";
-#umount first
 my @mergerAll;
-for (@{$mergerfs{$hostname}}){
-	push @mergerAll,"/mnt/$_";
-	system("umount -l /mnt/$_");
-	system("mkdir -p /mnt/$_");
-	system("chmod -R 777 /mnt/$_");
-	
-	my $UUID = $disk_UUID{$_};
-	### modify /etc/fstab
-	if(!`grep "$UUID" /etc/fstab`){
-		`echo 'UUID=$UUID /mnt/$_ ext4 defaults 0 0' >> /etc/fstab`;
-		#system("mount -a");
-	}
-	else{
-		`sed -i '/$UUID/d' /etc/fstab`;
-		`echo 'UUID=$UUID /mnt/$_ ext4 defaults 0 0' >> /etc/fstab`;
-	}
 
+for my $nodename (sort keys %nfs){
+	chomp $nodename;
+	print "***host: $nodename\n";
+	#system("mkdir -p /mnt/nodes_nfs/$nodename"); 
+
+	for my $folder ( @{$nfs{$nodename}} ){
+		print "folder: $folder\n";
+		push @mergerAll,"/mnt/nodes_nfs/$nodename/$folder";
+	}	
 }
+
 
 ### making mergerfs folder
 my $mergerAll = join(":",@mergerAll);
 chomp $mergerAll;
-my $merger4fstab = "/mnt/merger_disk ".
+my $merger4fstab = "/mnt/merger_nodedisk ".
 				   "fuse.mergerfs ".
 				   "defaults,auto,allow_other,use_ino,".
 				   "minfreespace=1M,ignorepponrename=true 0 0";
 chomp $merger4fstab;				   
-system("umount -l /mnt/merger_disk");
-system("mkdir -p /mnt/merger_disk");
+system("umount -l /mnt/merger_nodedisk");
+system("mkdir -p /mnt/merger_nodedisk");
+system("chmod -R 777 /mnt/merger_nodedisk");
+system("chmod -R 777 /mnt/nodes_nfs");
 
-if(!`grep "$mergerAll" /etc/fstab`){
-		`echo '$mergerAll $merger4fstab' >> /etc/fstab`;
-		#system("mount -a");
-	}
-	else{
-		`sed -i '/$mergerAll/d' /etc/fstab`;
-		`echo '$mergerAll $merger4fstab' >> /etc/fstab`;
-	}
-
+`sed -i '/merger_nodedisk/d' /etc/fstab`;
+`echo '$mergerAll $merger4fstab' >> /etc/fstab`;
+`sed -i '/^\$/d' /etc/fstab`;
+#if(!`grep "$mergerAll" /etc/fstab`){
+#		`echo '$mergerAll $merger4fstab' >> /etc/fstab`;
+#		#system("mount -a");
+#	}
+#	else{
+#		
+#	}
+#
 print "$mergerAll $merger4fstab\n";
-system("mount -a");	
+#system("mount -a");	
 
 ##if($nfs eq "yes"){ 
 ##### modify /etc/exports

@@ -10,6 +10,14 @@ If you create a new directory, such as a new top-level directory, label it
  Set SELinux labels only on files and directories you have created. Use the
  chcon command to temporarily change a label:
  chcon -t samba_share_t /path/to/directory
+ 1. enable root 使用者  : smbpasswd -e root
+2. 確認目前samba的端口有哪些 netstat -ntlp |grep smb 
+3. 添加防火牆規則  
+    3-1 firewall-cmd --zone=external --add-port=%d/tcp --permanent 
+    3-2 firewall-cmd --reload
+    3-3 systemctl restart firewalld.service
+4. 從windows登入時，登入網址為\\urip\[groupname]
+5. root的samba密碼需與linux中的root密碼相同，方可從samba進入root資料夾
 =cut
 
 #!/usr/bin/perl
@@ -19,12 +27,12 @@ use warnings;
 use Expect;
 
 system ("systemctl stop smb");
-if ( !`rpm -qa|grep "samb"`){system("yum install samba -y");}
+system("yum install samba -y");
 system("firewall-cmd --zone=external --add-port=139/tcp --permanent"); # for samba port
 system ("firewall-cmd --reload"); #reload
 
 my $ConfPath = '/etc/samba/smb.conf'; # path of smb.conf
-my @UserList = ("jsp"); # the users (you want to use samba)
+my @UserList = ("root"); # the users (you want to use samba)
 my @smb_obj = (["190_master","root","/"]);# obj name, user (more than one is ok. like "jsp,pitotech"), and corresponding path
 
 ## some settings
@@ -71,8 +79,10 @@ my $expectT = 5;
 foreach (@UserList){
 		chomp;
 		#system ("echo 'mem4268'|pdbedit -a -u $_"); #you need to set passwd for samba by hand 
+		print "\$defaultPass:$defaultPass\n";
 		my $exp = Expect->new;
-		$exp = Expect->spawn("pdbedit -a -u $_ \n");
+		$exp = Expect->spawn("pdbedit -a -u -e $_ \n");
+		$exp = Expect->spawn("smbpasswd -e $_ \n");
 		$exp -> send("$defaultPass\n") if ($exp->expect($expectT,"new password:"));
 		$exp -> send("$defaultPass\n") if ($exp->expect($expectT,"retype new password:"));
 		$exp -> send("\n");
@@ -85,3 +95,4 @@ system ("systemctl enable smb");
 system ("setsebool -P samba_enable_home_dirs on");#share /home
 system ("setsebool -P samba_domain_controller on");#enable root 
 system ("setsebool -P samba_export_all_rw on");#enable system file writable
+system ("testparm");#test smba

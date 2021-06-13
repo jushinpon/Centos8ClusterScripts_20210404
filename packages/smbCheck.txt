@@ -3,6 +3,7 @@
 	netbios name = 190_MASTER
 	security = USER
 	server string = SAMBA SERVER
+	unix extensions = No
 	workgroup = SAMBA
 	idmap config * : backend = tdb
 
@@ -12,6 +13,9 @@
 	create mask = 0777
 	directory mask = 0777
 	force user = root
+	guest ok = Yes
 	path = /
 	read only = No
+	strict locking = No
 	valid users = root
+	wide links = Yes
