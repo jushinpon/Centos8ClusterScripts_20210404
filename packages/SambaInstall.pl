@@ -18,6 +18,8 @@ If you create a new directory, such as a new top-level directory, label it
     3-3 systemctl restart firewalld.service
 4. 從windows登入時，登入網址為\\urip\[groupname]
 5. root的samba密碼需與linux中的root密碼相同，方可從samba進入root資料夾
+6. smbstatus: check status
+7. smbclient -L localhost -N : check shared 
 =cut
 
 #!/usr/bin/perl

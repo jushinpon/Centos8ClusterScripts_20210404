@@ -33,7 +33,8 @@ for (1..3){
     #system("$cmd 'rm -f nohup.out;nohup perl ./06slurm_slave.pl &'");
     #system("$cmd 'dnf install -y iftop'");
     #system("$cmd 'mount -a'");
-    system("$cmd 'df -h'");
+    system("$cmd 'yum install cmake3 gmp-devel libsodium libsodium-static  -y'");
+    system("$cmd 'dnf -y group install \"Development Tools\"'");
     
     # install progress
     #system("$cmd 'dnf install perl-Statistics-Descriptive -y;'");
