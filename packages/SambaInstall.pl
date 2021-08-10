@@ -20,6 +20,15 @@ If you create a new directory, such as a new top-level directory, label it
 5. root的samba密碼需與linux中的root密碼相同，方可從samba進入root資料夾
 6. smbstatus: check status
 7. smbclient -L localhost -N : check shared 
+make a group for permission
+(base) [root@master ~]# usermod -g samba jsp
+(base) [root@master ~]# usermod -g samba root
+(base) [root@master ~]# chown -R root:samba /root
+(base) [root@master ~]# chown -R jsp:samba /home/jsp
+(base) [root@master ~]# chmod -R 775 /home/jsp
+(base) [root@master ~]# chown -R root:samba /mnt
+(base) [root@master ~]# chmod -R 775  /mnt
+(base) [root@master ~]# systemctl restart smb
 =cut
 
 #!/usr/bin/perl

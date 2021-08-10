@@ -23,18 +23,22 @@ $reboot_check = "yes";
 
 
 for (1..3){
-    $pm->start and next;
+    #$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
+    print "****nodename: $nodename\n";
     $cmd = "ssh $nodename ";
     ##infiniband driver, reboot is needed.
     #system("$cmd 'yum install -y ntfs-3g'");
-    #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
+    system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
     #system("$cmd 'rm -f nohup.out;nohup perl ./06slurm_slave.pl &'");
     #system("$cmd 'dnf install -y iftop'");
     #system("$cmd 'mount -a'");
-    system("$cmd 'yum install cmake3 gmp-devel libsodium libsodium-static  -y'");
-    system("$cmd 'dnf -y group install \"Development Tools\"'");
+    #system("$cmd 'yum install cmake3 gmp-devel libsodium libsodium-static  -y'");
+    #system("$cmd 'dnf -y group install \"Development Tools\"'");
+    
+    #system("$cmd 'systemctl restart slurmd'");
+    #system("$cmd 'systemctl status slurmd'");
     
     # install progress
     #system("$cmd 'dnf install perl-Statistics-Descriptive -y;'");
@@ -44,9 +48,9 @@ for (1..3){
     #system("$cmd 'dnf install perl-Statistics-Descriptive -y'");
     #print "Check $nodename status\n ";
     #system("$cmd 'ibv_devinfo'");    
-    $pm->finish;
+   # $pm->finish;
 }
-$pm->wait_all_children;
+#$pm->wait_all_children;
 
 die;
 ### check the node status after reboot

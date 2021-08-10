@@ -18,8 +18,8 @@ use MCE::Shared;
 my $expectT = 5;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = "XXX"; ##For all roots of nodes
-my $user = "XXX";
+my $pass = "j0409leeChu?#*"; ##For all roots of nodes
+my $user = "jsp";
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
@@ -42,9 +42,9 @@ $exp -> send("mkdir /home/$user/\.ssh\n") if ($exp->expect($expectT,"$user"));
 $exp -> send("cd /home/$user/\.ssh\n") if ($exp->expect($expectT,"$user"));
 $exp -> send("ssh-keygen -t rsa -N \"\" -f id_rsa\n") if ($exp->expect($expectT,"$user"));
 $exp -> send("cp id_rsa.pub authorized_keys\n") if ($exp->expect($expectT,"$user"));
-$exp -> send("chmod 700 /home/$user/\.ssh\n") if ($exp->expect($expectT,"$user"));
-$exp -> send("chmod 600 /home/$user/\.ssh/authorized_keys\n") if ($exp->expect($expectT,"$user"));
-$exp -> send("chmod 600 /home/$user/\.ssh/id_rsa.pub\n") if ($exp->expect($expectT,"$user"));
+$exp -> send("chmod 740 /home/$user/\.ssh\n") if ($exp->expect($expectT,"$user"));
+$exp -> send("chmod 640 /home/$user/\.ssh/authorized_keys\n") if ($exp->expect($expectT,"$user"));
+$exp -> send("chmod 640 /home/$user/\.ssh/id_rsa.pub\n") if ($exp->expect($expectT,"$user"));
 $exp -> send("exit\n") if ($exp->expect($expectT,"$user"));#back to root
 $exp->soft_close();
 

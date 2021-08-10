@@ -1,7 +1,19 @@
+=b
+1. you need to install anaconda first: check https://www.anaconda.com/products/individual#linux 
+2. cd /opt; wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh;
+3. ./ana...
+4. installation path /opt/anaconda3
+5. source activate
+6. conda create --name dpmd-kit-cpu
+7.conda info --envs
+8. conda activate dpmd-kit-cpu
+9. conda install deepmd-kit=*=*cpu lammps-dp=*=*cpu -c deepmodeling
+
+5. source conda activate dpmd-kit_CPU 
 #Perl script to Downlaod and install dpmd-kit (developed by Prof. Shin-Pon Ju (2021/Apr/06))
 # You need to be root to use this script and install Anaconda under /opt first, and check the following web:
 #https://deepmd.readthedocs.io/en/master/install.html
-
+=cut
 ####set environment variables for path and lib (only works in this script)
 sub path_setting{
 	my $attached_path = shift;	
@@ -15,12 +27,6 @@ sub ld_setting {
 	$ENV{'LD_LIBRARY_PATH'} = "$attached_ld:$ld_library_path";		
 }
 
-#my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-#my $mattached_path = "/opt/mpich-3.4.1/bin";#attached path in main script
-#path_setting($mattached_path);#:/opt/intel/mkl/lib/intel64
-#my $mattached_ld = "/opt/mpich-3.3.2/lib";#attached ld path in main script
-#my $mattached_ld = "/opt/mpich-3.4.1/lib";#attached ld path in main script
-#ld_setting($mattached_ld);
 
 #my $mattached_path = "/opt/openmpi-4.1.0/bin";#attached path in main script
 my $mattached_path = "/opt/mvapich2-2.3.5-srunMrail/bin";#attached path in main script
