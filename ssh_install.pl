@@ -26,6 +26,7 @@ for (1..7){
     #$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
+    print "****nodename: $nodename\n";
     $cmd = "ssh $nodename ";
     ##infiniband driver, reboot is needed.
     print "\n****$nodename\n";
