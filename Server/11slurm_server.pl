@@ -23,7 +23,7 @@ use Parallel::ForkManager;
 use MCE::Shared;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 
 # find all threads to make this package
 my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
