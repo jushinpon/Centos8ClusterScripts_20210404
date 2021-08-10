@@ -103,7 +103,7 @@ chdir("$Dir4download/lammps/src");
 	#system ("make all");# install all packages at the very beginning
 	system ("make clean-all"); # clean all old object files
 	# the first three are the basic packages
-	my @lmp_package= ("class2","kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","shock");
+	my @lmp_package= ("class2","kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","shock","user-yaff","USER-MOLFILE","MC");
 	# You need to check lammps web about the package lib if needed.
 
 	foreach my $installpack (@lmp_package){	

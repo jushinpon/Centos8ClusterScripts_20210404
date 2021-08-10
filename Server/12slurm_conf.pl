@@ -29,7 +29,10 @@ my $forkNo = @avaIP;
 my $pm = Parallel::ForkManager->new("$forkNo");
 #****
 my $master4calculation = "yes"; #yes or no, whether to make the server to be a computing node
-my $RealMemory4master = 1024; #MB
+my $serverMem = `free -m|grep Mem:|awk '{print \$2'}`;
+chomp $serverMem;
+my $RealMemory4master = int($serverMem * 0.8); #MB
+#print "$RealMemory4master,$serverMem\n";
 #Server cpu information
 	# lscpu to get the information
 chomp (my $master_coreNo = `lscpu|grep \"^CPU(s):\" | sed 's/^CPU(s): *//g'`);
@@ -39,6 +42,7 @@ chomp (my $lscpu_coresocketNo = `lscpu|grep \"^Core(s) per socket:\" | sed 's/^C
 chomp (my $master_numaNo = `lscpu|grep \"^NUMA node(s):\" | sed 's/^NUMA node(s): *//g'`);
 my $master_socketNo = $master_numaNo;
 my $master_coresocketNo = $lscpu_coresocketNo;#/$master_numaNo;
+$master_coreNo -= 2;
 print "$master_coreNo,$master_socketNo,$master_threadcoreNo,$master_coresocketNo,$master_numaNo\n";
 
 #
@@ -46,7 +50,7 @@ print "$master_coreNo,$master_socketNo,$master_threadcoreNo,$master_coresocketNo
 #sleep(100);
 my @partition = (
 'PartitionName=debug Nodes=node[01-07],master Default=YES MaxTime=20 State=UP DisableRootJobs=YES',
-'PartitionName=32Cores Nodes=node[01-07],master Default=YES MaxTime=INFINITE State=UP DisableRootJobs=YES',
+'PartitionName=32Cores Nodes=node[01-07] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=YES',
 #'PartitionName=64Cores Nodes=node[39-41] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=NO',
 #'PartitionName=AMD64Cores Nodes=node[02-03] Default=YES MaxTime=INFINITE State=UP',
 #'PartitionName=AMD Nodes=node02 Default=NO MaxTime=INFINITE State=UP'
@@ -104,12 +108,14 @@ for (@avaIP){
     my $Nodename="node"."$formatted_nodeID";
     my $socketNo = $numaNo{$_};
     my $coresocketNo = $coresocketNo{$_};#/$numaNo{$_};
-   `echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} Sockets=$socketNo ThreadsPerCore=$threadcoreNo{$_} CoresPerSocket=$coresocketNo  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+   #`echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} Sockets=$socketNo ThreadsPerCore=$threadcoreNo{$_} CoresPerSocket=$coresocketNo  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+   `echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
 #Sockets=1 CoresPerSocket=12 ThreadsPerCore=2
 }
 
 if ($master4calculation eq "yes"){	
-	`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo Sockets=$master_socketNo ThreadsPerCore=$master_threadcoreNo CoresPerSocket=$master_coresocketNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+	#`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo Sockets=$master_socketNo ThreadsPerCore=$master_threadcoreNo CoresPerSocket=$master_coresocketNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+	`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
 }
 
 for (@partition){`echo "$_" >> ./slurm.conf`;}
