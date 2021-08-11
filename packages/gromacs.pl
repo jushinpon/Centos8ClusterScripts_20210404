@@ -21,10 +21,10 @@ sub ld_setting {
 }
 
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-3.4.1/bin";#attached path in main script
+my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
 path_setting($mattached_path);#:/opt/intel/mkl/lib/intel64
 #my $mattached_ld = "/opt/mpich-3.3.2/lib";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-3.4.1/lib";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-3.4.2/lib";#attached ld path in main script
 ld_setting($mattached_ld);
 
 #my $mattached_path = "/opt/openmpi-4.1.0/bin";#attached path in main script
@@ -39,8 +39,8 @@ use strict;
 use Cwd; #Find Current Path
 #use Env::Modify qw(:sh source);
 #system("dnf install cmake -y");
-my $wgetORgit = "no";
-my $prefix = "/opt/gromacs_MPICH3.4.1";
+my $wgetORgit = "yes";
+my $prefix = "/opt/gromacs_MPICH3.4.2";
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
 	system("mkdir $packageDir");	

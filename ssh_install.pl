@@ -37,8 +37,8 @@ for (1..7){
     #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
     #system("$cmd 'rm -f nohup.out;nohup perl ./06slurm_slave.pl &'");
     #system("$cmd 'dnf install -y iftop'");
-    #system("$cmd 'mount -a'");
-    #system("$cmd 'yum install cmake3 gmp-devel libsodium libsodium-static  -y'");
+    system("$cmd 'mount -a'");
+    system("$cmd 'systemctl restart slurmd'");
     #system("$cmd 'dnf -y group install \"Development Tools\"'");
     
     # install progress
