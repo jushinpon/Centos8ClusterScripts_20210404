@@ -8,6 +8,7 @@
 #d.do the necessary things
 #e. if you get c11 problem, do "CCFLAGS =	-g -O3 -std=c++11" setting in Makefile.mpi, also add -fopenmp for gcc 
 
+#https://docs.lammps.org/Packages_details.html
 ####set environment variables for path and lib (only works in this script)
 sub path_setting{
 	my $attached_path = shift;	
@@ -103,7 +104,7 @@ chdir("$Dir4download/lammps/src");
 	#system ("make all");# install all packages at the very beginning
 	system ("make clean-all"); # clean all old object files
 	# the first three are the basic packages
-	my @lmp_package= ("class2","kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","shock","user-yaff","USER-MOLFILE","MC");
+	my @lmp_package= ("EXTRA-PAIR","EXTRA-MOLECULE","class2","kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","shock","user-yaff","user-molfile","mc");
 	# You need to check lammps web about the package lib if needed.
 
 	foreach my $installpack (@lmp_package){	
