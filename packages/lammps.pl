@@ -43,7 +43,7 @@ use Cwd; #Find Current Path
 use File::Copy; # Copy File
 #use Env::Modify qw(:sh source);
 
-my $wgetORgit = "yes";
+my $wgetORgit = "no";
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -87,16 +87,19 @@ if($wgetORgit eq "yes"){
 	#system("git pull");
 
 ## copy our packages here
-chdir("$currentPath");# cd to this dir for downloading the packages
 
-	#system("rm -rf  $Dir4download/lammps/src/USER-BIGWIND");
-	#system("cp -fR ./USER-BIGWIND $Dir4download/lammps/src");
-	#if($?){die "Can't copy user-bigwind into lammps/src\n"}
-	#### do some settings before make (make sure the one or ones you want to modify first!!!!)
-	system("perl -p -i.bak -e 's/#define maxelt.+/#define maxelt 10/;' $Dir4download/lammps/src/USER-MEAMC/meam.h");
-	system("perl -p -i.bak -e 's/CCFLAGS\\s+=.+/CCFLAGS = -g -O3 -std=c++11 -fopenmp/;' $Dir4download/lammps/src/MAKE/Makefile.mpi");
-	system("perl -p -i.bak -e 's/LINKFLAGS\\s+=.+/LINKFLAGS = -g -O3 -fopenmp/;' $Dir4download/lammps/src/MAKE/Makefile.mpi");
 }
+
+#chdir("$currentPath");# cd to this dir for downloading the packages
+
+#system("rm -rf  $Dir4download/lammps/src/USER-BIGWIND");
+#system("cp -fR ./USER-BIGWIND $Dir4download/lammps/src");
+#if($?){die "Can't copy user-bigwind into lammps/src\n"}
+#### do some settings before make (make sure the one or ones you want to modify first!!!!)
+system("perl -p -i.bak -e 's/#define maxelt.+/#define maxelt 12/;' $Dir4download/lammps/src/MEAM/meam.h");
+#system("cat $Dir4download/lammps/src/MEAM/meam.h|grep  '#define maxelt'");
+system("perl -p -i.bak -e 's/CCFLAGS\\s+=.+/CCFLAGS = -g -O3 -std=c++11 -fopenmp/;' $Dir4download/lammps/src/MAKE/Makefile.mpi");
+system("perl -p -i.bak -e 's/LINKFLAGS\\s+=.+/LINKFLAGS = -g -O3 -fopenmp/;' $Dir4download/lammps/src/MAKE/Makefile.mpi");
 
 chdir("$Dir4download/lammps/src");
 
@@ -104,7 +107,8 @@ chdir("$Dir4download/lammps/src");
 	#system ("make all");# install all packages at the very beginning
 	system ("make clean-all"); # clean all old object files
 	# the first three are the basic packages
-	my @lmp_package= ("EXTRA-PAIR","EXTRA-MOLECULE","class2","kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","shock","user-yaff","user-molfile","mc");
+	my @lmp_package= ("EXTRA-FIX","EXTRA-MOLECULE","EXTRA-COMPUTE","EXTRA-DUMP",
+	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc");
 	# You need to check lammps web about the package lib if needed.
 
 	foreach my $installpack (@lmp_package){	
