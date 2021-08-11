@@ -30,7 +30,8 @@ for (1..3){
     $cmd = "ssh $nodename ";
     ##infiniband driver, reboot is needed.
     #system("$cmd 'yum install -y ntfs-3g'");
-    system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
+    #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
+    system("$cmd 'poweroff'");#nis for nodes
     #system("$cmd 'rm -f nohup.out;nohup perl ./06slurm_slave.pl &'");
     #system("$cmd 'dnf install -y iftop'");
     #system("$cmd 'mount -a'");
