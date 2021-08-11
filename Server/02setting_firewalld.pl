@@ -7,6 +7,7 @@
 #firewall-cmd --runtime-to-permanent
 #firewall-cmd --reload
 firewall-cmd --list-rich-rules
+
 =cut
 
 

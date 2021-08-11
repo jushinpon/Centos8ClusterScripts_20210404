@@ -19,7 +19,7 @@ my $newnodes = "no"; # no for brand new installation, yesy for adding new nodes 
 my $expectT = 10;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = "XXX"; ##For all roots of nodes
+my $pass = "xxx"; ##For all roots of nodes
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
@@ -36,7 +36,7 @@ print "forkNo: $forkNo\n";
 
 if ($newnodes eq "no"){
 	system("rm -rf /root/\.ssh/*");# remove unexpect thing first
-	system("mkdir /root/\.ssh/*");
+	system("mkdir /root/\.ssh");
 	chdir("/root/.ssh");
 	system("ssh-keygen -t rsa -N \"\" -f id_rsa");
 	system("cp id_rsa.pub authorized_keys");
@@ -45,7 +45,6 @@ if ($newnodes eq "no"){
 	system("systemctl restart sshd");
 }
 #### make .ssh directory of each node
-
 my $pm = Parallel::ForkManager->new("$forkNo");
 for (@avaIP){	
 $pm->start and next;

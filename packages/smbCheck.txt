@@ -8,14 +8,10 @@
 	idmap config * : backend = tdb
 
 
-[190_master]
-	comment = Shared
-	create mask = 0777
-	directory mask = 0777
-	force user = root
-	guest ok = Yes
-	path = /
+[homes]
+	browseable = No
+	comment = Home directories
+	create mask = 0664
+	directory mask = 0775
 	read only = No
-	strict locking = No
-	valid users = root
-	wide links = Yes
+	valid users = %S
