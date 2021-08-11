@@ -1,25 +1,38 @@
+=b
+https://linux.vbird.org/linux_basic/centos7/0420quota.php
+for setting quota:
+/dev/mapper/centos-home  /home  xfs  defaults,usrquota,grpquota   0 0
+umount /home
+mount -a
+mount|grep home
+/dev/mapper/centos-home on /home type xfs (rw,relatime,seclabel,attr2,inode64,usrquota,grpquota)
+if not works, you need to reboot
+=cut
+
 use strict;
 use warnings;
 use Expect;
-my $adduser = "yes";
-my $setsmb = "yes";
+my $adduser = "no";
+my $setsmb = "no";
 #modify /etc/fatab for /home first
 #,usrquota,grpquota then mount -a -o remount
-my $setquota = "yes"; my $quota = "40";#use df -h to check first
-
+my $setquota = "yes"; my $quota = "50";#use df -h to check first
+my $bsoft = int(1024*$quota)."M"; my $bhard = int(1024*$quota + 1024*5)."M";
+#print "$bsoft $bhard\n";
+#die;
 open my $ss,"< ./username.dat" or die "No Server_setting.dat to open.\n $!";#one line for an username
 my @temp_array = <$ss>;
 close $ss; 
 my @user_accounts = grep (($_!~m{^\s*$|^#}),@temp_array); # remove blank lines
 
 print "all new accounts: @user_accounts\n";
-print "yes or no\n";
-my $stdin = <STDIN>;
-chomp $stdin;
-print "\$stdin: $stdin\n";
-if($stdin ne "yes"){
-   die "You don't provide the right response!\n";
-}
+#print "yes or no\n";
+#my $stdin = <STDIN>;
+#chomp $stdin;
+#print "\$stdin: $stdin\n";
+#if($stdin ne "yes"){
+#   die "You don't provide the right response!\n";
+#}
 if($adduser eq "yes"){
     for my $new (@user_accounts){
         chomp $new;
@@ -49,5 +62,16 @@ if($setsmb eq "yes"){
     print "\n****Please use testparm to check your smb setting\n";
 }
    
-   
-system("pdbedit -L");
+if($setquota eq "yes"){
+    #system("xfs_quota -x -c \"print\"");
+    #system("xfs_quota -x -c \"df -h\"");
+    #system("xfs_quota -x -c \"state\"");#check quota state
+    #system("xfs_quota -x -c \"report -ubih\" /home");#report quota for all
+    for my $new (@user_accounts){    
+        chomp $new;
+        #print "xfs_quota -x -c \"limit -u bsoft=$bsoft bhard=$bhard $new \" /home\n";
+        system("xfs_quota -x -c \"limit -u bsoft=$bsoft bhard=$bhard $new \" /home");#report quota for all
+    }
+    system("xfs_quota -x -c \"report -ubh\" /home");#report quota for all
+}
+#xfs_quota -x -c "report -ubh" /home
