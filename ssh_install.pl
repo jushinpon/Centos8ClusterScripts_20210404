@@ -29,6 +29,9 @@ for (1..7){
     print "****nodename: $nodename\n";
     $cmd = "ssh $nodename ";
     ##infiniband driver, reboot is needed.
+    #system("$cmd 'yum install -y ntfs-3g'");
+    #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes
+    system("$cmd 'poweroff'");#nis for nodes
     print "\n****$nodename\n";
     system("$cmd 'df -h'|grep free");
     #my $temp = `$cmd 'df -h'|grep free`;
