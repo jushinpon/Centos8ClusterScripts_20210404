@@ -49,8 +49,8 @@ print "$master_coreNo,$master_socketNo,$master_threadcoreNo,$master_coresocketNo
 #print "sleeping !!!!\n";
 #sleep(100);
 my @partition = (
-'PartitionName=debug Nodes=node[01-07],master Default=YES MaxTime=20 State=UP DisableRootJobs=YES',
-'PartitionName=32Cores Nodes=node[01-07] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=YES',
+'PartitionName=debug Nodes=node[01-03],master Default=YES MaxTime=INFINITE State=UP DisableRootJobs=YES',
+#'PartitionName=32Cores Nodes=node[01-07] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=YES',
 #'PartitionName=64Cores Nodes=node[39-41] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=NO',
 #'PartitionName=AMD64Cores Nodes=node[02-03] Default=YES MaxTime=INFINITE State=UP',
 #'PartitionName=AMD Nodes=node02 Default=NO MaxTime=INFINITE State=UP'

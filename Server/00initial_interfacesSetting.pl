@@ -68,7 +68,7 @@ if ($GetIP_file eq "yes"){
       unlink("./Nodes_IP.dat");
       open my $ss,">./Nodes_IP.dat";
      
-      for (2..15){
+      for (2..4){
       	my $temp = "192.168.0.$_";
 		chomp $temp;  
       	system("ping -c 1 $temp");

@@ -14,12 +14,12 @@ use Expect;
 use Parallel::ForkManager;
 use MCE::Shared;
 
-my $newnodes = "no"; # no for brand new installation, yesy for adding new nodes into cluster
+my $newnodes = "no"; # no for brand new installation, yes for adding new nodes into cluster
 
 my $expectT = 10;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = "xxx"; ##For all roots of nodes
+my $pass = ""; ##For all roots of nodes
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
