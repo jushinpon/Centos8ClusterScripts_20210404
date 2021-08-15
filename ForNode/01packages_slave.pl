@@ -27,8 +27,19 @@ my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make"
 			,"libibverbs-utils","infiniband-diags","perftest");
 
 for (@package){system("dnf -y install $_");}
-system("perl -p -i.bak -e 's/.*GSSAPIAuthentication.+/GSSAPIAuthentication no/;' /etc/ssh/sshd_config");
-system("perl -p -i.bak -e 's/.*UseDNS.+/UseDNS no/;' /etc/ssh/sshd_config");
+
+#make ssh login much faster
+#set GSSAPIAuthentication to no  
+`sed -i "/GSSAPIAuthentication/d" /etc/ssh/sshd_config`;#remove old setting first
+`sed -i '\$ a GSSAPIAuthentication no' /etc/ssh/sshd_config`;# $ a for sed appending
+#set GSSAPIAuthentication to no  
+`sed -i "/UseDNS/d" /etc/ssh/sshd_config`;#remove old setting first
+`sed -i '\$ a UseDNS no' /etc/ssh/sshd_config`;# $ a for sed appending
+
+system("systemctl restart sshd");
+
+#system("perl -p -i.bak -e 's/.*GSSAPIAuthentication.+/GSSAPIAuthentication no/;' /etc/ssh/sshd_config");
+#system("perl -p -i.bak -e 's/.*UseDNS.+/UseDNS no/;' /etc/ssh/sshd_config");
 system("killall -9 dnf");
 system("systemctl restart sshd");
 # disable automatic updating

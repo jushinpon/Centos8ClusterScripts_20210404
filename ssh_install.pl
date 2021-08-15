@@ -7,19 +7,25 @@ $forkNo = 30;
 $reboot_check = "yes";
 
 # status check
-#for (1..3){
-#    $nodeindex=sprintf("%02d",$_);
-#    $nodename= "node"."$nodeindex";
-#    $cmd = "ssh $nodename ";
-#    print "Check $nodename status\n ";
-#    #system("$cmd 'chmod 777 /free'");    
-#    #system("$cmd 'reboot'");    
-#        
-#    system("$cmd 'df -h'");    
-#    #system("$cmd 'df -h'");    
-#    #system("$cmd 'blkid'");    
-#}
-#die;
+for (1..3){
+    $nodeindex=sprintf("%02d",$_);
+    $nodename= "node"."$nodeindex";
+    $cmd = "ssh $nodename ";
+    print "\n****Check $nodename status\n ";
+#restart nis    
+   #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
+   #system("$cmd 'yptest'"); 
+      
+  #system("$cmd 'reboot'"); 
+  #system("$cmd 'mount -a'"); 
+     
+# check disk for each nodes        
+    system("$cmd 'df -h'");    
+    #system("$cmd 'blkid'");    
+    #system("$cmd 'rpm -qa| grep parted'");
+    #if not -> dnf install parted -y    
+}
+die;
 
 
 for (1..7){

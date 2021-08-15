@@ -14,7 +14,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #my $remote_perl = "remote_setting.pl";
 #my $remote_perl = "remote_NFS.pl";
 my $remote_perl = "NFSnode4server.pl";
-#my $remote_perl = "parted.pl";
+#my $remote_perl = "parted4node.pl";
 for (@nodes){
     $pm->start and next;
     my $nodeindex=sprintf("%02d",$_);
@@ -23,8 +23,10 @@ for (@nodes){
     print "\$nodename: $nodename\n";
     system("scp  ./$remote_perl root\@$nodename:/root");
     if ($?){print "BAD: scp  $remote_perl root\@$nodename:/root failed\n";};
-    system("$cmd 'perl $remote_perl > remote_setting.out'"); 
-    system("$cmd 'cat remote_setting.out'"); 
+    system("$cmd 'echo $nodename > remote_setting.out'"); 
+    system("$cmd 'perl $remote_perl 2>&1 >> remote_setting.out'"); 
+    system("$cmd 'cat remote_setting.out'");
+    print "\n"; 
     $pm->finish;
 }
 $pm->wait_all_children;

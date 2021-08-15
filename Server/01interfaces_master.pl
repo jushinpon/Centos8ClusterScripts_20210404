@@ -134,9 +134,18 @@ if($?){
 close($pack);
 system("dnf -y upgrade");
 #set x11 forwarding: enable x11 forwarding  
-#`sed -i "/X11Forwarding/d" /etc/ssh/ssh_config`;#remove old setting first
-#`sed -i '\$ a X11Forwarding yes' /etc/ssh/ssh_config`;# $ a for sed appending
-#system("systemctl restart sshd");
+`sed -i "/X11Forwarding/d" /etc/ssh/sshd_config`;#remove old setting first
+`sed -i '\$ a X11Forwarding yes' /etc/ssh/sshd_config`;# $ a for sed appending
+#make ssh login much faster
+#set GSSAPIAuthentication to no  
+`sed -i "/GSSAPIAuthentication/d" /etc/ssh/sshd_config`;#remove old setting first
+`sed -i '\$ a GSSAPIAuthentication no' /etc/ssh/sshd_config`;# $ a for sed appending
+#set GSSAPIAuthentication to no  
+`sed -i "/UseDNS/d" /etc/ssh/sshd_config`;#remove old setting first
+`sed -i '\$ a UseDNS no' /etc/ssh/sshd_config`;# $ a for sed appending
+
+system("systemctl restart sshd");
+
 system("dnf install -y chrony");#time sync
 system("systemctl start chronyd");#time sync
 system("systemctl enable chronyd");#time sync

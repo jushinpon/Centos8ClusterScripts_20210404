@@ -7,9 +7,9 @@ use warnings;
 use Cwd;
 
 my %nfs = (# disks you want to share with server
-	node01 => ["free","sdb"],
-	node02 => ["free","sda"],
-	node03 => ["free","sda"] 
+	node01 => ["free","sdb","sdc","sdd"],
+	node02 => ["free","sda","sdc","sdd"], 
+	node03 => ["free","sda","sdc"]  
 	);
 
 my $wgetORgit = "no";
@@ -26,13 +26,13 @@ if($wgetORgit eq "yes"){
 	system ("rm -rf $Dir4download");# remove the older directory first
 	system("mkdir $Dir4download");# make a directory in current path
 	chdir("$Dir4download");# cd to this dir for downloading the packages
-	system("wget $URL lammps");
+	system("wget $URL");
+	chdir("$Dir4download");
+	system("dnf localinstall -y ./mergerfs*");
+	if($?){die "install mergerfs failed\n";}
 	chdir("$currentPath");# cd to this dir for downloading the packages
 }
 
-chdir("$Dir4download");
-system("dnf localinstall -y ./mergerfs*");
-if($?){die "install mergerfs failed\n";}
 chdir("$currentPath");# cd to this dir for downloading the packages
 
 my @mergerAll;
@@ -59,8 +59,8 @@ my $merger4fstab = "/mnt/merger_nodedisk ".
 chomp $merger4fstab;				   
 system("umount -l /mnt/merger_nodedisk");
 system("mkdir -p /mnt/merger_nodedisk");
-system("chmod -R 777 /mnt/merger_nodedisk");
-system("chmod -R 777 /mnt/nodes_nfs");
+#system("chmod -R 777 /mnt/merger_nodedisk");
+#system("chmod -R 777 /mnt/nodes_nfs");
 
 `sed -i '/merger_nodedisk/d' /etc/fstab`;
 `echo '$mergerAll $merger4fstab' >> /etc/fstab`;
@@ -74,7 +74,7 @@ system("chmod -R 777 /mnt/nodes_nfs");
 #	}
 #
 print "$mergerAll $merger4fstab\n";
-#system("mount -a");	
+system("mount -a");	
 
 ##if($nfs eq "yes"){ 
 ##### modify /etc/exports

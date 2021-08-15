@@ -1,4 +1,5 @@
 =b
+for server only!
 This script helps you build the mergerfs 
 1. https://github.com/trapexit/mergerfs --> check the latest version
 =cut
@@ -6,25 +7,9 @@ use strict;
 use warnings;
 use Cwd;
 
-
 my %mergerfs = (# disks you want to merge in /mnt/merger_disk
     master => ["sda","sdb","sdd","sde","sdf","sdg"],
-	node01 => ["/free","/sdb","/sdb",2,10,2],#8G,/free:888G,/sdb:931Gib
-	node02 => ["/free","/sda","/sda",3,10,2],#16G,/free:878G,/sda:1.7T 
-	node03 => ["/free","/sda","/sda",3,10,2] #16G,/free:878G,/sda:870G
-#	#node02 => [ ]	
 	);
-
-my %disk_UUID;
-for (`blkid|grep \"sd[a-z]\"`){
-	chomp;
-	/(sd[a-z][1-9]?).+UUID="(.+?)"/;
-	chomp ($1,$2);
-	#print "$1 => UUID: $2\n";
-	$disk_UUID{$1} = "$2";
-	#print "$1 => UUID: $disk_UUID{$1}\n";
-	if(!$1 or !$2){die "You don't get $1 or $2\n";}	
-}
 
 my $wgetORgit = "no";
 my $packageDir = "/home/packages";
@@ -40,13 +25,13 @@ if($wgetORgit eq "yes"){
 	system ("rm -rf $Dir4download");# remove the older directory first
 	system("mkdir $Dir4download");# make a directory in current path
 	chdir("$Dir4download");# cd to this dir for downloading the packages
-	system("wget $URL lammps");
+	system("wget $URL");
+	chdir("$Dir4download");
+	system("dnf localinstall -y ./mergerfs*");
+	if($?){die "install mergerfs failed\n";}
 	chdir("$currentPath");# cd to this dir for downloading the packages
 }
 
-chdir("$Dir4download");
-system("dnf localinstall -y ./mergerfs*");
-if($?){die "install mergerfs failed\n";}
 chdir("$currentPath");# cd to this dir for downloading the packages
 
 my $hostname = `hostname`;
@@ -55,34 +40,20 @@ chomp $hostname;
 #umount first
 my @mergerAll;
 for (@{$mergerfs{$hostname}}){
-	push @mergerAll,"/mnt/$_";
-	system("umount -l /mnt/$_");
-	system("mkdir -p /mnt/$_");
-	system("chmod -R 777 /mnt/$_");
-	
-	my $UUID = $disk_UUID{$_};
-	### modify /etc/fstab
-	if(!`grep "$UUID" /etc/fstab`){
-		`echo 'UUID=$UUID /mnt/$_ ext4 defaults 0 0' >> /etc/fstab`;
-		#system("mount -a");
-	}
-	else{
-		`sed -i '/$UUID/d' /etc/fstab`;
-		`echo 'UUID=$UUID /mnt/$_ ext4 defaults 0 0' >> /etc/fstab`;
-	}
-
+	chomp;
+	push @mergerAll,"/mnt/master/$_";	
 }
 
 ### making mergerfs folder
 my $mergerAll = join(":",@mergerAll);
 chomp $mergerAll;
-my $merger4fstab = "/mnt/merger_disk ".
+my $merger4fstab = "/mnt/merger_master ".
 				   "fuse.mergerfs ".
 				   "defaults,auto,allow_other,use_ino,".
 				   "minfreespace=1M,ignorepponrename=true 0 0";
 chomp $merger4fstab;				   
-system("umount -l /mnt/merger_disk");
-system("mkdir -p /mnt/merger_disk");
+system("umount -l /mnt/merger_master");
+system("mkdir -p /mnt/merger_master");
 
 if(!`grep "$mergerAll" /etc/fstab`){
 		`echo '$mergerAll $merger4fstab' >> /etc/fstab`;
