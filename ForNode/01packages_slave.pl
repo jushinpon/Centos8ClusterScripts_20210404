@@ -21,8 +21,9 @@ system("yum install 'dnf-command(config-manager)'");
 system("dnf install dnf-plugins-core -y");
 system("dnf config-manager --set-enable powertools");
 `dnf remove -y cockpit`;# not use this web manager tool for cluster
-my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make"
-			, "gcc-c++", "nfs-utils","yp-tools", "gcc-gfortran","psmisc"
+my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make","perl*"
+			, "gcc-c++", "nfs-utils","yp-tools", "gcc-gfortran","psmisc","perl-Expect","gcc-gfortran","xorg-x11-server-Xorg","xorg-x11-xauth"
+			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN"
 			, "ypbind" , "rpcbind","xauth","oddjob-mkhomedir","perl-Statistics-Descriptive","libibverbs"
 			,"libibverbs-utils","infiniband-diags","perftest");
 

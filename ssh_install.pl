@@ -1,13 +1,15 @@
 # ssh nodeXXX test
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
-#use Parallel::ForkManager;
+use Parallel::ForkManager;
 $forkNo = 30;
-#my $pm = Parallel::ForkManager->new("$forkNo");
+my $pm = Parallel::ForkManager->new("$forkNo");
 $reboot_check = "yes";
 
 # status check
 for (1..3){
+$pm->start and next;
+
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
@@ -20,11 +22,18 @@ for (1..3){
   #system("$cmd 'mount -a'"); 
      
 # check disk for each nodes        
-    system("$cmd 'df -h'");    
+    #system("$cmd 'df -h'");    
     #system("$cmd 'blkid'");    
     #system("$cmd 'rpm -qa| grep parted'");
-    #if not -> dnf install parted -y    
+    #if not -> dnf install parted -y 
+    #
+    system("$cmd 'dnf install -y perl*'");    
+    system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
+    #system("$cmd 'chown -R jsp: /free'");    
+$pm->finish;
 }
+$pm->wait_all_children;
+
 die;
 
 
