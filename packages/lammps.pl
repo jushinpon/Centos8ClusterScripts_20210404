@@ -102,13 +102,14 @@ system("perl -p -i.bak -e 's/CCFLAGS\\s+=.+/CCFLAGS = -g -O3 -std=c++11 -fopenmp
 system("perl -p -i.bak -e 's/LINKFLAGS\\s+=.+/LINKFLAGS = -g -O3 -fopenmp/;' $Dir4download/lammps/src/MAKE/Makefile.mpi");
 
 chdir("$Dir4download/lammps/src");
-
+	system("make lib-voronoi args='-b -v voro++0.4.6'");#make voro++ lib first
+	if($?){die"make voro++ lib failed!\n";}
 	system ("make no-all");# uninstall all packages at the very beginning
 	#system ("make all");# install all packages at the very beginning
 	system ("make clean-all"); # clean all old object files
 	# the first three are the basic packages
 	my @lmp_package= ("EXTRA-FIX","EXTRA-MOLECULE","EXTRA-COMPUTE","EXTRA-DUMP",
-	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc");
+	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc","voronoi");
 	# You need to check lammps web about the package lib if needed.
 
 	foreach my $installpack (@lmp_package){	

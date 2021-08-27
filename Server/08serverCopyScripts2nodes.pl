@@ -13,7 +13,7 @@ use Cwd; #Find Current Path
 use Parallel::ForkManager;
 use MCE::Shared;
 #****$jobtype = "nohup" or "copy"
-my $jobtype = "copy";# nohup perl for node scripts, otherwise copy files only
+my $jobtype = "nohup";# nohup perl for node scripts, otherwise copy files only
 
 ## set unlimited ram memory
 if(!`grep '* soft memlock unlimited' /etc/security/limits.conf`){

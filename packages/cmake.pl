@@ -12,10 +12,6 @@ chomp $thread4make;
 print "Total threads can be used for make: $thread4make\n";
 system("dnf remove -y cmake");
 
-my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
-chomp $thread4make;
-print "Total threads can be used for make: $thread4make\n";
-
 my $URL = "https://github.com/Kitware/CMake.git";#url to download
 my $Dir4download = "$packageDir/cmake_download"; #the directory we download Mpich
 my $currentPath = getcwd(); #get perl code path

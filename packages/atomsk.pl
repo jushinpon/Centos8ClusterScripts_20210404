@@ -31,8 +31,13 @@ if($wgetORgit eq "yes"){
 	chdir("$current_path");
 
 }
+my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
+chomp $thread4make;
+print "Total threads can be used for make: $thread4make\n";
 
 chdir("$Dir4download/atomsk/src");
 system("make clean");
-system("make -j 8 atomsk");
+system("make -j $thread4make atomsk");
 system("make install");
+system("atomsk -h");
+

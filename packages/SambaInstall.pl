@@ -35,7 +35,7 @@ make a group for permission
 # smbpasswd: change smb passwd by each user (default passwd: mem4268)
 use strict;
 use warnings;
-my $netbios_name = "190_master";
+my $netbios_name = "186_master";
 
 system ("systemctl stop smb");
 system("yum install samba -y");
@@ -66,15 +66,15 @@ directory mode = 0775
 ' >> $ConfPath
 `;
 # / 
-`echo '[190_master]
-comment = / 
-browseable = yes
-writable = yes
-valid users = @samba
-create mode = 775
-directory mode = 775
-' >> $ConfPath
-`;
+#`echo '[186_master]
+#comment = / 
+#browseable = yes
+#writable = yes
+#valid users = @samba
+#create mode = 775
+#directory mode = 775
+#' >> $ConfPath
+#`;
 
 #	valid users = root
 #	force user = root

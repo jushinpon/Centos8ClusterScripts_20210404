@@ -100,7 +100,7 @@ system("rm -rf /var/run/yum.pid");
 my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make","perl*"
 			, "openssh*", "nfs-utils", "ypserv" ,"yp-tools","geany","psmisc"
 			,"firewalld", "ypbind" , "rpcbind","perl-Expect","gcc-gfortran","xorg-x11-server-Xorg","xorg-x11-xauth"
-			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN","yum-utils");
+			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN","yum-utils","dos2unix");
 #my $packcounter;
 #my @failedPack;
 foreach(@package){

@@ -12,11 +12,11 @@ if not works, you need to reboot
 use strict;
 use warnings;
 use Expect;
-my $adduser = "no";
-my $setsmb = "no";
+my $adduser = "yes";
+my $setsmb = "yes";
 #modify /etc/fatab for /home first
 #,usrquota,grpquota then mount -a -o remount
-my $setquota = "yes"; my $quota = "50";#use df -h to check first
+my $setquota = "yes"; my $quota = "30";#use df -h to check first
 my $bsoft = int(1024*$quota)."M"; my $bhard = int(1024*$quota + 1024*5)."M";
 #print "$bsoft $bhard\n";
 #die;
@@ -36,13 +36,16 @@ print "all new accounts: @user_accounts\n";
 if($adduser eq "yes"){
     for my $new (@user_accounts){
         chomp $new;
-        system("userdel $new");#-r flag to remove everything
+        system("ps aux|grep -v grep|grep -v root|grep $new|awk '{print \$2}'|xargs kill");
+        system("userdel -r $new");#-r flag to remove everything 
+        system("rm -rf /home/$new"); 
+        system("rm -rf /var/spool/mail/$new"); 
         system("useradd $new");
         system("echo $new | passwd $new --stdin");
         system("chage -d 0 $new");#force new user to change their passwd after first login
     }
 }
-
+sleep(1);
 #samba setting
 if($setsmb eq "yes"){
     my $expectT = 5;

@@ -1,6 +1,6 @@
 # Global parameters
 [global]
-	netbios name = 190_MASTER
+	netbios name = 186_MASTER
 	security = USER
 	server string = SAMBA SERVER
 	unix extensions = No
@@ -15,12 +15,3 @@
 	directory mask = 0775
 	read only = No
 	valid users = %S
-
-
-[190_master]
-	available = No
-	comment = /
-	create mask = 02775
-	directory mask = 02775
-	read only = No
-	valid users = @samba

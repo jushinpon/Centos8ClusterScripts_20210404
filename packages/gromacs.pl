@@ -74,7 +74,7 @@ system ("rm -rf build");# remove the older directory first
 system("mkdir build");
 chdir("$Dir4download/gromacs/build");# cd to this dir 
 system("cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_GPU=off -DGMX_MPI=on -DCMAKE_INSTALL_PREFIX=$prefix");
-system("make -j 8");
+system("make -j $thread4make");
 system("make check");
 system("make install");
 system(". $prefix/bin/GMXRC");
