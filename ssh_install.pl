@@ -6,14 +6,28 @@ $forkNo = 30;
 my $pm = Parallel::ForkManager->new("$forkNo");
 $reboot_check = "yes";
 
+
+my %partedDevs = (# disks you want to share with server
+	node01 => ["sdb","sdc","sdd"],
+	node02 => ["sda","sdc","sdd"], 
+	node03 => ["sda","sdc"] 
+	);
 # status check
+my $hundredM = 100*1024*1024/4096;
 for (1..3){
-$pm->start and next;
+#$pm->start and next;
 
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
     print "\n****Check $nodename status\n ";
+    for my $disk (@{$partedDevs{$nodename}}){
+        chomp $disk;
+        print "/dev/$disk\n";
+        system("$cmd 'tune2fs -r $hundredM /dev/$disk'");#nis for nodes    
+
+    }
+    #tune2fs -r $((100*1024*1024/4096)) /dev/sdb1
 #restart nis    
    #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
    #system("$cmd 'yptest'"); 
@@ -27,12 +41,12 @@ $pm->start and next;
     #system("$cmd 'rpm -qa| grep parted'");
     #if not -> dnf install parted -y 
     #
-    system("$cmd 'dnf install -y perl*'");    
-    system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
+    #system("$cmd 'dnf install -y perl*'");    
+    #system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
     #system("$cmd 'chown -R jsp: /free'");    
-$pm->finish;
+#$pm->finish;
 }
-$pm->wait_all_children;
+#$pm->wait_all_children;
 
 die;
 

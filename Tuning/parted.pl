@@ -15,6 +15,7 @@ https://www.programmersought.com/article/62434144424/
 cat /proc/partitions -> check if the dev has been used
 
 dmsetup ls
+tune2fs -r $((100*1024*1024/4096)) /dev/sdb1 :adjust disk size for ext4
 =cut
 use strict;
 use warnings;
