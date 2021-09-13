@@ -35,7 +35,7 @@ for (0..$#extraFolders){
     `echo "$temp1" >> folders.dat`;
     my $temp2 = $foldernames[$_]; 
     `echo "$temp2" >> foldername.dat`;
-
+    if($temp2 =~ /node/){$temp1 = $temp1 . "/free"; print "\$temp1: $temp1\n";}
     `echo '[$prefix\_$temp2]
     comment = $prefix\_$temp2
     browseable = yes
