@@ -35,7 +35,7 @@ make a group for permission
 # smbpasswd: change smb passwd by each user (default passwd: mem4268)
 use strict;
 use warnings;
-my $netbios_name = "186_master";
+my $netbios_name = "161_master";
 
 system ("systemctl stop smb");
 system("yum install samba -y");

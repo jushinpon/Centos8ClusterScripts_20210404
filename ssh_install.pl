@@ -2,7 +2,7 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 1;
+$forkNo = 9;
 my $pm = Parallel::ForkManager->new("$forkNo");
 $reboot_check = "yes";
 
@@ -14,28 +14,31 @@ my %partedDevs = (# disks you want to share with server
 	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-for (1..42){
+my @nodes = (3,6);
+for (@nodes){
+sleep(3);
 $pm->start and next;
 
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
-    
-    #system("$cmd 'ls'");
-    #if($?){print "$?: $nodename is dead. $!\n"}
     print "\n****Check $nodename status\n ";
+    
+    system("$cmd 'rm -f nohup.out'");
+    system("$cmd 'nohup perl 06slurm_slave.pl &'");
+    #if($?){print "$?: $nodename is dead. $!\n"}
 #get remote files   
-  my @remote = `$cmd 'ls /etc/sysconfig/network-scripts/*'`;
-  print "@remote\n";
-  for my $if (@remote){
-    chomp $if;
-    $if =~ /ifcfg-(.+)/;
-    print "$1\n";
-    chomp $1;
-    system("$cmd 'sed -i \"/MTU/d\" $if'");
-    system("$cmd 'sed -i \"\\\$ a MTU=1500\" $if'");
-    system("$cmd 'ifconfig $1 mtu 1500'");
-  }  
+ # my @remote = `$cmd 'ls /etc/sysconfig/network-scripts/*'`;
+ # print "@remote\n";
+ # for my $if (@remote){
+ #   chomp $if;
+ #   $if =~ /ifcfg-(.+)/;
+ #   print "$1\n";
+ #   chomp $1;
+ #   system("$cmd 'sed -i \"/MTU/d\" $if'");
+ #   system("$cmd 'sed -i \"\\\$ a MTU=1500\" $if'");
+ #   system("$cmd 'ifconfig $1 mtu 1500'");
+ # }  
     #for my $disk (@{$partedDevs{$nodename}}){
     #    chomp $disk;
     #    print "/dev/$disk\n";

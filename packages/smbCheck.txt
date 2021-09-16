@@ -1,6 +1,6 @@
 # Global parameters
 [global]
-	netbios name = 186_MASTER
+	netbios name = 161_MASTER
 	security = USER
 	server string = SAMBA SERVER
 	unix extensions = No
