@@ -97,12 +97,13 @@ system("dnf config-manager --set-enable powertools");
 
 system("rm -rf /var/run/yum.pid");
 #"iptables-services" not installed for Centos 8, replaced by "firewalld"
-my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make","perl*","numactl-devel"
+my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make","numactl-devel"
 			, "openssh*", "nfs-utils", "ypserv" ,"yp-tools","geany","psmisc"
 			,"firewalld", "ypbind" , "rpcbind","perl-Expect","gcc-gfortran","xorg-x11-server-Xorg","xorg-x11-xauth"
 			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN","yum-utils","dos2unix");
 #my $packcounter;
 #my @failedPack;
+system ("dnf -y install perl* --nobest --skip-broken");# for perl* only
 foreach(@package){
 	system("dnf -y install $_");
 	if($?){
@@ -126,6 +127,8 @@ system("systemctl mask iptables");
 #system("cpan Env::Modify --force");
 system("cpan App::cpanminus");
 system("cpanm Env::Modify --force");
+system("cpanm Parallel::ForkManager --force");
+system("cpanm Expect --force");
 #system("cpan install IPC::PerlSSH");
 if($?){
 		print $pack "Env::Modify installation failed!!!!!\n";

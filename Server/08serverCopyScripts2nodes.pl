@@ -154,6 +154,7 @@ while ($whileCounter <= 100 and $Counter != $nodeNo and $jobtype eq "nohup"){
 ## check whether setting status of each node is OK
 if($jobtype eq "nohup"){ 
 	print "Watch out! Check whether each node has been correctly deployed!\n\n";
+	`touch NodesinstCheck.dat`;
 	for (@avaIP){	
 		$_ =~/192.168.0.(\d{1,3})/;#192.168.0.X
 		my $temp= $1 - 1;
@@ -163,9 +164,11 @@ if($jobtype eq "nohup"){
 		if($temp =~ m{(ALL DONE!!)}){
 			chomp $1;
 			print "$nodename: $1\n";
+			` echo "$nodename: $1" >> NodesinstCheck.dat`;
 		}
 		else{
 			print "***$nodename setting has problems. See /home/$nodename.txt\n";
+			` echo "***$nodename setting has problems. See /home/$nodename.txt" >> NodesinstCheck.dat`;
 		}			 
 	}
 }
@@ -179,3 +182,4 @@ if(@scpFailnodes){
 else{
 	print "scp for all nodes are ok!!\n";
 }
+print "You need to check \"NodesinstCheck.dat\" \n";
