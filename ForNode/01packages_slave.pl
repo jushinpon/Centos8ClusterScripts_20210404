@@ -21,13 +21,19 @@ system("yum install 'dnf-command(config-manager)'");
 system("dnf install dnf-plugins-core -y");
 system("dnf config-manager --set-enable powertools");
 `dnf remove -y cockpit`;# not use this web manager tool for cluster
-my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make","perl*"
+my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make"
 			, "gcc-c++", "nfs-utils","yp-tools", "gcc-gfortran","psmisc","perl-Expect","gcc-gfortran","xorg-x11-server-Xorg","xorg-x11-xauth"
 			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN"
 			, "ypbind" , "rpcbind","xauth","oddjob-mkhomedir","perl-Statistics-Descriptive","libibverbs"
 			,"libibverbs-utils","infiniband-diags","perftest");
-
+system ("dnf -y install perl* --nobest --skip-broken");# for perl* only
 for (@package){system("dnf -y install $_");}
+system("echo \'yes\'|cpan App::cpanminus");
+system("cpanm Env::Modify --force");
+system("cpanm Parallel::ForkManager --force");
+system("cpanm Expect --force");
+system("cpanm Statistics::Descriptive --force");
+#system("cpanm MCE::Shared --force");
 
 #make ssh login much faster
 #set GSSAPIAuthentication to no  

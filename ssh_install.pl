@@ -2,7 +2,7 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 9;
+$forkNo = 42;
 my $pm = Parallel::ForkManager->new("$forkNo");
 $reboot_check = "yes";
 
@@ -14,18 +14,35 @@ my %partedDevs = (# disks you want to share with server
 	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @nodes = (3,6);
+my @nodes = (2..42);
 for (@nodes){
-sleep(3);
 $pm->start and next;
 
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
-    print "\n****Check $nodename status\n ";
-    
-    system("$cmd 'rm -f nohup.out'");
-    system("$cmd 'nohup perl 06slurm_slave.pl &'");
+    #print "\n****Check $nodename status\n ";
+    system("ping -c 1 $nodename");
+    unless($?){
+        print "\n****in $nodename \n ";
+        system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
+        system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
+        system("$cmd 'cpanm Env::Modify --force'");
+        system("$cmd 'cpanm Parallel::ForkManager --force'");
+        system("$cmd 'cpanm Expect --force'");
+        system("$cmd 'cpanm Statistics::Descriptive --force'");
+        system("$cmd 'dnf install -y perl-MCE-Shared'");    
+    # 
+
+        #my @ps= `$cmd "ps aux|grep -v grep|grep -v root|grep perl"`;#|awk '{print \\\$2}'|xargs kill" `;
+        #print "@ps\n";
+
+    }
+    #system("$cmd 'systemctl restart slurmd'");
+
+    #system("$cmd 'rm -f nohup.out'");
+    #system("$cmd 'nohup perl 06slurm_slave.pl &'");
+    #system("$cmd 'nohup perl 06slurm_slave.pl &'");
     #if($?){print "$?: $nodename is dead. $!\n"}
 #get remote files   
  # my @remote = `$cmd 'ls /etc/sysconfig/network-scripts/*'`;
