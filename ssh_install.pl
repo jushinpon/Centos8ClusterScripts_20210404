@@ -6,7 +6,6 @@ $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 $reboot_check = "yes";
 
-
 my %partedDevs = (# disks you want to share with server
 	node01 => ["sdb","sdc","sdd"],
 	node02 => ["sda","sdc","sdd"], 
@@ -25,6 +24,16 @@ $pm->start and next;
     system("ping -c 1 $nodename");
     unless($?){
         print "\n****in $nodename \n ";
+        my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
+        if($temp){
+            print "\$temp: $temp, $nodename failed\n";
+            `$cmd 'systemctl restart slurmd'`;
+            `scontrol update nodename=$nodename state=resume`;
+            #sinfo|grep All|grep down|awk '{print $NF}'
+        }
+        else{
+            print "\$temp: $temp,$nodename ok\n";
+        }
         #system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
         #system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
         #system("$cmd 'cpanm Env::Modify --force'");
@@ -35,8 +44,8 @@ $pm->start and next;
         #system("$cmd 'dnf install -y perl-MCE-Shared'");    
     # 
 
-        my @ps= `$cmd "ps aux|grep -v grep|grep -v root|grep 1009"`;#|awk '{print \\\$2}'|xargs kill" `;
-        print "@ps\n";
+        #my @ps= `$cmd "ps aux|grep -v grep|grep -v root|grep 1009"`;#|awk '{print \\\$2}'|xargs kill" `;
+        #print "@ps\n";
 
     }
     #system("$cmd 'systemctl restart slurmd'");
@@ -83,6 +92,10 @@ $pm->start and next;
 $pm->finish;
 }
 $pm->wait_all_children;
+my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
+chomp ($slurmdown);
+`scontrol update nodename=$slurmdown state=resume` if($slurmdown);
+system("sinfo");
 
 die;
 
