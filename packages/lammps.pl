@@ -43,7 +43,7 @@ use Cwd; #Find Current Path
 use File::Copy; # Copy File
 #use Env::Modify qw(:sh source);
 
-my $wgetORgit = "yes";
+my $wgetORgit = "no";
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -66,7 +66,10 @@ my $currentPath = getcwd(); #get perl code path
 	chomp $test;
 	my $lmp_exe = "/opt/lammps-mpich-3.4.2"."/lmp"."_$test";### make date information
 	my $lmp_exeDir = "/opt/lammps-mpich-3.4.2/";### make date information
-    #my $lmp_exe = "/opt/lammps-openmpi-4.1.0"."/lmp"."_$test";### make date information
+    #my $lmp_exe = "/opt/lammps-mpich-3.4.2-bigwind"."/lmp"."_$test";### make date information
+	#my $lmp_exeDir = "/opt/lammps-mpich-3.4.2-bigwind/";### make date information
+    
+	#my $lmp_exe = "/opt/lammps-openmpi-4.1.0"."/lmp"."_$test";### make date information
 	#my $lmp_exeDir = "/opt/lammps-openmpi-4.1.0/";### make date information
     #my $lmp_exe = "/opt/lammps-mvapich-2.3.5_srunMrail"."/lmp"."_$test";### make date information
 	#my $lmp_exeDir = "/opt/lammps-mvapich-2.3.5_srunMrail/";### make date information
@@ -83,8 +86,6 @@ if($wgetORgit eq "yes"){
 	#chdir("$Dir4download/lammps");# cd to this dir for downloading the packages
 	#system("git checkout tags/stable_3Mar2020 -b stable");#user-bigwind ok
 	##system("git checkout tags/stable_29OctMar2020 -b stable");#user-bigwind bad
-	#sleep(5);
-	#system("git pull");
 
 ## copy our packages here
 
@@ -92,9 +93,9 @@ if($wgetORgit eq "yes"){
 
 #chdir("$currentPath");# cd to this dir for downloading the packages
 
-#system("rm -rf  $Dir4download/lammps/src/USER-BIGWIND");
-#system("cp -fR ./USER-BIGWIND $Dir4download/lammps/src");
-#if($?){die "Can't copy user-bigwind into lammps/src\n"}
+system("rm -rf  $Dir4download/lammps/src/USER-BIGWIND");
+system("cp -fR ./USER-BIGWIND $Dir4download/lammps/src");
+if($?){die "Can't copy user-bigwind into lammps/src\n"}
 #### do some settings before make (make sure the one or ones you want to modify first!!!!)
 system("perl -p -i.bak -e 's/#define maxelt.+/#define maxelt 12/;' $Dir4download/lammps/src/MEAM/meam.h");
 #system("cat $Dir4download/lammps/src/MEAM/meam.h|grep  '#define maxelt'");
@@ -108,8 +109,10 @@ chdir("$Dir4download/lammps/src");
 	#system ("make all");# install all packages at the very beginning
 	system ("make clean-all"); # clean all old object files
 	# the first three are the basic packages
-	my @lmp_package= ("EXTRA-FIX","EXTRA-MOLECULE","EXTRA-COMPUTE","EXTRA-DUMP",
-	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc");
+	#my @lmp_package= ("EXTRA-FIX","EXTRA-MOLECULE","EXTRA-COMPUTE","EXTRA-DUMP",
+	#"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc");
+	#for bigwind only
+	my @lmp_package= ("kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","user-bigwind");
 	# You need to check lammps web about the package lib if needed.
 
 	foreach my $installpack (@lmp_package){	
