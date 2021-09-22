@@ -2,7 +2,7 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 42;
+$forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 $reboot_check = "yes";
 
@@ -14,7 +14,7 @@ my %partedDevs = (# disks you want to share with server
 	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @nodes = (2..42);
+my @nodes = (1..42);
 for (@nodes){
 $pm->start and next;
 
@@ -25,17 +25,18 @@ $pm->start and next;
     system("ping -c 1 $nodename");
     unless($?){
         print "\n****in $nodename \n ";
-        system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
-        system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
-        system("$cmd 'cpanm Env::Modify --force'");
-        system("$cmd 'cpanm Parallel::ForkManager --force'");
-        system("$cmd 'cpanm Expect --force'");
-        system("$cmd 'cpanm Statistics::Descriptive --force'");
-        system("$cmd 'dnf install -y perl-MCE-Shared'");    
+        #system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
+        #system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
+        #system("$cmd 'cpanm Env::Modify --force'");
+        #system("$cmd 'cpanm Parallel::ForkManager --force'");
+        #system("$cmd 'cpanm Expect --force'");
+        #system("$cmd 'cpanm Statistics::Descriptive --force'");
+        #sleep(1);
+        #system("$cmd 'dnf install -y perl-MCE-Shared'");    
     # 
 
-        #my @ps= `$cmd "ps aux|grep -v grep|grep -v root|grep perl"`;#|awk '{print \\\$2}'|xargs kill" `;
-        #print "@ps\n";
+        my @ps= `$cmd "ps aux|grep -v grep|grep -v root|grep 1009"`;#|awk '{print \\\$2}'|xargs kill" `;
+        print "@ps\n";
 
     }
     #system("$cmd 'systemctl restart slurmd'");

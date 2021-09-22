@@ -98,7 +98,7 @@ chdir("$script_CurrentPath/$Dir4download/lammps/src");
 	}
 	else{
 	system("mkdir /opt/lammps");
-	system ("cp lmp_mpi $lmp_path");
+	system ("cp lmp_mpi bigwinds_lmp");
 	}
 #system("rm -rf /opt/lammps");
 print "*******LAMMPS EXECUTABLE DONE!\n";

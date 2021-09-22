@@ -24,10 +24,10 @@ $pm->start and next;
     
     if($?){`echo "ping failed at $nodename" >> diagonosis.dat`;}
 
-    chomp $nodename;
-    unless($?){system("$cmd 'systemctl restart slurmd'");}
-
-    system("scontrol update nodename=$nodename state=resume");
+    #chomp $nodename;
+    #unless($?){system("$cmd 'systemctl restart slurmd'");}
+#
+    #system("scontrol update nodename=$nodename state=resume");
 
 ##scp test and remote cp test  
 #    system("scp -o ConnectTimeout=10 scptest.dat root\@$nodename:/root");

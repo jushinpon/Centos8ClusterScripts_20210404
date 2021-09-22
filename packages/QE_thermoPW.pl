@@ -52,17 +52,17 @@ system("yum install -y intel-mkl");
 
 my $prefix = "/opt/QEGCC_MPICH3.4.2";
 my $package = "q-e";
-my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
-my $unzipFolder = "q-e-qe-6.5";#***** the unzipped folder of this package (check the latest one if possible)
-my $URL = "https://github.com/QEF/q-e/archive/qe-6.5.tar.gz";#url to download
+my $currentVer = "qe-6.7.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
+my $unzipFolder = "q-e-qe-6.7.0";#***** the unzipped folder of this package (check the latest one if possible)
+my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-6.7.0.tar.gz";#url to download
 my $Dir4download = "$packageDir/qe_download"; #the directory we download Mpich
 
 ## thermo_pw
 my $package1 = "ThermoPW";
-my $currentVer1 = "thermo_pw.1.3.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
+my $currentVer1 = "thermo_pw.1.5.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
 my $unzipFolder1 = "thermo_pw";#***** the unzipped folder of this package (check the latest one if possible)
 my $URL1 = "http://people.sissa.it/~dalcorso/thermo_pw/"."$currentVer1";#url to download
-
+#http://people.sissa.it/~dalcorso/thermo_pw/thermo_pw.1.5.0.tar.gz
 my $script_CurrentPath = getcwd(); #get perl code path
 
 #chdir("/opt");# cd to this dir for downloading the packages
