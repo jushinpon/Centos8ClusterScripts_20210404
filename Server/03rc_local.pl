@@ -14,6 +14,9 @@ if(!`grep 'sysctl net.ipv4.ip_forward=1' /etc/rc.local`){
 if(!`grep 'systemctl restart slurmctld' /etc/rc.local`){
 	`echo 'systemctl restart slurmctld' >> /etc/rc.local`;}
 
+if(!`grep 'systemctl restart slurmd' /etc/rc.local`){
+	`echo 'systemctl restart slurmd' >> /etc/rc.local`;}
+
 if(!`grep 'mount -a' /etc/rc.local`){
 	`echo 'mount -a' >> /etc/rc.local`;}
     
