@@ -13,10 +13,21 @@ my %partedDevs = (# disks you want to share with server
 	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @nodes = (1..42);
-`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
-`rm -f scp.txt`;
-`touch scp.txt`;
+my @allnodes = (1..42);
+my @badnodes = (27..31);
+my @nodes;
+for my $a (@allnodes){
+    chomp $a;
+    my $index = 1;
+    for my $b (@badnodes){
+        chomp $b;
+        $index = 0 if($a == $b);
+    }
+  push @nodes, $a  if($index == 1);
+}
+#`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
+`rm -f check.txt`;
+`touch check.txt`;
 for (@nodes){
 $pm->start and next;
 
@@ -25,15 +36,39 @@ $pm->start and next;
     $cmd = "ssh $nodename ";
     #print "\n****Check $nodename status\n ";
     system("ping -c 1 $nodename");
-    if($?){`echo '$nodename ping failed!' >> scp.txt`;}
-#modify /etc/rc.loca for each node    
+    if($?){`echo '$nodename ping failed!' >> check.txt`;}
+
+##modify swap for each node    
     unless($?){
-        unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
-	        `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
-            print "no restart slurmd in $nodename \n ";
-        #`echo mount -a >> /etc/rc.local`;}
-        }
+        #my $df = `$cmd 'df /swap|grep swap|awk "{print \\\$4}"'`;
+        #chomp $df;
+        print "$nodename \n";
+        #`$cmd 'rm -f /swap/*'`;
+        #`$cmd 'dd if=/dev/zero of=/swap/swap bs=1024 count=$df'`;
+        #`$cmd 'mkswap /swap/swap'`;
+        #`$cmd 'swapon /swap/swap'`;
+        #system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
+        #system("$cmd 'sed -i \"\\\$ a /swap/swap swap swap defaults 0 0\" /etc/fstab'");
+        #system("$cmd 'chmod 0644 /swap/swap'");
+        system("$cmd 'swapon -s'");
+        sleep(1);
+       # unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
+	   #     `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
+       #     print "no restart slurmd in $nodename \n ";
+       # #`echo mount -a >> /etc/rc.local`;}
+       # }
     }
+
+
+##modify /etc/rc.loca for each node    
+#    unless($?){
+#        unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
+#	        `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
+#            print "no restart slurmd in $nodename \n ";
+#        #`echo mount -a >> /etc/rc.local`;}
+#        }
+#    }
+
 # get slurmd work
 #    unless($?){
 #        print "\n****in $nodename \n ";
@@ -109,10 +144,10 @@ $pm->start and next;
 $pm->finish;
 }
 $pm->wait_all_children;
-my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
-chomp ($slurmdown);
-`scontrol update nodename=$slurmdown state=resume` if($slurmdown);
-system("sinfo");
+#my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
+#chomp ($slurmdown);
+#`scontrol update nodename=$slurmdown state=resume` if($slurmdown);
+#system("sinfo");
 
 die;
 
