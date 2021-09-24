@@ -22,10 +22,15 @@ system("perl -p -i.bak -e 's/master:.+//g;' /etc/fstab");# remove old setting li
 `echo master:/opt /opt nfs noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
 
 if(!`grep 'mount -a' /etc/rc.local`){
-	`echo mount -a >> /etc/rc.local`;}
+	`echo 'mount -a' >> /etc/rc.local`;}
 	
 if(!`grep 'setsebool -P use_nfs_home_dirs 1' /etc/rc.local`){
 	`echo 'setsebool -P use_nfs_home_dirs 1' >> /etc/rc.local`;}
+
+if(!`grep 'systemctl restart slurmd' /etc/rc.local`){
+	`echo 'systemctl restart slurmd' >> /etc/rc.local`;}
+
+`chmod +x /etc/rc.d/rc.local`; # let rc.local can start when reboot
 	
 `setsebool -P use_nfs_home_dirs 1`;
 system("mount -a");

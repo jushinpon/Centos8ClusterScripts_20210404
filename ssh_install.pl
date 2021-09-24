@@ -14,6 +14,9 @@ my %partedDevs = (# disks you want to share with server
 # status check
 my $hundredM = 100*1024*1024/4096;
 my @nodes = (1..42);
+`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
+`rm -f scp.txt`;
+`touch scp.txt`;
 for (@nodes){
 $pm->start and next;
 
@@ -22,18 +25,32 @@ $pm->start and next;
     $cmd = "ssh $nodename ";
     #print "\n****Check $nodename status\n ";
     system("ping -c 1 $nodename");
+    if($?){`echo '$nodename ping failed!' >> scp.txt`;}
+#modify /etc/rc.loca for each node    
     unless($?){
-        print "\n****in $nodename \n ";
-        my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
-        if($temp){
-            print "\$temp: $temp, $nodename failed\n";
-            `$cmd 'systemctl restart slurmd'`;
-            `scontrol update nodename=$nodename state=resume`;
-            #sinfo|grep All|grep down|awk '{print $NF}'
+        unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
+	        `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
+            print "no restart slurmd in $nodename \n ";
+        #`echo mount -a >> /etc/rc.local`;}
         }
-        else{
-            print "\$temp: $temp,$nodename ok\n";
-        }
+    }
+# get slurmd work
+#    unless($?){
+#        print "\n****in $nodename \n ";
+#        system ("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
+#        if($?){`echo '$nodename scp failed!' >> scp.txt`;}
+#        #/usr/local/etc/slurm.conf
+#        my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
+#        if($temp){
+#            print "\$temp: $temp, $nodename failed\n";
+#            `$cmd 'systemctl restart slurmd'`;
+#            `scontrol update nodename=$nodename state=resume`;
+#            #sinfo|grep All|grep down|awk '{print $NF}'
+#        }
+#        else{
+#            print "\$temp: $temp,$nodename ok\n";
+#        }
+
         #system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
         #system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
         #system("$cmd 'cpanm Env::Modify --force'");
@@ -47,7 +64,7 @@ $pm->start and next;
         #my @ps= `$cmd "ps aux|grep -v grep|grep -v root|grep 1009"`;#|awk '{print \\\$2}'|xargs kill" `;
         #print "@ps\n";
 
-    }
+#    }
     #system("$cmd 'systemctl restart slurmd'");
 
     #system("$cmd 'rm -f nohup.out'");
