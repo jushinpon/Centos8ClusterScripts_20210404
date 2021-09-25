@@ -53,5 +53,7 @@ system("systemctl restart sshd");
 system("systemctl stop dnf-automatic");
 system("systemctl disable dnf-automatic");
 system("dnf remove dnf-automatic -y");
+system("systemctl stop dnf-makecache.timer");
+system("systemctl disable dnf-makecache.timer");
 
 system("dnf -y upgrade");

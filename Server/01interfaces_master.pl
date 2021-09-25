@@ -167,7 +167,8 @@ system("timedatectl set-timezone Asia/Taipei");## setting timezone
 system("systemctl stop dnf-automatic");
 system("systemctl disable dnf-automatic");
 system("dnf remove dnf-automatic -y");
-
+system("systemctl stop dnf-makecache.timer");
+system("systemctl disable dnf-makecache.timer");
 # setting parameters in /etc/profile and then source it
 #if(!`grep 'export export DISPLAY=:0.0' /etc/profile`){
 #`echo 'export DISPLAY=:0.0' >> /etc/profile`;

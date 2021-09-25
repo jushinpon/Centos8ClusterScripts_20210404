@@ -13,8 +13,8 @@ my %partedDevs = (# disks you want to share with server
 	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (1..7);
-my @badnodes = "";#(27..31);
+my @allnodes = (1..42);
+my @badnodes = (27..31);
 my @nodes;
 for my $a (@allnodes){
     chomp $a;
@@ -35,8 +35,16 @@ $pm->start and next;
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
     #print "\n****Check $nodename status\n ";
-    system("ping -c 1 $nodename");
-    if($?){`echo '$nodename ping failed!' >> check.txt`;}
+    #system("ping -c 1 $nodename");
+    #if($?){`echo '$nodename ping failed!' >> check.txt`;}
+        system("$cmd 'systemctl stop dnf-makecache.timer'");
+        system("$cmd 'systemctl disable dnf-makecache.timer'");
+        #my $df  = `$cmd 'free -h'`;
+        #my $df  = `$cmd 'df -h /swap'`;
+       # chomp $df;
+       # print "$nodename\n";
+       # print "$df\n";
+        #system("$cmd 'df -h /swap'");
 
 ##modify swap for each node    
 #    unless($?){
@@ -61,13 +69,13 @@ $pm->start and next;
 
 
 ##modify /etc/rc.loca for each node    
-    unless($?){
-        unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
-	        `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
-            print "no restart slurmd in $nodename \n ";
-        #`echo mount -a >> /etc/rc.local`;}
-        }
-    }
+#    unless($?){
+#        unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
+#	        `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
+#            print "no restart slurmd in $nodename \n ";
+#        #`echo mount -a >> /etc/rc.local`;}
+#        }
+#    }
 
 # get slurmd work
 #    unless($?){
