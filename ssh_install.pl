@@ -13,7 +13,7 @@ my %partedDevs = (# disks you want to share with server
 	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (1..42);
+my @allnodes = (10..10);
 my @badnodes = (27..31);
 my @nodes;
 for my $a (@allnodes){
@@ -80,21 +80,39 @@ $pm->start and next;
 # get slurmd work
 #    unless($?){
 #        print "\n****in $nodename \n ";
-#        system ("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
-#        if($?){`echo '$nodename scp failed!' >> scp.txt`;}
-#        #/usr/local/etc/slurm.conf
-#        my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
-#        if($temp){
-#            print "\$temp: $temp, $nodename failed\n";
-#            `$cmd 'systemctl restart slurmd'`;
-#            `scontrol update nodename=$nodename state=resume`;
-#            #sinfo|grep All|grep down|awk '{print $NF}'
-#        }
-#        else{
-#            print "\$temp: $temp,$nodename ok\n";
-#        }
+        system ("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
+        if($?){`echo '$nodename scp failed!' >> scp.txt`;}
+        #/usr/local/etc/slurm.conf
+        
+    # the following is for a new setting only instead of scontrol reconfigure    
+    system("$cmd 'rm -rf /var/spool/slurmd'");
+	system("$cmd 'mkdir /var/spool/slurmd'");
+	system("$cmd 'chown slurm: -R /var/spool/slurmd'");
+	system("$cmd 'chmod 755 /var/spool/slurmd'");
+	system("$cmd 'rm -f /var/log/slurmd.log'");
+	system("$cmd 'touch /var/log/slurmd.log'");
+	system("$cmd 'rm -rf /var/run/slurmd.pid'");
+	system("$cmd 'touch /var/run/slurmd.pid'");
+	system("$cmd 'chown slurm: /var/log/slurmd.log'");
+	system("$cmd 'chown slurm: /var/run/slurmd.pid'");
+	system("$cmd 'systemctl stop firewalld'");
+	system("$cmd 'systemctl disable firewalld'");
+	system("$cmd 'slurmd -C'");
+	system("$cmd 'systemctl enable slurmd.service'");
+	system("$cmd 'systemctl stop slurmd.service'");
+	system("$cmd 'systemctl start slurmd.service'");
 
-        #system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
+    my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
+    if($temp){
+        print "\$temp: $temp, $nodename failed\n";
+        `$cmd 'systemctl restart slurmd'`;
+        `scontrol update nodename=$nodename state=resume`;
+        #sinfo|grep All|grep down|awk '{print $NF}'
+    }
+    else{
+        print "\$temp: $temp,$nodename ok\n";
+    }
+     #system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
         #system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
         #system("$cmd 'cpanm Env::Modify --force'");
         #system("$cmd 'cpanm Parallel::ForkManager --force'");

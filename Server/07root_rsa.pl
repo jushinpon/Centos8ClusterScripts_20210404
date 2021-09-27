@@ -20,7 +20,7 @@ my $expectT = 10;# time peroid for expect
 
 $ENV{TERM} = "vt100";
 my $pass = ""; ##For all roots of nodes
-
+die "no passwd for nodes" unless($pass);
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
 my @avaIP=grep (($_!~m{^\s*$|^#}),@temp_array); # remove blank lines and comment lines
@@ -33,7 +33,6 @@ for (@avaIP){
 }
 my $forkNo = @avaIP;
 print "forkNo: $forkNo\n";
-
 if ($newnodes eq "no"){
 	system("rm -rf /root/\.ssh/*");# remove unexpect thing first
 	system("mkdir /root/\.ssh");
