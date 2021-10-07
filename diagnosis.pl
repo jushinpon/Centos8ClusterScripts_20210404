@@ -2,11 +2,15 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
+use Cwd;
+my $currentPath = getcwd();
 $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my $prefix = `date +\%F`;
+my $prefix = `date +\%F-\%H`;
 chomp $prefix;
-my $output = "$prefix"."_diagnosis.dat";
+my $output = "$currentPath/$prefix"."_diagnosis.dat";
+print "$output\n";
+die;
 `rm -f $output`;
 `touch $output`;
 #`touch scptest.dat`;
@@ -32,13 +36,16 @@ $pm->start and next;
         `echo "" >> $output`;        
         `echo "******ping ok at $nodename" >> $output`;  
     #slurmd check
-    my @slurmd = `$cmd 'systemctl status slurmd|grep inactive'`;
+    my @slurmd = `$cmd 'systemctl status slurmd|egrep "inactive|failed"'`;
+    print "@slurmd\n";
     if(@slurmd){
-        `echo "???slurmd is inactive at $nodename" >> $output`;
+        `echo "???slurmd is inactive or failed at $nodename" >> $output`;
         `echo "***doing restart slurmd at $nodename" >> $output`;        
         `$cmd 'systemctl restart slurmd'`;
+
         #check again
-        @slurmd = `$cmd 'systemctl status slurmd|grep inactive'`;        
+        @slurmd = `$cmd 'systemctl status slurmd|egrep "inactive|failed"'`;        
+        system("scontrol update nodename=$nodename state=resume");
         if(@slurmd){`echo "???***slurmd still failed at $nodename after restart slurmd!!!!" >> $output`;}
     }
     else{
@@ -47,7 +54,6 @@ $pm->start and next;
     #chomp $nodename;
     #unless($?){system("$cmd 'systemctl restart slurmd'");}
 #
-    #system("scontrol update nodename=$nodename state=resume");
 
 ##scp test and remote cp test  
 #    system("scp -o ConnectTimeout=10 scptest.dat root\@$nodename:/root");
@@ -73,9 +79,11 @@ $pm->start and next;
         `echo "nfs good at $nodename" >> $output`;
     }
 ##munge test
-    system("munge -n \| ssh $nodename unmunge");
-    if($?){`echo "munge failed at $nodename" >> $output`;} 
+#    system("munge -n \| ssh $nodename unmunge");
+#    if($?){`echo "munge failed at $nodename" >> $output`;} 
     }# good ping loop 
    $pm->finish;
 }
 $pm->wait_all_children;
+sleep(5);
+system("grep ? $output > currentBADnode.dat");

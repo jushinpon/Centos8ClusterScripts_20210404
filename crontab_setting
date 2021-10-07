@@ -1,0 +1,2 @@
+#0 */1 * * * /usr/bin/perl ~/Centos8ClusterScripts_20210404/diagnosis.pl
+0 */1 * * * find /root/Centos8ClusterScripts_20210404/ -name "*_diagnosis.dat" -mtime +3 -exec rm {} \;
