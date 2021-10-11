@@ -3,21 +3,31 @@
 
 use Parallel::ForkManager;
 use Cwd;
-my $currentPath = getcwd();
+#my $currentPath = getcwd();
 $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my $prefix = `date +\%F-\%H`;
 chomp $prefix;
-my $output = "$currentPath/$prefix"."_diagnosis.dat";
-print "$output\n";
-die;
+my $output = "/root/$prefix"."_diagnosis.dat";
 `rm -f $output`;
 `touch $output`;
 #`touch scptest.dat`;
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
-#my 
+#my
+my @allnodes = (1..42);
+my @badnodes = (10,27..31);
+my @nodes;
+for my $a (@allnodes){
+    chomp $a;
+    my $index = 1;
+    for my $b (@badnodes){
+        chomp $b;
+        $index = 0 if($a == $b);
+    }
+  push @nodes, $a  if($index == 1);
+} 
 #my @nodes;
-for (1..42){
+for (@nodes){
 
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
@@ -86,4 +96,4 @@ $pm->start and next;
 }
 $pm->wait_all_children;
 sleep(5);
-system("grep ? $output > currentBADnode.dat");
+system("grep ? $output > /root/currentBADnode.dat");

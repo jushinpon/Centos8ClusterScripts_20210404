@@ -2,18 +2,18 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 1;
+$forkNo = 40;
 my $pm = Parallel::ForkManager->new("$forkNo");
-$reboot_check = "yes";
+#$reboot_check = "yes";
 
-my %partedDevs = (# disks you want to share with server
-	node01 => ["sdb","sdc","sdd"],
-	node02 => ["sda","sdc","sdd"], 
-	node03 => ["sda","sdc"] 
-	);
+#my %partedDevs = (# disks you want to share with server
+#	node01 => ["sdb","sdc","sdd"],
+#	node02 => ["sda","sdc","sdd"], 
+#	node03 => ["sda","sdc"] 
+#	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (10..10);
+my @allnodes = (1..42);
 my @badnodes = (27..31);
 my @nodes;
 for my $a (@allnodes){
@@ -25,20 +25,21 @@ for my $a (@allnodes){
     }
   push @nodes, $a  if($index == 1);
 }
-#`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
+#for reconfigure
+`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
 `rm -f check.txt`;
 `touch check.txt`;
 for (@nodes){
 $pm->start and next;
-
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
+    `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
     #print "\n****Check $nodename status\n ";
     #system("ping -c 1 $nodename");
     #if($?){`echo '$nodename ping failed!' >> check.txt`;}
-        system("$cmd 'systemctl stop dnf-makecache.timer'");
-        system("$cmd 'systemctl disable dnf-makecache.timer'");
+     #   system("$cmd 'systemctl stop dnf-makecache.timer'");
+     #   system("$cmd 'systemctl disable dnf-makecache.timer'");
         #my $df  = `$cmd 'free -h'`;
         #my $df  = `$cmd 'df -h /swap'`;
        # chomp $df;
@@ -77,41 +78,7 @@ $pm->start and next;
 #        }
 #    }
 
-# get slurmd work
-#    unless($?){
-#        print "\n****in $nodename \n ";
-        system ("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
-        if($?){`echo '$nodename scp failed!' >> scp.txt`;}
-        #/usr/local/etc/slurm.conf
-        
-    # the following is for a new setting only instead of scontrol reconfigure    
-    system("$cmd 'rm -rf /var/spool/slurmd'");
-	system("$cmd 'mkdir /var/spool/slurmd'");
-	system("$cmd 'chown slurm: -R /var/spool/slurmd'");
-	system("$cmd 'chmod 755 /var/spool/slurmd'");
-	system("$cmd 'rm -f /var/log/slurmd.log'");
-	system("$cmd 'touch /var/log/slurmd.log'");
-	system("$cmd 'rm -rf /var/run/slurmd.pid'");
-	system("$cmd 'touch /var/run/slurmd.pid'");
-	system("$cmd 'chown slurm: /var/log/slurmd.log'");
-	system("$cmd 'chown slurm: /var/run/slurmd.pid'");
-	system("$cmd 'systemctl stop firewalld'");
-	system("$cmd 'systemctl disable firewalld'");
-	system("$cmd 'slurmd -C'");
-	system("$cmd 'systemctl enable slurmd.service'");
-	system("$cmd 'systemctl stop slurmd.service'");
-	system("$cmd 'systemctl start slurmd.service'");
 
-    my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
-    if($temp){
-        print "\$temp: $temp, $nodename failed\n";
-        `$cmd 'systemctl restart slurmd'`;
-        `scontrol update nodename=$nodename state=resume`;
-        #sinfo|grep All|grep down|awk '{print $NF}'
-    }
-    else{
-        print "\$temp: $temp,$nodename ok\n";
-    }
      #system("$cmd 'dnf install -y perl* --nobest --skip-broken'");
         #system("$cmd 'echo \'yes\'|cpan App::cpanminus'");
         #system("$cmd 'cpanm Env::Modify --force'");

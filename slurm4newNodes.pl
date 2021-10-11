@@ -1,0 +1,147 @@
+# install slurm for adding new nodes to cluster
+
+use warnings;
+use strict;
+use Expect;
+use Parallel::ForkManager;
+use MCE::Shared;
+use Cwd; #Find Current Path
+
+my $forkNo = 50;
+my $pm = Parallel::ForkManager->new("$forkNo");
+my $expectT = 10;# time peroid for expect
+my @nodes = (10);# new nodes you want to install
+# install slurm for all new nodes
+#for (@nodes){		
+#	$pm->start and next;
+#    my $nodeindex=sprintf("%02d",$_);
+#    my $nodename= "node"."$nodeindex";
+#    unlink "/home/slurmDone_$nodename.txt";
+#	print "***$nodename is doing scp\n";
+#    system("scp ./ForNode/06slurm_slave.pl root\@$nodename:/root");
+#    my $exp = Expect->new;
+#	$exp = Expect->spawn("ssh -l root $nodename \n");	
+#	$exp->send ("rm -f nohup.out\n") if ($exp->expect($expectT,'#'));
+#	$exp->send ("nohup perl ./06slurm_slave.pl &\n") if ($exp->expect($expectT,'#'));
+#	#$exp -> send("\n") if ($exp->expect($expectT,'#'));
+#	$exp -> send("exit\n") if ($exp->expect($expectT,'#'));
+#	$exp->soft_close();
+#	$pm->finish;
+#} # end of loop
+#$pm->wait_all_children;
+#
+### check slurm installation status of each node
+#my $nodeNo = @nodes;
+#my $whileCounter = 0;
+#my $slurmCounter = 500;
+#while ($slurmCounter != $nodeNo){
+#	$whileCounter += 1;
+#	$slurmCounter = 0;
+#	sleep(20);
+#
+#	for (@nodes){	
+#		my $nodeindex=sprintf("%02d",$_);
+#    	my $nodename= "node"."$nodeindex";
+#		if( -e "/home/slurmDone_$nodename.txt"){
+#			$slurmCounter += 1;			
+#			print "$nodename: Done!!!\n";
+#		}
+#		else{
+#			print "$nodename: slurm installation hasn't done\n";
+#		}		 
+#	}
+#	print "\n\n****Doing while times: $whileCounter\n";
+#	print "total node number need slurm to install: $nodeNo\n";
+#	print "Current node number with slurm installed: $slurmCounter\n\n";
+#}
+#
+##configure slurm
+#chdir($current_path);
+unlink "./newnodes_coreNo.txt";
+`touch ./newnodes_coreNo.txt`;
+
+tie my %coreNo, 'MCE::Shared';
+tie my %socketNo, 'MCE::Shared';
+tie my %threadcoreNo, 'MCE::Shared';
+tie my %coresocketNo, 'MCE::Shared';
+tie my %numaNo, 'MCE::Shared';
+
+for (@nodes){	
+	$pm->start and next;
+    my $nodeindex=sprintf("%02d",$_);
+    my $nodename= "node"."$nodeindex";
+	my $exp = Expect->new;
+	$exp = Expect->spawn("ssh -l root $nodename \n");	
+# get CPU Number	
+	$exp->send ("lscpu|grep \"^CPU(s):\" | sed 's/^CPU(s): *//g' \n") if ($exp->expect($expectT,'#'));
+	$exp->expect($expectT,'-re','\d+');#before() keeps command, match() keeps number, after() keep left part+root@master#
+	my $Mread = $exp->match();
+	chomp $Mread;
+    if ($Mread){
+	  $coreNo{$nodename} = $Mread;
+	  print "coreNo hash for $nodename , Mread: $Mread, $coreNo{$nodename}\n";
+	  };
+	$exp->soft_close();
+	$pm->finish;
+} # end of loop
+$pm->wait_all_children;
+
+for (@nodes){		
+    my $nodeindex = sprintf("%02d",$_);
+    my $nodename = "node"."$nodeindex";
+	my $ip = "192.168.0.". ($_ +1);
+	`echo "NodeName=$nodename NodeAddr=$ip CPUs=$coreNo{$nodename} State=UNKNOWN" >> ./newnodes_coreNo.txt`;
+}
+die;
+for (10..10){
+$pm->start and next;
+
+    my $nodeindex=sprintf("%02d",$_);
+    my $nodename= "node"."$nodeindex";
+    my $cmd = "ssh $nodename ";
+    unlink "/home/slurmDone_$nodename.txt";
+
+# get slurmd work
+#    unless($?){
+#        print "\n****in $nodename \n ";
+        system ("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
+        if($?){`echo '$nodename scp failed!' >> scp.txt`;}
+        #/usr/local/etc/slurm.conf
+        
+    # the following is for a new setting only instead of scontrol reconfigure    
+    system("$cmd 'rm -rf /var/spool/slurmd'");
+	system("$cmd 'mkdir /var/spool/slurmd'");
+	system("$cmd 'chown slurm: -R /var/spool/slurmd'");
+	system("$cmd 'chmod 755 /var/spool/slurmd'");
+	system("$cmd 'rm -f /var/log/slurmd.log'");
+	system("$cmd 'touch /var/log/slurmd.log'");
+	system("$cmd 'rm -rf /var/run/slurmd.pid'");
+	system("$cmd 'touch /var/run/slurmd.pid'");
+	system("$cmd 'chown slurm: /var/log/slurmd.log'");
+	system("$cmd 'chown slurm: /var/run/slurmd.pid'");
+	system("$cmd 'systemctl stop firewalld'");
+	system("$cmd 'systemctl disable firewalld'");
+	system("$cmd 'slurmd -C'");
+	system("$cmd 'systemctl enable slurmd.service'");
+	system("$cmd 'systemctl stop slurmd.service'");
+	system("$cmd 'systemctl start slurmd.service'");
+
+    my $temp = `$cmd 'systemctl status slurmd|grep failed'`;
+    if($temp){
+        print "\$temp: $temp, $nodename failed\n";
+        `$cmd 'systemctl restart slurmd'`;
+        `scontrol update nodename=$nodename state=resume`;
+        #sinfo|grep All|grep down|awk '{print $NF}'
+    }
+    else{
+        print "\$temp: $temp,$nodename ok\n";
+    }
+
+    #system("$cmd 'rm -f nohup.out'");
+    #system("$cmd 'nohup perl 06slurm_slave.pl &'");
+    #system("$cmd 'nohup perl 06slurm_slave.pl &'");
+    #if($?){print "$?: $nodename is dead. $!\n"}
+$pm->finish;
+}
+$pm->wait_all_children;
+

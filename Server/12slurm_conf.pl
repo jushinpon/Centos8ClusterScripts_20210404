@@ -96,7 +96,7 @@ for (1..$#input){#the first line shows the headers,skip it.
 }
 
 $ENV{TERM} = "vt100";
-my $pass = "123"; ##For all roots of nodes
+my $pass = "xxx"; ##For all roots of nodes
 
 #### end of debug
 # COMPUTE NODES
