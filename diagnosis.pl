@@ -47,8 +47,9 @@ $pm->start and next;
         `echo "******ping ok at $nodename" >> $output`;  
     #slurmd check
     my @slurmd = `$cmd 'systemctl status slurmd|egrep "inactive|failed"'`;
+    my $sinfo = `sinfo -R|grep $nodename`;# unexpectedly reboot, slurmd could be active, but resume is still needed. 
     print "@slurmd\n";
-    if(@slurmd){
+    if(@slurmd or $sinfo){
         `echo "???slurmd is inactive or failed at $nodename" >> $output`;
         `echo "***doing restart slurmd at $nodename" >> $output`;        
         `$cmd 'systemctl restart slurmd'`;
@@ -95,5 +96,5 @@ $pm->start and next;
    $pm->finish;
 }
 $pm->wait_all_children;
-sleep(5);
+
 system("grep ? $output > /root/currentBADnode.dat");
