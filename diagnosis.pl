@@ -92,6 +92,21 @@ $pm->start and next;
 ##munge test
 #    system("munge -n \| ssh $nodename unmunge");
 #    if($?){`echo "munge failed at $nodename" >> $output`;} 
+
+#swap test
+
+    #system ("$cmd 'free'");
+    my $swap = `$cmd 'free|grep Swap:|awk "{print \\\$2}"'`;
+    chomp $swap;
+    unless($swap){
+        `$cmd 'rm -f /swap/*'`;
+        `$cmd 'dd if=/dev/zero of=/swap/swap bs=1M count=4096'`;
+        system("$cmd 'chmod 0644 /swap/swap'");
+        `$cmd 'mkswap -f /swap/swap'`;
+        `$cmd 'swapon /swap/swap'`;
+        system("$cmd 'swapon -s'");
+    }#swap
+
     }# good ping loop 
    $pm->finish;
 }
