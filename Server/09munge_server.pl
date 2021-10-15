@@ -29,7 +29,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 
 # find all IPs of available nodes 
 $ENV{TERM} = "vt100";
-my $pass = "123"; ##For all roots of nodes
+#my $pass = ""; ##For all roots of nodes
 #=bigin
 for (@avaIP){
 	sleep(3);
