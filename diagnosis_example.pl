@@ -15,7 +15,7 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
 #my
 my @allnodes = (1..42);
-my @badnodes = (10,27..31);
+my @badnodes = (8,9);
 my @nodes;
 for my $a (@allnodes){
     chomp $a;
@@ -26,6 +26,24 @@ for my $a (@allnodes){
     }
   push @nodes, $a  if($index == 1);
 } 
+ #slurmd and slurmctld check for master
+    my @slurmd = `systemctl status slurmctld|egrep "inactive|failed"`;
+    # print "@slurmd\n";
+    if(@slurmd){
+        `echo "???slurmd is inactive or failed at master" >> $output`;
+        `echo "***doing restart slurmd and slurmctld for master" >> $output`;        
+        `$cmd 'systemctl restart slurmd'`;
+        `$cmd 'systemctl restart slurmctld'`;
+
+        #check again
+        @slurmd = `$cmd 'systemctl status slurmd|egrep "inactive|failed"'`;        
+        system("scontrol update nodename=master state=resume");
+        if(@slurmd){`echo "???***slurmd still failed at master after restart slurmd!!!!" >> $output`;}
+    }
+    else{
+        `echo "slurmd is active at master" >> $output`;
+    }
+   
 #my @nodes;
 for (@nodes){
 

@@ -26,7 +26,10 @@ for my $a (@allnodes){
   push @nodes, $a  if($index == 1);
 }
 #for reconfigure
-`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
+`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfigure
+`cp /root/Centos8ClusterScripts_20210404/gres.conf /usr/local/etc/`; # for slurm reconfigure
+#`systemctl restart slurmctld`; # for slurm reconfigure
+#`systemctl restart slurmd`; # for slurm reconfigure
 `rm -f check.txt`;
 `touch check.txt`;
 for (@nodes){
@@ -34,7 +37,13 @@ $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
+    #slurm.conf
     `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
+    #`$cmd "systemctl restart slurmd"`; # for slurm reconfigure
+    #gres.conf
+    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
+    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
+
     #print "\n****Check $nodename status\n ";
     #system("ping -c 1 $nodename");
     #if($?){`echo '$nodename ping failed!' >> check.txt`;}

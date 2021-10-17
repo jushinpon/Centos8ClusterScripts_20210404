@@ -1,3 +1,6 @@
 *.dat
 *.out
 *.txt
+diagnosis.pl
+slurm.conf
+gres.conf
