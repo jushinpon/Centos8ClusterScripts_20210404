@@ -14,7 +14,7 @@ use Expect;
 use Parallel::ForkManager;
 use MCE::Shared;
 
-my $newnodes = "no"; # no for brand new installation, yes for adding new nodes into cluster
+my $newnodes = "yes"; # no for brand new installation, yes for adding new nodes into cluster
 
 my $expectT = 10;# time peroid for expect
 

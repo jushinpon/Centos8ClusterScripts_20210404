@@ -10,7 +10,7 @@ use Cwd; #Find Current Path
 my $forkNo = 50;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my $expectT = 10;# time peroid for expect
-my @nodes = (1..11);# new nodes you want to install
+my @nodes = (27);# new nodes you want to install
 `cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
 
 for (@nodes){

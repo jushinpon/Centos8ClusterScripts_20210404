@@ -14,7 +14,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 # status check
 my $hundredM = 100*1024*1024/4096;
 my @allnodes = (1..42);
-my @badnodes = (27..31);
+my @badnodes = (28..31);
 my @nodes;
 for my $a (@allnodes){
     chomp $a;
