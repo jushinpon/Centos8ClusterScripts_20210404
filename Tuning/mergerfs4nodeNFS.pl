@@ -6,13 +6,21 @@ use strict;
 use warnings;
 use Cwd;
 
-my %nfs = (# disks you want to share with server
-	node01 => ["free","sdb","sdc","sdd"],
-	node02 => ["free","sda","sdc","sdd"], 
-	node03 => ["free","sda","sdc"]  
-	);
+#my %nfs = (# disks you want to share with server
+#	node01 => ["free","sdb","sdc","sdd"],
+#	node02 => ["free","sda","sdc","sdd"], 
+#	node03 => ["free","sda","sdc"]  
+#	);
 
-my $wgetORgit = "no";
+my @nodes = (1..27,32..42);
+my %nfs;
+for (@nodes){
+    my $nodeindex = sprintf("%02d",$_);
+    my $nodename = "node"."$nodeindex";
+	$nfs{$nodename} = ["free"];
+}
+
+my $wgetORgit = "yes";
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
 	system("mkdir $packageDir");	

@@ -11,11 +11,18 @@ use warnings;
 use strict;
 use warnings;
 
-my %nfs = (# disks you want to share with server
-	node01 => ["free","sdb","sdc","sdd"],
-	node02 => ["free","sda","sdc","sdd"], 
-	node03 => ["free","sda","sdc"] 
-	);
+#my %nfs = (# disks you want to share with server
+#	node01 => ["free","sdb","sdc","sdd"],
+#	node02 => ["free","sda","sdc","sdd"], 
+#	node03 => ["free","sda","sdc"] 
+#	);
+my @nodes = (1..27,32..42);
+my %nfs;
+for (@nodes){
+    my $nodeindex = sprintf("%02d",$_);
+    my $nodename = "node"."$nodeindex";
+	$nfs{$nodename} = ["free"];
+}
 my $hostname = `hostname`;
 chomp $hostname;
 system("rm -f /etc/exports");

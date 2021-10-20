@@ -7,8 +7,8 @@ or the file you assign
 use strict;
 use warnings;
 use Parallel::ForkManager;
-my @nodes = 1..3;
-my $forkNo = 10;
+my @nodes = (1..27,32..42);
+my $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 
 #my $remote_perl = "remote_setting.pl";
@@ -21,6 +21,7 @@ for (@nodes){
     my $nodename= "node"."$nodeindex";
     my $cmd = "ssh $nodename ";
     print "\$nodename: $nodename\n";
+    #system("$cmd  'df -h /free'");
     system("scp  ./$remote_perl root\@$nodename:/root");
     if ($?){print "BAD: scp  $remote_perl root\@$nodename:/root failed\n";};
     system("$cmd 'echo $nodename > remote_setting.out'"); 

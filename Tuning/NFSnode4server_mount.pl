@@ -7,14 +7,22 @@ You should export all folders in the nodes first.
 use strict;
 use warnings;
 use Parallel::ForkManager;
-my @nodes = 1..3;
+#my @nodes = 1..3;
 my $forkNo = 10;
 	
-my %nfs = (# disks you want to share with server
-	node01 => ["free","sdb","sdc","sdd"],
-	node02 => ["free","sda","sdc","sdd"], 
-	node03 => ["free","sda","sdc"] 
-	);
+#my %nfs = (# disks you want to share with server
+#	node01 => ["free","sdb","sdc","sdd"],
+#	node02 => ["free","sda","sdc","sdd"], 
+#	node03 => ["free","sda","sdc"] 
+#	);
+my @nodes = (1..27,32..42);
+my %nfs;
+for (@nodes){
+    my $nodeindex = sprintf("%02d",$_);
+    my $nodename = "node"."$nodeindex";
+	$nfs{$nodename} = ["free"];
+}
+
 my $mount_setting = "nfs noacl,nocto,nosuid,noatime,nodiratime,".
 					"_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0"; 	
 #`echo master:/home /home nfs noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
