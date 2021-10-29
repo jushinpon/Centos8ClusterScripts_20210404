@@ -1,21 +1,6 @@
 =b
-  One or more modprobe configuration files to disable Nouveau have been written.  For some distributions, this may be sufficient to disable Nouveau; other       
-  distributions may require modification of the initial ramdisk.  Please reboot your system and attempt NVIDIA driver installation again.  Note if you later     
-  wish to re-enable Nouveau, you will need to delete these files: /usr/lib/modprobe.d/nvidia-installer-disable-nouveau.conf,
-  /etc/modprobe.d/nvidia-installer-disable-nouveau.conf
-
-  WARNING: One or more modprobe configuration files to disable Nouveau are already present at: /usr/lib/modprobe.d/nvidia-installer-disable-nouveau.conf,        
-           /etc/modprobe.d/nvidia-installer-disable-nouveau.conf.  Please be sure you have rebooted your system since these files were written.  If you have     
-           rebooted, then Nouveau may be enabled for other reasons, such as being included in the system initial ramdisk or in your X configuration file.        
-           Please consult the NVIDIA driver README and your Linux distribution's documentation for details on how to correctly disable the Nouveau kernel        
-           driver.
-
-           ERROR: Installation has failed.  Please see the file '/var/log/nvidia-installer.log' for details.  You may find suggestions on fixing installation problems in 
-         the README available on the Linux driver download page at www.nvidia.com.
-
-RTX2060 download link:
-https://us.download.nvidia.com/XFree86/Linux-x86_64/470.74/NVIDIA-Linux-x86_64-470.74.run
-
+  You need to conduct gpu_driver_install.pl (for nvidia-smi) 
+  and gpu_cuda_pgi.pl (for /opt/nvidia/hpc_sdk/Linux_x86_64/21.9/compilers/bin/pgaccelinfo) first. 
 =cut
 use Parallel::ForkManager;
 use Cwd;
@@ -23,12 +8,12 @@ use Cwd;
 
 $forkNo = 2;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my @nodes = (39..42);
+my @nodes = (1,3);
 
 #+++++++++++ parameters you need to assign correctly!!!!!
-my $gpu_info = "no";#check and output gpu card information for all nodes
+my $gpu_info = "yes";#check and output gpu card information for all nodes
 #!!! if yes for $blacklist4nouveau, you need to set @nodes for gpu nodes only
-my $blacklist4nouveau = "no";#make /etc/modprobe.d/blacklist-nouveau.conf or not
+my $blacklist4nouveau = "yes";#make /etc/modprobe.d/blacklist-nouveau.conf or not
 #after rebooting, use the following to install gpu card driver
 #use a larger value for $forkNo 
 my $install_driver = "no";#instll nvidai driver(not work currently),you need to install one by one
@@ -47,7 +32,7 @@ for (@nodes){
     print "?no gpu device at $nodename\n" if($?); 
     `echo "NodeName=$nodename Name=gpu File=/dev/nvidia0" >> gres.conf`;
 }
-die;
+
 #++++++++++++++++++++++
 
 $output;#gpu_info output file

@@ -19,7 +19,7 @@ my $expectT = 5;# time peroid for expect
 
 $ENV{TERM} = "vt100";
 my $pass = "XXX"; ##For all roots of nodes
-my $user = "jsp";
+my $user = "XXX";
 
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;
@@ -53,8 +53,6 @@ $exp->soft_close();
 my $pm = Parallel::ForkManager->new("$forkNo");
 
 # Beign scp
-print "**********Beign scp\n";
-sleep(1);
 for (@avaIP){	
 	$pm->start and next;
 	chomp;
@@ -87,7 +85,6 @@ for (@avaIP){
 }# for loop
 
 $pm->wait_all_children;
-sleep(1);
 
 ## go through nodename fingerprint again
 

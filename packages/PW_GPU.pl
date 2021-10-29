@@ -1,15 +1,6 @@
 =Developed by Prof. Shin-Pon Ju at NSYSU Oct.09 2020
 
-1. Perl script to compile and install QE with thermo_pw. You need to check the version of QE for the compatibility to 
-thermo_pw version.(https://dalcorso.github.io/thermo_pw/)
 
-2. Download page: https://dalcorso.github.io/thermo_pw/
-3. QE : https://github.com/QEF/q-e/releases
-
-4. this installation: thermo_pw.1.3.0.tar.gz compatible with QE-6.5.
-**5. check sssp folder next time 
-https://www.materialscloud.org/discover/sssp/table/efficiency
-5.QE performance: https://glennklockwood.blogspot.com/2014/02/quantum-espresso-compiling-and-choice.html
 =cut
 sub path_setting{
 	my $attached_path = shift;	

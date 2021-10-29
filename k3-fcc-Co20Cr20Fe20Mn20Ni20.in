@@ -1,7 +1,7 @@
 &CONTROL
 calculation = "scf"
-etot_conv_thr = 1.0d-5
-forc_conv_thr = 1.0d-4
+etot_conv_thr = 5.0d-4
+forc_conv_thr = 5.0d-3
 disk_io = 'none'
 pseudo_dir = '/opt/QEpot/SSSP_precision_pseudos/'
 /
@@ -32,13 +32,13 @@ mixing_beta = 2.0000e-01
 mixing_mode = "plain"
 !mixing_ndim = 4
 electron_maxstep = 1000
-conv_thr = 1.00000e-8
+conv_thr = 1.00000e-5
 startingpot = "atomic"
 !diagonalization = "cg"
 /
 !electronsend
 K_POINTS {automatic}
-3 3 3 0 0 0
+1 1 1 0 0 0
 ATOMIC_SPECIES
 Co  58.933  Co_pbe_v1.2.uspp.F.UPF
 Cr  51.9961  cr_pbe_v1.5.uspp.F.UPF
