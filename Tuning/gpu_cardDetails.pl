@@ -13,7 +13,7 @@ my @nodes = (1,3);
 #+++++++++++ parameters you need to assign correctly!!!!!
 my $gpu_info = "yes";#check and output gpu card information for all nodes
 #!!! if yes for $blacklist4nouveau, you need to set @nodes for gpu nodes only
-my $blacklist4nouveau = "yes";#make /etc/modprobe.d/blacklist-nouveau.conf or not
+my $blacklist4nouveau = "no";#make /etc/modprobe.d/blacklist-nouveau.conf or not
 #after rebooting, use the following to install gpu card driver
 #use a larger value for $forkNo 
 my $install_driver = "no";#instll nvidai driver(not work currently),you need to install one by one
