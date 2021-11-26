@@ -14,7 +14,7 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 #`touch scptest.dat`;
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
 #my
-my @allnodes = (1..42);
+my @allnodes = (1..3);
 my @badnodes = (8,9);
 my @nodes;
 for my $a (@allnodes){
@@ -110,6 +110,11 @@ $pm->start and next;
 ##munge test
 #    system("munge -n \| ssh $nodename unmunge");
 #    if($?){`echo "munge failed at $nodename" >> $output`;} 
+
+
+#test nis    
+   system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
+   system("$cmd 'yptest'"); 
 
 #swap test
 
