@@ -13,7 +13,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (1..42);
+my @allnodes = (1..3);
 my @badnodes = (19,28..31);
 my @nodes;
 for my $a (@allnodes){
@@ -37,6 +37,7 @@ $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
+    `$cmd "reboot"`;
 #slurm.conf
 #    `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
 #    #`$cmd "systemctl restart slurmd"`; # for slurm reconfigure
@@ -44,9 +45,9 @@ $pm->start and next;
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
 #    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 ##ssh modify
-    `$cmd "sed -i '/StrictModes/d' /etc/ssh/sshd_config"`;#remove old setting first
-    `$cmd "sed -i '\\\$ a StrictModes no' /etc/ssh/sshd_config"`;# $ a for sed appending
-    `$cmd "systemctl restart sshd"`;# $ a for sed appending
+   # `$cmd "sed -i '/StrictModes/d' /etc/ssh/sshd_config"`;#remove old setting first
+   # `$cmd "sed -i '\\\$ a StrictModes no' /etc/ssh/sshd_config"`;# $ a for sed appending
+   # `$cmd "systemctl restart sshd"`;# $ a for sed appending
 
     #print "\n****Check $nodename status\n ";
     #system("ping -c 1 $nodename");

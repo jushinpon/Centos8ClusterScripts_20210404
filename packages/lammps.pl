@@ -43,7 +43,7 @@ use Cwd; #Find Current Path
 use File::Copy; # Copy File
 #use Env::Modify qw(:sh source);
 
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
