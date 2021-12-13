@@ -13,7 +13,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (1..3);
+my @allnodes = (1..42);
 my @badnodes = (19,28..31);
 my @nodes;
 for my $a (@allnodes){
@@ -26,21 +26,21 @@ for my $a (@allnodes){
   push @nodes, $a  if($index == 1);
 }
 #for reconfigure
-#`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfigure
+`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfigure
 #`cp /root/Centos8ClusterScripts_20210404/Server/gres.conf /usr/local/etc/`; # for slurm reconfigure
-#`systemctl restart slurmctld`; # for slurm reconfigure
-#`systemctl restart slurmd`; # for slurm reconfigure
-#`rm -f check.txt`;
-#`touch check.txt`;
+`systemctl restart slurmctld`; # for slurm reconfigure
+`systemctl restart slurmd`; # for slurm reconfigure
+`rm -f check.txt`;
+`touch check.txt`;
 for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "ssh $nodename ";
-    `$cmd "reboot"`;
+#    `$cmd "reboot"`;
 #slurm.conf
-#    `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
-#    #`$cmd "systemctl restart slurmd"`; # for slurm reconfigure
+    `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
+    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 #    #gres.conf
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
 #    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
