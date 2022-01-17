@@ -45,20 +45,35 @@ for my $a (@allnodes){
     }
    
 #my @nodes1 = "";
+`/usr/bin/touch ~/scptest.dat`;
 for (@nodes){
 $pm->start and next;
+	my $scontrol = 1;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     $cmd = "/usr/bin/ssh $nodename ";
     print "****Check $nodename status\n ";
     #`echo "***$nodename" >> $output`;
+#use scp for ssh test
+	system("scp -o ConnectTimeout=5 ~/scptest.dat root\@$nodename:/root");    
+    if($?){
+		print "scp at $nodename failed\n";
+		$scontrol = 0;
+		next;
+		}
+	else{
+		print "scp at $nodename ok for ssh test\n";
+		}	
+    
 #ping test
+    
     system("/usr/sbin/ping -c 1 $nodename");
     
     if($? ne 0){
         `/usr/bin/echo "" >> $output`;
         `/usr/bin/echo "??????ping failed at $nodename" >> $output`;
-    }
+			$scontrol = 0;    
+	}
     else{#ping ok
         `/usr/bin/echo "" >> $output`;        
         `/usr/bin/echo "******ping ok at $nodename" >> $output`;  
@@ -74,7 +89,10 @@ $pm->start and next;
         #check again
         @slurmd = `$cmd '/usr/bin/systemctl status slurmd|/usr/bin/egrep "inactive|failed"'`;        
         system("/usr/local/bin/scontrol update nodename=$nodename state=resume");
-        if(@slurmd){`/usr/bin/echo "???***slurmd still failed at $nodename after restart slurmd!!!!" >> $output`;}
+        if(@slurmd){
+			`/usr/bin/echo "???***slurmd still failed at $nodename after restart slurmd!!!!" >> $output`;
+			$scontrol = 0;	
+		}
     }
     else{
         `/usr/bin/echo "slurmd is active at $nodename" >> $output`;
@@ -100,7 +118,10 @@ $pm->start and next;
         #check again
         @mount = `$cmd '/usr/bin/mount|/usr/bin/grep nfs'`;
         @nfs = grep (($_=~m{master:/home|master:/opt}),@mount);        
-        unless(@nfs){`/usr/bin/echo "???***nfs still failed at $nodename after mount -a!!!!" >> $output`;}
+        unless(@nfs){
+			`/usr/bin/echo "???***nfs still failed at $nodename after mount -a!!!!" >> $output`;
+			$scontrol = 0;
+		}
         
     }
     else{
@@ -124,16 +145,18 @@ $pm->start and next;
         system("$cmd '/usr/sbin/swapon -s'");
     }#swap
 
-    }# good ping loop 
+    }# good ping loop
+#if $scontrol still equals to 1
+ if($scontrol){`/usr/local/bin/scontrol update nodename=$nodename state=resume`;}
    $pm->finish;
 }
 $pm->wait_all_children;
 
 system("/usr/bin/grep ? $output > /root/currentBADnode.dat");#get lines with ? symbol for bad information
-my @sinfo = `/usr/local/bin/sinfo -R|/usr/bin/grep -v REASON|/usr/bin/awk '{print \$NF}'`;
-chomp (@sinfo);
-for (@sinfo){
-    `/usr/local/bin/scontrol update nodename=$_ state=resume`;
-}
-print "****Final sinfo -R check\n";
+#my @sinfo = `/usr/local/bin/sinfo -R|/usr/bin/grep -v REASON|/usr/bin/awk '{print \$NF}'`;
+#chomp (@sinfo);
+#for (@sinfo){
+#    `/usr/local/bin/scontrol update nodename=$_ state=resume`;
+#}
+print "\n\n****Final sinfo -R check****\n\n";
 system("/usr/local/bin/sinfo -R");
