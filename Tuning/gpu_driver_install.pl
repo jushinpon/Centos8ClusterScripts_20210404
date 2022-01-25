@@ -23,7 +23,7 @@ use Cwd;
 
 $forkNo = 2;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my @nodes = (1,3);
+my @nodes = (20..24);
 
 #+++++++++++ parameters you need to assign correctly!!!!!
 my $gpu_info = "yes";#check and output gpu card information for all nodes
@@ -34,7 +34,7 @@ my $blacklist4nouveau = "yes";#make /etc/modprobe.d/blacklist-nouveau.conf or no
 my $install_driver = "no";#instll nvidai driver(not work currently),you need to install one by one
 my $driver = "/home/rtx2060/NVIDIA-Linux-x86_64-470.74.run";
 
-my $setgresconf = "yes";#set gres.conf
+my $setgresconf = "no";#set gres.conf
 my $gresconf_dir = "/usr/local/etc/";#for replacing gres.conf, the same dir as slurm.conf
 `rm -f gres.conf`;
 `touch gres.conf`;

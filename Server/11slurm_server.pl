@@ -22,8 +22,8 @@ use Expect;
 use Parallel::ForkManager;
 use MCE::Shared;
 use Cwd; #Find Current Path
-
-my $wgetORgit = "yes";
+#For new nodes, you need to use slurm4newnodes.pl
+my $wgetORgit = "no";
 
 # find all threads to make this package
 my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
