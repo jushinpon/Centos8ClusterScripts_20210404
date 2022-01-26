@@ -14,7 +14,7 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 #`touch scptest.dat`;
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
 #my
-my @allnodes = (1..19);
+my @allnodes = (1..24);
 my @badnodes = (28..31);
 my @nodes;
 for my $a (@allnodes){
@@ -110,15 +110,18 @@ $pm->start and next;
 ##nfs test
     my @mount = `$cmd '/usr/bin/mount|/usr/bin/grep nfs'`;
     chomp @mount;
-    my @nfs = grep (($_=~m{master:/home|master:/opt}),@mount) ;
-    unless(@nfs){
+    my @nfs = grep (($_=~m{master:/home|master:/opt}),@mount);
+    my $nfsdiskNo = @nfs;
+    #unless(@nfs){
+    if($nfsdiskNo != 2){#home and opt
         `/usr/bin/echo "nfs failed at $nodename" >> $output`;
         `/usr/bin/echo "doing mount -a at $nodename" >> $output`;        
         `$cmd '/usr/bin/mount -a'`;
         #check again
         @mount = `$cmd '/usr/bin/mount|/usr/bin/grep nfs'`;
-        @nfs = grep (($_=~m{master:/home|master:/opt}),@mount);        
-        unless(@nfs){
+        @nfs = grep (($_=~m{master:/home|master:/opt}),@mount); 
+        my $nfsdiskNo = @nfs;       
+        if($nfsdiskNo != 2){
 			`/usr/bin/echo "???***nfs still failed at $nodename after mount -a!!!!" >> $output`;
 			$scontrol = 0;
 		}

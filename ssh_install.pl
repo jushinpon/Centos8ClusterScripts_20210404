@@ -155,6 +155,8 @@ $pm->start and next;
 $pm->finish;
 }
 $pm->wait_all_children;
+
+print "Maybe you need to do scontrol reconfigure\n";
 #my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
 #chomp ($slurmdown);
 #`scontrol update nodename=$slurmdown state=resume` if($slurmdown);
