@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 #this script can be used for reconfigure for slurm
+#!!!!!!!!!!!! You need to provide correct partitions
 #slurm default installation path:
 #/usr/local
 #/usr/local/etc
@@ -49,10 +50,11 @@ print "$master_coreNo,$master_socketNo,$master_threadcoreNo,$master_coresocketNo
 #print "sleeping !!!!\n";
 #sleep(100);
 my @partition = (
-'PartitionName=debug Nodes=node[01-07,10-11],master Default=YES MaxTime=20 State=UP DisableRootJobs=YES',
-'PartitionName=All Nodes=node[01-07,10-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
-'PartitionName=24Cores Nodes=node[01-03,05-07,10-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
-'PartitionName=16Cores Nodes=node[04] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+'PartitionName=debug Nodes=node[01-24],master Default=YES MaxTime=1880 State=UP DisableRootJobs=YES',
+#'PartitionName=All Nodes=node[01-07,10-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+'PartitionName=24Cores Nodes=node[01-03,05-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+'PartitionName=16Cores Nodes=node[04,12-19] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+'PartitionName=20Cores_i7_12G Nodes=node[20-24] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
 #'PartitionName=12Cores Nodes=node[33-38] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
 #'PartitionName=64Cores Nodes=node[39-41] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=NO',
 #'PartitionName=AMD64Cores Nodes=node[02-03] Default=YES MaxTime=INFINITE State=UP',

@@ -5,7 +5,7 @@ use warnings;
 use Expect;
 use Parallel::ForkManager;
 
-my $newnodes = "yes"; # no for brand new installation, yes for adding new nodes into cluster
+my $newnodes = "no"; # no for brand new installation, yes for adding new nodes into cluster
 
 if ($newnodes eq "no"){
 	system("yum install -y 'dnf-command(config-manager)'");

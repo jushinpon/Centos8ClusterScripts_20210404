@@ -32,14 +32,18 @@ for my $a (@allnodes){
 `systemctl restart slurmd`; # for slurm reconfigure
 `rm -f check.txt`;
 `touch check.txt`;
+print "\@nodes: @nodes\n";
+
 for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
+    print "$nodename\n";
     $cmd = "ssh $nodename ";
 #    `$cmd "reboot"`;
 #slurm.conf
-    `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
+   # `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
+    system("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
     `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 #    #gres.conf
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
@@ -133,8 +137,8 @@ $pm->start and next;
     #}
     #tune2fs -r $((100*1024*1024/4096)) /dev/sdb1
 #restart nis    
- #  system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
- #  system("$cmd 'yptest'"); 
+   system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
+   system("$cmd 'yptest'"); 
       
   #system("$cmd 'reboot'"); 
   #system("$cmd 'mount -a'"); 
