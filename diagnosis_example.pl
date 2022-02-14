@@ -13,9 +13,26 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 `/usr/bin/touch $output`;
 #`touch scptest.dat`;
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
-#my
-my @allnodes = (1..24);
-my @badnodes = (28..31);
+my %nodes = (
+    161 => [1..42],#1,3,39..
+    182 => [1..24],
+    186 => [1..7]
+    );
+
+my %badnodes = (
+    161 => [19,28..31],#1,3,39..
+    182 => [100],
+    186 => [100]
+    );
+
+my $ip = `ip a`;    
+$ip =~ /140\.117\.\d+\.(\d+)/;
+my $cluster = $1;
+$cluster =~ s/^\s+|\s+$//;
+#print "\$cluster: $cluster\n";
+my @allnodes = @{$nodes{$cluster}};#get node information
+my @badnodes = @{$badnodes{$cluster}};#get node information
+
 my @nodes;
 for my $a (@allnodes){
     chomp $a;
