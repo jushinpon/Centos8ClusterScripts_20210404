@@ -14,18 +14,18 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 #`touch scptest.dat`;
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
 my %nodes = (
-    161 => [1..42],#1,3,39..
+    161 => [32],#1,3,39..
     182 => [1..24],
     186 => [1..7]
     );
 
 my %badnodes = (
-    161 => [19,28..31],#1,3,39..
+    161 => [28..31],#1,3,39..
     182 => [100],
     186 => [100]
     );
 
-my $ip = `ip a`;    
+my $ip = `/usr/sbin/ip a`;    
 $ip =~ /140\.117\.\d+\.(\d+)/;
 my $cluster = $1;
 $cluster =~ s/^\s+|\s+$//;

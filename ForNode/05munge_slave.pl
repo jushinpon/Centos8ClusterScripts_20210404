@@ -3,6 +3,18 @@
 use strict;
 use warnings;
 
+my $centVer= `cat /etc/redhat-release`;
+$centVer =~ /release\s+(\d)\.\d+\.\d+.+/;
+chomp $1;
+my $currentVer = $1;
+print "Centos Version: $currentVer\n";
+
+if($currentVer eq "8"){
+	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
+	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
+	system("dnf clean all");
+}
+
 system("yum install -y 'dnf-command(config-manager)'");
 system("dnf install dnf-plugins-core -y");
 system("dnf config-manager --set-enable powertools");

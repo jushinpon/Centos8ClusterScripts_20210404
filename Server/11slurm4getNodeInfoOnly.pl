@@ -90,5 +90,6 @@ print $ss3 "IP  CoreNo SocketNo ThreadPerCore CorePerSocket NUMAnodeNo\n";
 for (sort keys %coreNo){
     print $ss3 "$_  $coreNo{$_} $socketNo{$_} $threadcoreNo{$_} $coresocketNo{$_} $numaNo{$_}\n";
 	print  "$_  $coreNo{$_} $socketNo{$_} $threadcoreNo{$_} $coresocketNo{$_} $numaNo{$_}\n";
+	
 }
 close($ss3);
