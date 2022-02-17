@@ -14,7 +14,7 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 #`touch scptest.dat`;
 #`dd if=/dev/zero of=scptest.dat bs=1024 count=10`;
 my %nodes = (
-    161 => [32],#1,3,39..
+    161 => [1..42],#1,3,39..
     182 => [1..24],
     186 => [1..7]
     );
