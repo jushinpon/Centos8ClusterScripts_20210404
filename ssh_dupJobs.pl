@@ -13,7 +13,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (32);#(1..42);
+my @allnodes = (5);#(1..42);
 my @badnodes = (100);#(19,28..31);
 my @nodes;
 for my $a (@allnodes){
@@ -41,7 +41,32 @@ $pm->start and next;
     print "$nodename\n";
     $cmd = "ssh $nodename ";
 # modify repository source url
+    my @dupjobs = `$cmd "ps aux|grep slurm_script|grep -v grep|awk '{print \\\$NF}'"`;
+    my @userid = `$cmd "ps aux|grep slurm_script|grep -v grep|awk '{print \\\$1}'"`;
+    chomp @dupjobs,@userid;
+    #print "@dupjobs";
+    #print "@userid";
+    my $slurmjobs = @dupjobs;
+    #print "\$slurmjobs: $slurmjobs";
+    my $smallestJID = 1e20;#smallest slurm job id
+    my $smallestUID;
 
+    if($slurmjobs > 1){
+        my $counter = 0;
+        for (@dupjobs){
+            $_ =~ {/job(\d+)/};
+            if($1 <= $smallestJID){$smallestJID = $1;$smallestUID = $userid[$counter];}
+            $counter++;
+        }
+    print "$smallestJID,$smallestUID\n";
+    chomp $smallestUID;
+   `$cmd "ps -u $smallestUID|awk '{print \\\$1}'|grep -v PID|xargs kill"`;
+    #chomp @pid;
+    #print "@pid";
+    #system("$cmd \"ps aux |egrep \"^$smallestUID\"|awk '{print \\\$1}'\"");
+    #`$cmd "ps -u $smallestUID|awk '{print \\\$1}'"`;#|awk '{print \\\$1}'
+
+    }
     #system("$cmd 'sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*' ");
 	#system("$cmd 'sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*'");
 	#system("$cmd 'dnf clean all'");
@@ -51,8 +76,8 @@ $pm->start and next;
 #    `$cmd "reboot"`;
 #slurm.conf
    # `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
-    system("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
-    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
+#    system("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
+#    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 #    #gres.conf
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
 #    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure

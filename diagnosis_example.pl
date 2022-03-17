@@ -20,7 +20,7 @@ my %nodes = (
     );
 
 my %badnodes = (
-    161 => [28..31],#1,3,39..
+    161 => [100],#1,3,39..
     182 => [100],
     186 => [100]
     );
@@ -44,22 +44,21 @@ for my $a (@allnodes){
   push @nodes, $a  if($index == 1);
 } 
  #slurmd and slurmctld check for master
-    my @slurmd = `/usr/bin/systemctl status slurmctld|/usr/bin/egrep "inactive|failed"`;
-    # print "@slurmd\n";
-    if(@slurmd){
-        `/usr/bin/echo "???slurmd is inactive or failed at master" >> $output`;
-        `/usr/bin/echo "***doing restart slurmd and slurmctld for master" >> $output`;        
-        `/usr/bin/systemctl restart slurmd`;
-        `/usr/bin/systemctl restart slurmctld`;
-
-        #check again
-        @slurmd = `/usr/bin/systemctl status slurmd|/usr/bin/egrep "inactive|failed"`;        
-        system("/usr/local/bin/scontrol update nodename=master state=resume");
-        if(@slurmd){`/usr/bin/echo "???***slurmd still failed at master after restart slurmd!!!!" >> $output`;}
-    }
-    else{
-        `/usr/bin/echo "slurmd is active at master" >> $output`;
-    }
+my @slurmd = `/usr/bin/systemctl status slurmctld|/usr/bin/egrep "inactive|failed"`;
+# print "@slurmd\n";
+if(@slurmd){
+    `/usr/bin/echo "???slurmd is inactive or failed at master" >> $output`;
+    `/usr/bin/echo "***doing restart slurmd and slurmctld for master" >> $output`;        
+    `/usr/bin/systemctl restart slurmd`;
+    `/usr/bin/systemctl restart slurmctld`;
+    #check again
+    @slurmd = `/usr/bin/systemctl status slurmd|/usr/bin/egrep "inactive|failed"`;        
+    system("/usr/local/bin/scontrol update nodename=master state=resume");
+    if(@slurmd){`/usr/bin/echo "???***slurmd still failed at master after restart slurmd!!!!" >> $output`;}
+}
+else{
+    `/usr/bin/echo "slurmd is active at master" >> $output`;
+}
    
 #my @nodes1 = "";
 `/usr/bin/touch ~/scptest.dat`;
@@ -102,7 +101,7 @@ $pm->start and next;
         `/usr/bin/echo "???slurmd is inactive or failed at $nodename" >> $output`;
         `/usr/bin/echo "***doing restart slurmd at $nodename" >> $output`;        
         `$cmd '/usr/bin/systemctl restart slurmd'`;
-
+        $scontrol = 0;
         #check again
         @slurmd = `$cmd '/usr/bin/systemctl status slurmd|/usr/bin/egrep "inactive|failed"'`;        
         system("/usr/local/bin/scontrol update nodename=$nodename state=resume");
@@ -134,6 +133,7 @@ $pm->start and next;
         `/usr/bin/echo "nfs failed at $nodename" >> $output`;
         `/usr/bin/echo "doing mount -a at $nodename" >> $output`;        
         `$cmd '/usr/bin/mount -a'`;
+        $scontrol = 0;
         #check again
         @mount = `$cmd '/usr/bin/mount|/usr/bin/grep nfs'`;
         @nfs = grep (($_=~m{master:/home|master:/opt}),@mount); 
@@ -149,7 +149,28 @@ $pm->start and next;
     }
 ##munge test
 #    system("munge -n \| ssh $nodename unmunge");
-#    if($?){`echo "munge failed at $nodename" >> $output`;} 
+#    if($?){`echo "munge failed at $nodename" >> $output`;}
+
+#remove redundant slurm jobs
+    my @dupjobs = `$cmd "ps aux|grep slurm_script|grep -v grep|awk '{print \\\$NF}'"`;
+    my @userid = `$cmd "ps aux|grep slurm_script|grep -v grep|awk '{print \\\$1}'"`;
+    chomp @dupjobs,@userid;
+  
+    my $slurmjobs = @dupjobs;
+    my $smallestJID = 1e20;#smallest slurm job id
+    my $smallestUID;
+
+    if($slurmjobs > 1){#more than 1 slurm jobs
+        my $counter = 0;
+        for (@dupjobs){
+            $_ =~ {/job(\d+)/};
+            if($1 <= $smallestJID){$smallestJID = $1;$smallestUID = $userid[$counter];}
+            $counter++;
+        }
+
+        chomp $smallestUID;
+        `$cmd "ps -u $smallestUID|awk '{print \\\$1}'|grep -v PID|xargs kill"`;
+    }
 
 #swap test
 
@@ -167,7 +188,7 @@ $pm->start and next;
 
     }# good ping loop
 #if $scontrol still equals to 1
- if($scontrol){`/usr/local/bin/scontrol update nodename=$nodename state=resume`;}
+ unless($scontrol){`/usr/local/bin/scontrol update nodename=$nodename state=resume`;}
    $pm->finish;
 }
 $pm->wait_all_children;

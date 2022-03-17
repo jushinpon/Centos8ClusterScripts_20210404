@@ -13,17 +13,17 @@ use warnings;
 
 #system("systemctl restart NetworkManager");
 system("systemctl enable NetworkManager");
-my $centVer= `cat /etc/redhat-release`;
-$centVer =~ /release\s+(\d)\.\d+\.\d+.+/;
-chomp $1;
-my $currentVer = $1;
-print "Centos Version: $currentVer\n";
-
-if($currentVer eq "8"){
-	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
-	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
-	system("dnf clean all");
-}
+#my $centVer= `cat /etc/redhat-release`;
+#$centVer =~ /release\s+(\d)\.\d+\.\d+.+/;
+#chomp $1;
+#my $currentVer = $1;
+#print "Centos Version: $currentVer\n";
+#
+#if($currentVer eq "8"){
+#	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
+#	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
+#	system("dnf clean all");
+#}
 
 #Reading required information for node 
 open my $ss,"< ./Server_setting.dat" or die "No Server_setting.dat to open.\n $!";
