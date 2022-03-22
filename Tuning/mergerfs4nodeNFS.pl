@@ -1,26 +1,15 @@
 =b
 This script helps you build the mergerfs 
 1. https://github.com/trapexit/mergerfs --> check the latest version
+
+You need to conduct NFSnode4server.pl andNFSnode4server_mount.pl in advance.
 =cut
 use strict;
 use warnings;
 use Cwd;
 
-#my %nfs = (# disks you want to share with server
-#	node01 => ["free","sdb","sdc","sdd"],
-#	node02 => ["free","sda","sdc","sdd"], 
-#	node03 => ["free","sda","sdc"]  
-#	);
-
-my @nodes = (1..27,32..42);
-my %nfs;
-for (@nodes){
-    my $nodeindex = sprintf("%02d",$_);
-    my $nodename = "node"."$nodeindex";
-	$nfs{$nodename} = ["free"];
-}
-
-my $wgetORgit = "yes";
+#install mergerfs rpm
+my $wgetORgit = "no";
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
 	system("mkdir $packageDir");	
@@ -43,19 +32,11 @@ if($wgetORgit eq "yes"){
 
 chdir("$currentPath");# cd to this dir for downloading the packages
 
-my @mergerAll;
-
-for my $nodename (sort keys %nfs){
-	chomp $nodename;
-	print "***host: $nodename\n";
-	#system("mkdir -p /mnt/nodes_nfs/$nodename"); 
-
-	for my $folder ( @{$nfs{$nodename}} ){
-		print "folder: $folder\n";
-		push @mergerAll,"/mnt/nodes_nfs/$nodename/$folder";
-	}	
-}
-
+my @mergerAll = `find /mnt/nodes_nfs/ -maxdepth 2 -mindepth 2 -type d -name "*"`;
+chomp @mergerAll;
+#for (@mergerAll){
+#	print "$_\n";
+#}
 
 ### making mergerfs folder
 my $mergerAll = join(":",@mergerAll);

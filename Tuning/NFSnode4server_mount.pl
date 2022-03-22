@@ -1,6 +1,6 @@
 =b
-Perl script to mount all NSF folders from nodes.
-You should export all folders in the nodes first.
+Perl script to mount all NSF folders of nodes.
+You should export all folders in the nodes first using NFSnode4server.pl.
 =cut
 
 #!/usr/bin/perl
@@ -9,30 +9,79 @@ use warnings;
 use Parallel::ForkManager;
 #my @nodes = 1..3;
 my $forkNo = 10;
-	
-#my %nfs = (# disks you want to share with server
-#	node01 => ["free","sdb","sdc","sdd"],
-#	node02 => ["free","sda","sdc","sdd"], 
-#	node03 => ["free","sda","sdc"] 
-#	);
-my @nodes = (1..27,32..42);
+
+my %nodes = (
+    161 => [1..42],#1,3,39..
+    182 => [1..24],
+    186 => [1..7]
+    );
+
+my $ip = `/usr/sbin/ip a`;    
+$ip =~ /140\.117\.\d+\.(\d+)/;
+my $cluster = $1;
+$cluster =~ s/^\s+|\s+$//;
+my @allnodes = @{$nodes{$cluster}};#get node information
+
+`touch ./scptest.dat`;#make a scp test file to skip bad nodes
+
+my @nodes;
+my $nodeindex;
+my $nodename;
+my $cmd;
+
+for (@allnodes){
+    chomp;
+	$nodeindex=sprintf("%02d",$_);
+    $nodename= "node"."$nodeindex";
+    $cmd = "/usr/bin/ssh $nodename ";
+    print "****Check $nodename status\n ";
+    #`echo "***$nodename" >> $output`;
+#use scp for ssh test
+	system("scp -o ConnectTimeout=5 ~/scptest.dat root\@$nodename:/root");    
+    if($?){
+		print "scp at $nodename failed\n";
+		next;
+	}
+	else{
+		print "scp at $nodename ok for ssh test\n";
+  		push @nodes, $_;
+	}	
+} 
+
+chomp @nodes;
+
 my %nfs;
 for (@nodes){
     my $nodeindex = sprintf("%02d",$_);
     my $nodename = "node"."$nodeindex";
 	$nfs{$nodename} = ["free"];
+	system("umount -l $nodename:/free");#umount all nfs folders 
 }
 
 my $mount_setting = "nfs noacl,nocto,nosuid,noatime,nodiratime,".
 					"_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0"; 	
 #`echo master:/home /home nfs noacl,nocto,nosuid,noatime,nodiratime,_netdev,auto,bg,soft,rsize=32768,wsize=32768 0 0 >> /etc/fstab`;
-	
+
+## modify fstab to original one first
+`sed -i '/^node.*:.*/d' /etc/fstab`;
+`sed -i '/nodes_nfs/d' /etc/fstab`;
+#remove all old nfs folders under /mnt/nodes_nfs/
+`rm -rf  /mnt/nodes_nfs/*`;
+
+#my @folders = `find /mnt/nodes_nfs/ -maxdepth 1 -mindepth 1 -type d -name "*"`;
+#chomp @folders;
+#for (@folders){
+#	system("umount -l $nodename:/$folder");	
+#	print "$_\n";
+#}
 my $nfs_dir = "/mnt/nodes_nfs";
 system("mkdir -p $nfs_dir"); 
 #system("chmod -R 777 $nfs_dir"); 
-for my $nodename (sort keys %nfs){
+for (@nodes){
+    my $nodeindex = sprintf("%02d",$_);
+    my $nodename = "node"."$nodeindex";
 	chomp $nodename;
-	print "***host: $nodename\n";
+	print "\n***host: $nodename\n";
 	system("mkdir -p /mnt/nodes_nfs/$nodename"); 
 
 	for my $folder ( @{$nfs{$nodename}} ){
@@ -53,7 +102,7 @@ for my $nodename (sort keys %nfs){
 	}	
 }
 
-`sed -i '/^\$/d' /etc/fstab`;
+`sed -i '/^\$/d' /etc/fstab`;#remove blank lines
 if(!`grep 'mount -a' /etc/rc.local`){
 `echo mount -a >> /etc/rc.local`;}
 
@@ -62,4 +111,6 @@ if(!`grep 'setsebool -P use_nfs_home_dirs 1' /etc/rc.local`){
 	
 `setsebool -P use_nfs_home_dirs 1`;
 system("mount -a");	
+system("df -h > ./NFSnodes4server_mount.out");	
+system("cat ./NFSnodes4server_mount.out");
 # end of nfs
