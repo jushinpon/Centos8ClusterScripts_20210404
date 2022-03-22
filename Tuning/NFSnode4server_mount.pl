@@ -75,7 +75,9 @@ my $mount_setting = "nfs noacl,nocto,nosuid,noatime,nodiratime,".
 #	print "$_\n";
 #}
 my $nfs_dir = "/mnt/nodes_nfs";
-system("mkdir -p $nfs_dir"); 
+system("mkdir -p $nfs_dir");
+`echo " " >> /etc/fstab`;#make a blank line first.
+ 
 #system("chmod -R 777 $nfs_dir"); 
 for (@nodes){
     my $nodeindex = sprintf("%02d",$_);
