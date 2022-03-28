@@ -8,8 +8,20 @@ use strict;
 use warnings;
 use Cwd;
 
+my $centVer= `cat /etc/redhat-release`;
+$centVer =~ /release\s+(\d)\.\d+\.\d+.+/;
+chomp $1;
+my $currentVer = $1;
+#print "Centos Version: $currentVer\n";
+#
+if($currentVer eq "8"){
+	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
+	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
+	system("dnf clean all");
+}
+
 #install mergerfs rpm
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
 	system("mkdir $packageDir");	
