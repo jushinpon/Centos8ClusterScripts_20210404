@@ -45,7 +45,7 @@ $pm->start and next;
     #system("$cmd 'sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*' ");
 	#system("$cmd 'sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*'");
 	#system("$cmd 'dnf clean all'");
-	#system("$cmd 'dnf update'");
+	#system("$cmd 'dnf update -y'");
 #sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
 #[root@node28 ~]# sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
 #    `$cmd "reboot"`;
