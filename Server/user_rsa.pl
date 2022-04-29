@@ -31,7 +31,8 @@ for (@avaIP){
 	chomp;
 	print "IP: $_\n";
 }
-my $forkNo = @avaIP;
+#my $forkNo = @avaIP;
+my $forkNo = 1;
 print "forkNo: $forkNo\n";
 
 my $exp = Expect->new;
