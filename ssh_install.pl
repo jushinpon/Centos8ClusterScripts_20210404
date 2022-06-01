@@ -13,7 +13,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #	);
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (32);#(1..42);
+my @allnodes = (1..3);#(1..42);
 my @badnodes = (100);#(19,28..31);
 my @nodes;
 for my $a (@allnodes){
@@ -51,8 +51,8 @@ $pm->start and next;
 #    `$cmd "reboot"`;
 #slurm.conf
    # `scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/`;
-    system("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
-    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
+   # system("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
+   # `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 #    #gres.conf
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
 #    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
@@ -145,8 +145,8 @@ $pm->start and next;
     #}
     #tune2fs -r $((100*1024*1024/4096)) /dev/sdb1
 #restart nis    
- #  system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
- #  system("$cmd 'yptest'"); 
+  system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
+  system("$cmd 'yptest'"); 
       
   #system("$cmd 'reboot'"); 
   #system("$cmd 'mount -a'"); 
