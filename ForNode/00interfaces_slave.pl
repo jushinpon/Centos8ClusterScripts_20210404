@@ -24,6 +24,7 @@ if($currentVer eq "8"){
 	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
 	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
 	system("dnf clean all");
+	system("dnf update -y");
 }
 
 #Reading required information for node 

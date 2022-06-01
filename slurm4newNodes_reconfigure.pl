@@ -9,11 +9,47 @@ use Cwd; #Find Current Path
 
 my $forkNo = 50;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my $expectT = 10;# time peroid for expect
+my $expectT = 1;# time peroid for expect
 #only for new nodes, if not use ssh_install.pl
 my @nodes = (1..3);# new nodes you want to install
 `cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
 
+my %nodes = (
+    161 => [1..42],#1,3,39..
+    182 => [1..24],
+    186 => [1..7]
+    );
+
+my $ip = `/usr/sbin/ip a`;    
+$ip =~ /140\.117\.\d+\.(\d+)/;
+my $cluster = $1;
+$cluster =~ s/^\s+|\s+$//;
+#print "\$cluster: $cluster\n";
+my @allnodes = @{$nodes{$cluster}};#get node information
+
+`/usr/bin/touch ./scptest.dat`;
+my @nodes;
+
+for (@allnodes){
+  my  $nodeindex=sprintf("%02d",$_);
+  my  $nodename= "node"."$nodeindex";
+    chomp $nodename;
+    print "****Check $nodename status\n ";
+    #`echo "***$nodename" >> $output`;
+#use scp for ssh test
+	system("scp -o ConnectTimeout=5 ./scptest.dat root\@$nodename:/root");    
+    if($?){
+		print "scp at $nodename failed\n";
+		next;
+		}
+	else{
+		print "scp at $nodename ok for ssh test\n";
+        push @nodes,$_;
+		}	
+    
+}
+#for (@nodes){print "$_\n";}
+#die;
 for (@nodes){
 $pm->start and next;
 

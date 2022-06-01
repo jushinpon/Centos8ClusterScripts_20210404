@@ -2,29 +2,48 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 40;
+$forkNo = 100;
 my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
-#my %partedDevs = (# disks you want to share with server
-#	node01 => ["sdb","sdc","sdd"],
-#	node02 => ["sda","sdc","sdd"], 
-#	node03 => ["sda","sdc"] 
-#	);
+my %nodes = (
+    161 => [1..42],#1,3,39..
+    182 => [1..24],
+    186 => [1..7]
+    );
+
+my $ip = `/usr/sbin/ip a`;    
+$ip =~ /140\.117\.\d+\.(\d+)/;
+my $cluster = $1;
+$cluster =~ s/^\s+|\s+$//;
+#print "\$cluster: $cluster\n";
+my @allnodes = @{$nodes{$cluster}};#get node information
+
+`/usr/bin/touch ./scptest.dat`;
+my @nodes;
+
+for (@allnodes){
+  my  $nodeindex=sprintf("%02d",$_);
+  my  $nodename= "node"."$nodeindex";
+    chomp $nodename;
+    print "****Check $nodename status\n ";
+    #`echo "***$nodename" >> $output`;
+#use scp for ssh test
+	system("scp -o ConnectTimeout=5 ./scptest.dat root\@$nodename:/root");    
+    if($?){
+		print "scp at $nodename failed\n";
+		next;
+		}
+	else{
+		print "scp at $nodename ok for ssh test\n";
+        push @nodes,$_;
+		}	
+    
+}
+
 # status check
 my $hundredM = 100*1024*1024/4096;
-my @allnodes = (1..3);#(1..42);
-my @badnodes = (100);#(19,28..31);
-my @nodes;
-for my $a (@allnodes){
-    chomp $a;
-    my $index = 1;
-    for my $b (@badnodes){
-        chomp $b;
-        $index = 0 if($a == $b);
-    }
-  push @nodes, $a  if($index == 1);
-}
+
 #for reconfigure
 #`cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfigure
 ##`cp /root/Centos8ClusterScripts_20210404/Server/gres.conf /usr/local/etc/`; # for slurm reconfigure
@@ -45,7 +64,7 @@ $pm->start and next;
     #system("$cmd 'sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*' ");
 	#system("$cmd 'sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*'");
 	#system("$cmd 'dnf clean all'");
-	#system("$cmd 'dnf update'");
+	#system("$cmd 'dnf update -y'");
 #sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
 #[root@node28 ~]# sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
 #    `$cmd "reboot"`;
@@ -57,9 +76,9 @@ $pm->start and next;
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
 #    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 ##ssh modify
-   # `$cmd "sed -i '/StrictModes/d' /etc/ssh/sshd_config"`;#remove old setting first
-   # `$cmd "sed -i '\\\$ a StrictModes no' /etc/ssh/sshd_config"`;# $ a for sed appending
-   # `$cmd "systemctl restart sshd"`;# $ a for sed appending
+    `$cmd "sed -i '/StrictModes/d' /etc/ssh/sshd_config"`;#remove old setting first
+    `$cmd "sed -i '\\\$ a StrictModes no' /etc/ssh/sshd_config"`;# $ a for sed appending
+    `$cmd "systemctl restart sshd"`;# $ a for sed appending
 
     #print "\n****Check $nodename status\n ";
     #system("ping -c 1 $nodename");

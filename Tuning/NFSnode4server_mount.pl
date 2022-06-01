@@ -8,6 +8,14 @@ use strict;
 use warnings;
 use Parallel::ForkManager;
 #my @nodes = 1..3;
+my @mounted = `mount|grep "^node"|awk '{print \$1}'`;
+chomp @mounted;
+
+for (@mounted){
+	print "umount $_\n";
+	system("umount -l $_");
+}
+
 my $forkNo = 10;
 
 my %nodes = (
