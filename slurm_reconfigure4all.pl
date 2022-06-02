@@ -11,7 +11,7 @@ my $forkNo = 50;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my $expectT = 10;# time peroid for expect
 #only for new nodes, if not use ssh_install.pl
-my @nodes = (1..3);# new nodes you want to install
+my @nodes = (1..15,17..24);# new nodes you want to install
 `cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
 `cp /root/Centos8ClusterScripts_20210404/Server/cgroup.conf /usr/local/etc/`; # for slurm reconfig
 
@@ -58,4 +58,15 @@ else{
 } 
 `systemctl restart slurmctld`;
 `scontrol reconfigure`;
+system("sinfo -R");
+
+my @resume = `sinfo -R|grep -v REASON|awk '{print \$NF}'`;
+chomp @resume;
+for (@resume){
+    chomp;
+    print "resumed nodes: $_\n";
+    system "scontrol update nodename=$_ state=resume";
+}
+
+print "\n***Final sinfo check\n";
 system("sinfo -R");
