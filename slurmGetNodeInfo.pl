@@ -5,6 +5,7 @@ use warnings;
 use strict;
 use Parallel::ForkManager;
 use Cwd;
+use POSIX;
 #my $currentPath = getcwd();
 my $forkNo = 1;
 #my $pm = Parallel::ForkManager->new("$forkNo");
@@ -69,6 +70,9 @@ for (@nodes){
     chomp $slurmd;
     $slurmd =~ s/\s+UpTime=.+$//;
     chomp $slurmd;
+    $slurmd =~ m/.+RealMemory=(\d+)/;
+    my $temp = $1 - 10;
+    $slurmd =~ s/RealMemory=\d+/RealMemory=$temp/;
     `echo "$slurmd MemSpecLimit=512" >> ./slurmdOut.txt`;
     #print "$nodename, $ip, $slurmd\n";
 
@@ -78,7 +82,11 @@ for (@nodes){
 my $slurmd = `slurmd -C`;
 chomp $slurmd;
 $slurmd =~ s/\s+UpTime=.+$//;
-chomp $slurmd;    
+chomp $slurmd;
+$slurmd =~ m/.+RealMemory=(\d+)/;
+my $temp = $1 - 10;
+$slurmd =~ s/RealMemory=\d+/RealMemory=$temp/;
+        
 `echo "$slurmd MemSpecLimit=1024" >> ./slurmdOut.txt`;
 
 print "\n##Showing dead nodes\n\n";

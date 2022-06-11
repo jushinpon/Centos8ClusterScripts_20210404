@@ -6,9 +6,9 @@ use Parallel::ForkManager;
 use Cwd;
 #my $currentPath = getcwd();
 
-$forkNo = 2;
+$forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my @nodes = (1,3);
+my @nodes = (8..18,20..22);
 
 #+++++++++++ parameters you need to assign correctly!!!!!
 my $gpu_info = "yes";#check and output gpu card information for all nodes
@@ -19,19 +19,19 @@ my $blacklist4nouveau = "no";#make /etc/modprobe.d/blacklist-nouveau.conf or not
 my $install_driver = "no";#instll nvidai driver(not work currently),you need to install one by one
 my $driver = "/home/rtx2060/NVIDIA-Linux-x86_64-470.74.run";
 
-my $setgresconf = "yes";#set gres.conf
-my $gresconf_dir = "/usr/local/etc/";#for replacing gres.conf, the same dir as slurm.conf
-`rm -f gres.conf`;
-`touch gres.conf`;
-for (@nodes){
-    $nodeindex=sprintf("%02d",$_);
-    $nodename= "node"."$nodeindex";
-    $cmd = "ssh $nodename ";
-    print "****Check $nodename status\n ";
-    system("$cmd 'ls /dev/nvidia0'");
-    print "?no gpu device at $nodename\n" if($?); 
-    `echo "NodeName=$nodename Name=gpu File=/dev/nvidia0" >> gres.conf`;
-}
+#my $setgresconf = "yes";#set gres.conf
+#my $gresconf_dir = "/usr/local/etc/";#for replacing gres.conf, the same dir as slurm.conf
+#`rm -f gres.conf`;
+#`touch gres.conf`;
+#for (@nodes){
+#    $nodeindex=sprintf("%02d",$_);
+#    $nodename= "node"."$nodeindex";
+#    $cmd = "ssh $nodename ";
+#    print "****Check $nodename status\n ";
+#    system("$cmd 'ls /dev/nvidia0'");
+#    print "?no gpu device at $nodename\n" if($?); 
+#    `echo "NodeName=$nodename Name=gpu File=/dev/nvidia0" >> gres.conf`;
+#}
 
 #++++++++++++++++++++++
 
