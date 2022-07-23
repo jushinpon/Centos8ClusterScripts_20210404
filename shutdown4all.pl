@@ -59,3 +59,8 @@ $pm->wait_all_children;
 my $dat = `/usr/bin/date`;
 chomp $dat;
 print "shutdown all nodes at $dat\n";
+sleep(3);
+if($server eq "yes"){
+    print "shutdown server now\n";
+    `shutdown -h now`;
+}
