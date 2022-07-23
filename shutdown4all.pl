@@ -9,11 +9,12 @@
 use Parallel::ForkManager;
 $forkNo = 100;
 my $pm = Parallel::ForkManager->new("$forkNo");
-
+my $server = "yes";#have server to shutdown or not
 my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..24],
-    186 => [1..7]
+    186 => [1..7],
+    190 => [1..3]
     );
 
 my $ip = `/usr/sbin/ip a`;    
