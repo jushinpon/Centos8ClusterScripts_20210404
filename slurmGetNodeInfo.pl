@@ -73,7 +73,7 @@ for (@nodes){
     $slurmd =~ m/.+RealMemory=(\d+)/;
     my $temp = $1 - 10;
     $slurmd =~ s/RealMemory=\d+/RealMemory=$temp/;
-    `echo "$slurmd MemSpecLimit=512" >> ./slurmdOut.txt`;
+    `echo "$slurmd MemSpecLimit=1024" >> ./slurmdOut.txt`;
     #print "$nodename, $ip, $slurmd\n";
 
 }
@@ -84,7 +84,7 @@ chomp $slurmd;
 $slurmd =~ s/\s+UpTime=.+$//;
 chomp $slurmd;
 $slurmd =~ m/.+RealMemory=(\d+)/;
-my $temp = $1 - 10;
+my $temp = $1 - 50;
 $slurmd =~ s/RealMemory=\d+/RealMemory=$temp/;
         
 `echo "$slurmd MemSpecLimit=1024" >> ./slurmdOut.txt`;

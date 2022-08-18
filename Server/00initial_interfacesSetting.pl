@@ -10,6 +10,7 @@ my $GetIP_file= "yes";# if yes (from 2 to 30 currently), "ping" will get you Nod
 
 system("systemctl restart NetworkManager");
 system("systemctl enable NetworkManager");   
+system("dnf -y install network-scripts");#for centos above 8, this package is no installed by default 
 
 
 #Reading required information for Server 
