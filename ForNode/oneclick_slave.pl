@@ -5,6 +5,13 @@
 =cut
 use strict;
 use warnings;
+
+system("dnf -y install network-scripts");
+if($?){die "no network-scripts is installed!\n";}
+#system("systemctl restart NetworkManager");
+system("systemctl enable NetworkManager");
+system("systemctl stop firewalld");
+system("systemctl disable firewalld");
 #### check whether there are more than one NICs in UP state.
 my $temp = `ip a|grep "state UP"`;
 my @temp = split "\n", $temp;

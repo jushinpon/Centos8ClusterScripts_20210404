@@ -19,7 +19,9 @@ my $newnodes = "yes"; # no for brand new installation, yes for adding new nodes 
 my $expectT = 10;# time peroid for expect
 
 $ENV{TERM} = "vt100";
-my $pass = ""; ##For all roots of nodes
+print "***Enter the password for nodes:\n";
+my $pass = <STDIN>; ##For all roots of nodes
+chomp $pass;
 die "no passwd for nodes" unless($pass);
 open my $ss,"< ./Nodes_IP.dat" or die "No Nodes_IP.dat to read"; 
 my @temp_array=<$ss>;

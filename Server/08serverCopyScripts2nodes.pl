@@ -13,8 +13,15 @@ use Cwd; #Find Current Path
 use Parallel::ForkManager;
 use MCE::Shared;
 #****$jobtype = "nohup" or "copy"
-my $jobtype = "nohup";# nohup perl for node scripts, otherwise copy files only
-
+print "***Enter the job type you want to do for nodes.\n";
+print "nohup or copy?\n";
+print "copy for scp all scripts into nodes only!\n";
+my $jobtype = <STDIN>;# nohup perl for node scripts, otherwise copy files only
+chomp $jobtype;
+print "==$jobtype==\n";
+if($jobtype ne "nohup" and $jobtype ne "copy"){
+	die "wrong job type you input!!\n";
+}
 ## set unlimited ram memory
 if(!`grep '* soft memlock unlimited' /etc/security/limits.conf`){
 	`echo '* soft memlock unlimited' >> /etc/security/limits.conf`;
