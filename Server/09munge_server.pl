@@ -5,7 +5,13 @@ use warnings;
 use Expect;
 use Parallel::ForkManager;
 
-my $newnodes = "yes"; # no for brand new installation, yes for adding new nodes into cluster
+print "***Doing munge setting for new nodes? no for a brand new cluster\n";
+print "yes or no, please.\n";
+my $newnodes = <STDIN>; # no for brand new installation, yes for adding new nodes into cluster
+chomp $newnodes;
+if($newnodes ne "yes" and $newnodes ne "no"){
+	die "wrong munge setting type you input!!\n";
+}
 
 if ($newnodes eq "no"){
 	system("yum install -y 'dnf-command(config-manager)'");

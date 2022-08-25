@@ -11,21 +11,24 @@ then ifup XXXX
 use strict;
 use warnings;
 
+system("dnf -y install network-scripts");
 #system("systemctl restart NetworkManager");
 system("systemctl enable NetworkManager");
+system("systemctl stop firewalld");
+system("systemctl disable firewalld");
 
-my $centVer= `cat /etc/redhat-release`;
-$centVer =~ /release\s+(\d)\.\d+\.\d+.+/;
-chomp $1;
-my $currentVer = $1;
+#my $centVer= `cat /etc/redhat-release`;
+#$centVer =~ /release\s+(\d)\.\d+\.\d+.+/;
+#chomp $1;
+#my $currentVer = $1;
 #print "Centos Version: $currentVer\n";
 #
-if($currentVer eq "8"){
-	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
-	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
-	system("dnf clean all");
-	system("dnf update -y");
-}
+#if($currentVer eq "8"){
+#	system("sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*");
+#	system("sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*");
+#	system("dnf clean all");
+#	system("dnf update -y");
+#}
 
 #Reading required information for node 
 open my $ss,"< ./Server_setting.dat" or die "No Server_setting.dat to open.\n $!";

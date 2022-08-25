@@ -69,11 +69,14 @@ $pm->start and next;
         
     # the following is for a new setting only instead of scontrol reconfigure    
     system("$cmd 'systemctl restart slurmd'");
+    system("$cmd 'systemctl enable slurmd'");
 
     my $temp = `$cmd 'systemctl status slurmd|egrep "failed|inactive"'`;
     if($temp){
         print "\$temp: $temp, $nodename failed\n";
         `$cmd 'systemctl restart slurmd'`;
+        system("$cmd 'systemctl enable slurmd'");
+
         `scontrol update nodename=$nodename state=resume`;
         #sinfo|grep All|grep down|awk '{print $NF}'
     }

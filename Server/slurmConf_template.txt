@@ -32,7 +32,7 @@ TaskPlugin=task/affinity,task/cgroup
 #
 #
 # SCHEDULING
-FastSchedule=1
+#FastSchedule=1
 SchedulerType=sched/backfill
 #SelectType=select/cons_res
 #SelectTypeParameters=CR_CPU_Memory
@@ -52,6 +52,65 @@ SlurmdLogFile=/var/log/slurmd.log
 #
 #
 PrologFlags=Contain                     #X11 flag is also suggested
-#
-#
+
 # COMPUTE NODES
+#GresTypes=gpu,mps
+NodeName=node01 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31861 MemSpecLimit=1024
+NodeName=node02 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31789 MemSpecLimit=1024
+NodeName=node03 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31862 MemSpecLimit=1024
+NodeName=node04 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31832 MemSpecLimit=1024
+NodeName=node05 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31789 MemSpecLimit=1024
+NodeName=node06 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31790 MemSpecLimit=1024
+NodeName=node07 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31790 MemSpecLimit=1024
+NodeName=node08 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node09 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node10 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node11 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node12 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node13 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31890 MemSpecLimit=1024
+NodeName=node14 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node15 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node16 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node17 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=31869 MemSpecLimit=1024
+NodeName=node18 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node19 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31709 MemSpecLimit=1024
+NodeName=node20 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node21 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node23 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node24 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node25 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node26 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node27 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node28 CPUs=64 Boards=1 SocketsPerBoard=1 CoresPerSocket=32 ThreadsPerCore=2 RealMemory=23739 MemSpecLimit=1024
+NodeName=node29 CPUs=16 Boards=1 SocketsPerBoard=1 CoresPerSocket=8 ThreadsPerCore=2 RealMemory=31709 MemSpecLimit=1024
+NodeName=node30 CPUs=64 Boards=1 SocketsPerBoard=1 CoresPerSocket=32 ThreadsPerCore=2 RealMemory=31803 MemSpecLimit=1024
+NodeName=node31 CPUs=64 Boards=1 SocketsPerBoard=1 CoresPerSocket=32 ThreadsPerCore=2 RealMemory=31803 MemSpecLimit=1024
+NodeName=node32 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15730 MemSpecLimit=1024
+NodeName=node33 CPUs=12 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31831 MemSpecLimit=1024
+NodeName=node34 CPUs=12 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31831 MemSpecLimit=1024
+NodeName=node35 CPUs=12 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31853 MemSpecLimit=1024
+NodeName=node36 CPUs=12 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31854 MemSpecLimit=1024
+NodeName=node37 CPUs=12 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31854 MemSpecLimit=1024
+NodeName=node38 CPUs=12 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31831 MemSpecLimit=1024
+NodeName=node39 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node40 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15741 MemSpecLimit=1024
+NodeName=node41 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15764 MemSpecLimit=1024
+NodeName=node42 CPUs=24 Boards=1 SocketsPerBoard=1 CoresPerSocket=12 ThreadsPerCore=2 RealMemory=15742 MemSpecLimit=1024
+NodeName=master CPUs=6 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=1 RealMemory=7663 MemSpecLimit=1024
+
+#
+PartitionName=debug Nodes=node[01-03,05-07,28,30,31-38],master Default=YES MaxTime=720 State=UP DisableRootJobs=YES
+#PartitionName=All Nodes=node[01-18,20-28,30-42] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=16Cores Nodes=node[01-03,05-07] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=24Cores Nodes=node[04,08-18,20-27,32,39-42] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=64Cores Nodes=node[28,30,31] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=lammpsOnly_24Cores Nodes=node[09,10,15-20,22-23] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=12Cores Nodes=node[33-38] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+PartitionName=dp_gp1_24C Nodes=node[04,08-10] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+PartitionName=dp_gp2_24C Nodes=node[11-14] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+PartitionName=dp_gp3_24C Nodes=node[15-18] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=dp_gp4_24C Nodes=node[20-21,23] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+PartitionName=dp_gp5_24C Nodes=node[24-27] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+PartitionName=dp_gp6_24C Nodes=node[39-42] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+PartitionName=New_all Nodes=node[01-03,05-07,19,20-21,23,28,29,30,31-38] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES
+#PartitionName=GPU_nodes Nodes=node[01] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES 
