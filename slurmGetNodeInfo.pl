@@ -66,6 +66,8 @@ for (@nodes){
     my $last = $_ + 1;
     chomp $last;
     my $ip = "192.168.0.$last";
+    `$cmd "systemctl stop firewalld"`;
+    `$cmd "systemctl disable firewalld"`;
     my $slurmd = `$cmd "slurmd -C"`;
     chomp $slurmd;
     $slurmd =~ s/\s+UpTime=.+$//;
