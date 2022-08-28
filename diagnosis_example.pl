@@ -3,6 +3,8 @@
 
 use Parallel::ForkManager;
 use Cwd;
+#server house keeping
+`squeue|grep "launch failed requeued held"|awk '{print \$1}'|xargs scancel`; 
 #my $currentPath = getcwd();
 $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
@@ -16,15 +18,13 @@ my $output = "/root/$prefix"."_diagnosis.dat";
 my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..24],
-    186 => [1..7],
-    190 => [1..3]
+    186 => [1..7]
     );
 
 my %badnodes = (
     161 => [100],#1,3,39..
     182 => [100],
-    186 => [100],
-    190 => [100],
+    186 => [100]
     );
 
 my $ip = `/usr/sbin/ip a`;    
