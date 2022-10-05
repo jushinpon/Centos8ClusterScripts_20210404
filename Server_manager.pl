@@ -78,3 +78,4 @@ if($setquota eq "yes"){
     system("xfs_quota -x -c \"report -ubh\" /home");#report quota for all
 }
 #xfs_quota -x -c "report -ubh" /home
+#xfs_quota -x -c "limit -u bsoft=2048 bhard=2080 Lin" /home

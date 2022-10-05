@@ -9,7 +9,28 @@ use Cwd; #Find Current Path
 
 `cp /root/Centos8ClusterScripts_20210404/Server/slurm.conf /usr/local/etc/`; # for slurm reconfig
 `cp /root/Centos8ClusterScripts_20210404/Server/cgroup.conf /usr/local/etc/`; # for slurm reconfig
+`cp /root/Centos8ClusterScripts_20210404/Server/slurmdbd.conf /usr/local/etc/`; # for slurm reconfig
+#`rm -f /usr/local/etc/slurmdbd.conf`; # for slurm reconfig
+`chown root:root  /usr/local/etc/slurm.conf`;
+`chmod 644 /usr/local/etc/slurm.conf`;
+#`chown slurm:slurm  /usr/local/etc/slurm.conf`;
+`chown root:root  /usr/local/etc/cgroup.conf`;
+`chmod 644 /usr/local/etc/cgroup.conf`;
+#`chown slurm:slurm  /usr/local/etc/cgroup.conf`;
+`chown slurm:slurm  /usr/local/etc/slurmdbd.conf`;
+`chmod 600 /usr/local/etc/slurmdbd.conf`;
 
+`rm -f /var/log/slurmdbd.log`;
+`touch /var/log/slurmdbd.log`;
+`chown slurm:slurm /var/log/slurmdbd.log`;
+`chmod 644 /var/log/slurmdbd.log`;
+
+`rm -f /var/run/slurmdbd.pid`;
+`touch /var/run/slurmdbd.pid`;
+`chown slurm:slurm /var/run/slurmdbd.pid`;
+`chmod 644 /var/run/slurmdbd.pid`;
+
+#`chown root:root  /usr/local/etc/slurmdbd.conf`;
 my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..24],
@@ -100,6 +121,7 @@ if($temp){
 else{
     print "\$temp: $temp, master node ok\n";
 } 
+`systemctl restart slurmdbd`;
 `systemctl restart slurmctld`;
 `scontrol reconfigure`;
 system("sinfo -R");
