@@ -1,6 +1,7 @@
 *.dat
 *.out
 *.txt
+*.sout
 diagnosis.pl
 slurm.conf
 gres.conf
