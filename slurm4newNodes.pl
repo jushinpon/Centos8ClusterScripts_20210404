@@ -10,7 +10,7 @@ use Cwd; #Find Current Path
 my $forkNo = 50;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my $expectT = 10;# time peroid for expect
-my @nodes = (42);# new nodes you want to install
+my @nodes = (9..10);# new nodes you want to install
 # install slurm for all new nodes
 for (@nodes){		
 	$pm->start and next;

@@ -4,3 +4,4 @@ PATH=/opt/anaconda3/bin:/opt/anaconda3/condabin:/usr/local/sbin:/usr/local/bin:/
 */30 * * * *  /usr/bin/perl /root/kill_mixedJobs.pl
 @reboot sleep 60 && /usr/bin/perl /root/diagnosis.pl
 @reboot sleep 70 && find /root/ -name "*_diagnosis.dat" -mtime +2 -exec rm {} \;
+*/10 * * * *  /usr/bin/perl /root/eth_perl/background_gpu.pl

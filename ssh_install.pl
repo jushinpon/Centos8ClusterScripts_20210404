@@ -1,4 +1,5 @@
-# ssh nodeXXX test
+# ssh nodeXXX test 
+#nohup /opt/memtest/bin/memtester 30176 10 &
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
