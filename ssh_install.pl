@@ -9,7 +9,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 
 my %nodes = (
     161 => [1..42],#1,3,39..
-    182 => [1..24],
+    182 => [1..4,6..15,17..24],
     186 => [1..7]
     );
 
@@ -53,14 +53,25 @@ my $hundredM = 100*1024*1024/4096;
 #`rm -f check.txt`;
 #`touch check.txt`;
 print "\@nodes: @nodes\n";
-
+unlink "./memoryInfo.dat";
+`touch ./memoryInfo.dat`;
 for (@nodes){
-$pm->start and next;
+#$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
+    my @ram = `$cmd "lshw -C memory -short"`;
+    chomp @ram;
+    `echo "$nodename:" >> ./memoryInfo.dat`;
+    for my $m (@ram){
+        `echo "$m" >> ./memoryInfo.dat`;
+    }
+    `echo "**********" >> ./memoryInfo.dat`;
+
 # modify repository source url
+# Maximum Capacity: 32 GB
+#Number Of Devices: 4
 
     #system("$cmd 'sed -i -e \"s|mirrorlist=|#mirrorlist=|g\" /etc/yum.repos.d/CentOS-*' ");
 	#system("$cmd 'sed -i -e \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*'");
@@ -77,9 +88,9 @@ $pm->start and next;
 #    `scp  /usr/local/etc/gres.conf root\@$nodename:/usr/local/etc/`;
 #    `$cmd "systemctl restart slurmd"`; # for slurm reconfigure
 ##ssh modify
-    `$cmd "sed -i '/StrictModes/d' /etc/ssh/sshd_config"`;#remove old setting first
-    `$cmd "sed -i '\\\$ a StrictModes no' /etc/ssh/sshd_config"`;# $ a for sed appending
-    `$cmd "systemctl restart sshd"`;# $ a for sed appending
+   # `$cmd "sed -i '/StrictModes/d' /etc/ssh/sshd_config"`;#remove old setting first
+   # `$cmd "sed -i '\\\$ a StrictModes no' /etc/ssh/sshd_config"`;# $ a for sed appending
+   # `$cmd "systemctl restart sshd"`;# $ a for sed appending
 
     #print "\n****Check $nodename status\n ";
     #system("ping -c 1 $nodename");
@@ -165,8 +176,8 @@ $pm->start and next;
     #}
     #tune2fs -r $((100*1024*1024/4096)) /dev/sdb1
 #restart nis    
-  system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
-  system("$cmd 'yptest'"); 
+  #system("$cmd 'systemctl restart rpcbind ypbind nis-domainname oddjobd'");#nis for nodes    
+  #system("$cmd 'yptest'"); 
       
   #system("$cmd 'reboot'"); 
   #system("$cmd 'mount -a'"); 
@@ -180,9 +191,9 @@ $pm->start and next;
     #system("$cmd 'dnf install -y perl*'");    
     #system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
     #system("$cmd 'chown -R jsp: /free'");    
-$pm->finish;
+#$pm->finish;
 }
-$pm->wait_all_children;
+#$pm->wait_all_children;
 
 print "Maybe you need to do scontrol reconfigure\n";
 #my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
