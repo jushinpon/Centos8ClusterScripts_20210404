@@ -50,19 +50,19 @@ system("rpm --import https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTE
 if($?){die "import intel repo key failed!\n";}
 system("yum install -y intel-mkl");
 
-my $prefix = "/opt/QEGCC_MPICH3.4.2";
+my $prefix = "/opt/QEGCC_MPICH3.4.2-cp";
 my $package = "q-e";
-my $currentVer = "qe-6.7.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
-my $unzipFolder = "q-e-qe-6.7.0";#***** the unzipped folder of this package (check the latest one if possible)
-my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-6.7.0.tar.gz";#url to download
+my $currentVer = "qe-7.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
+my $unzipFolder = "q-e-qe-7.0";#***** the unzipped folder of this package (check the latest one if possible)
+my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-7.0.tar.gz";#url to download
 my $Dir4download = "$packageDir/qe_download"; #the directory we download Mpich
 
 ## thermo_pw
 my $package1 = "ThermoPW";
-my $currentVer1 = "thermo_pw.1.5.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
+my $currentVer1 = "thermo_pw.1.7.0.tar.gz";#***** the latest version of this package (check the latest one if possible)
 my $unzipFolder1 = "thermo_pw";#***** the unzipped folder of this package (check the latest one if possible)
 my $URL1 = "http://people.sissa.it/~dalcorso/thermo_pw/"."$currentVer1";#url to download
-#http://people.sissa.it/~dalcorso/thermo_pw/thermo_pw.1.5.0.tar.gz
+#http://people.sissa.it/~dalcorso/thermo_pw/thermo_pw.1.7.0.tar.gz
 my $script_CurrentPath = getcwd(); #get perl code path
 
 #chdir("/opt");# cd to this dir for downloading the packages
@@ -141,7 +141,7 @@ if($?){die "make join_qe in thermo_pw directory failed!\nReason:$?\n";}
 
 chdir("$Dir4download/$unzipFolder");# cd to this dir for downloading the packages
 
-system("make pwall -j $thread4make"); 
+system("make all -j $thread4make"); 
 #if($?){die "make qe failed!\nReason:$?\n";}
 sleep(1);
 system("make install"); 
