@@ -8,7 +8,8 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
 my %nodes = (
-    161 => [1..42],#1,3,39..
+    161 => [1..32,39..42],#1,3,39..
+    #161 => [1..42],#1,3,39..
     182 => [1..4,6..15,17..24],
     186 => [1..7]
     );
@@ -52,22 +53,40 @@ my $hundredM = 100*1024*1024/4096;
 #`systemctl restart slurmd`; # for slurm reconfigure
 #`rm -f check.txt`;
 #`touch check.txt`;
+
 print "\@nodes: @nodes\n";
-unlink "./memoryInfo.dat";
-`touch ./memoryInfo.dat`;
+
+#unlink "./memoryInfo.dat";
+#`touch ./memoryInfo.dat`;
+
+unlink "./release.dat";
+`touch ./release.dat`;
+
 for (@nodes){
 #$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
-    my @ram = `$cmd "lshw -C memory -short"`;
-    chomp @ram;
-    `echo "$nodename:" >> ./memoryInfo.dat`;
-    for my $m (@ram){
-        `echo "$m" >> ./memoryInfo.dat`;
-    }
-    `echo "**********" >> ./memoryInfo.dat`;
+   # `$cmd "ps aux|grep dpcheck|awk '{print \\\$2}'|xargs kill"`;
+  # `$cmd "poweroff"`;
+
+   # my $OS = `$cmd "cat /etc/redhat-release"`;
+   # chomp $OS;
+   ## print "\$OS: $OS";
+   ## if($OS){
+   #     `echo "$nodename:" >> ./release.dat`;
+   #         `echo "$OS" >> ./release.dat`;
+   #     `echo "**********" >> ./release.dat`;
+   ## }
+  #  my @ram = `$cmd "lshw -C memory -short"`;
+  #  chomp @ram;
+  #  `echo "$nodename:" >> ./memoryInfo.dat`;
+  #  for my $m (@ram){
+  #      `echo "$m" >> ./memoryInfo.dat`;
+  #  }
+  #  `echo "**********" >> ./memoryInfo.dat`;
+
 
 # modify repository source url
 # Maximum Capacity: 32 GB
