@@ -10,6 +10,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 my %nodes = (
     161 => [1..32,39..42],#1,3,39..
     #161 => [1..42],#1,3,39..
+   # 182 => [24],
     182 => [1..4,6..15,17..24],
     186 => [1..7]
     );
@@ -54,13 +55,13 @@ my $hundredM = 100*1024*1024/4096;
 #`rm -f check.txt`;
 #`touch check.txt`;
 
-print "\@nodes: @nodes\n";
+#print "\@nodes: @nodes\n";
 
 #unlink "./memoryInfo.dat";
 #`touch ./memoryInfo.dat`;
 
-unlink "./release.dat";
-`touch ./release.dat`;
+#unlink "./release.dat";
+#`touch ./release.dat`;
 
 for (@nodes){
 #$pm->start and next;
@@ -68,17 +69,33 @@ for (@nodes){
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
-   # `$cmd "ps aux|grep dpcheck|awk '{print \\\$2}'|xargs kill"`;
+  
   # `$cmd "poweroff"`;
 
-   # my $OS = `$cmd "cat /etc/redhat-release"`;
-   # chomp $OS;
-   ## print "\$OS: $OS";
-   ## if($OS){
-   #     `echo "$nodename:" >> ./release.dat`;
-   #         `echo "$OS" >> ./release.dat`;
-   #     `echo "**********" >> ./release.dat`;
-   ## }
+#    my $OS = `$cmd "cat /etc/redhat-release"`;
+#    chomp $OS;
+#   # print "\$OS: $OS";
+#   # if($OS){
+#        `echo "$nodename:" >> ./release.dat`;
+#            `echo "$OS" >> ./release.dat`;
+#        `echo "**********" >> ./release.dat`;
+#   # }
+ #remove swap
+    my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
+    $swap_dev =~ tr/://d;
+    chomp $swap_dev;
+    print "\$swap_dev: $swap_dev\n";
+    system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
+    system("$cmd 'swapoff -a' ");
+    system("$cmd 'free -h' ");
+
+#   # if($OS){
+#        `echo "$nodename:" >> ./release.dat`;
+#            `echo "$OS" >> ./release.dat`;
+#        `echo "**********" >> ./release.dat`;
+#   # }
+
+  
   #  my @ram = `$cmd "lshw -C memory -short"`;
   #  chomp @ram;
   #  `echo "$nodename:" >> ./memoryInfo.dat`;
