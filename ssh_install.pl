@@ -8,8 +8,8 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
 my %nodes = (
-    161 => [1..32,39..42],#1,3,39..
-    #161 => [1..42],#1,3,39..
+    #161 => [33..38],#1,3,39..
+    161 => [1..42],#1,3,39..
    # 182 => [24],
     182 => [1..4,6..15,17..24],
     186 => [1..7]
@@ -86,7 +86,9 @@ for (@nodes){
     chomp $swap_dev;
     print "\$swap_dev: $swap_dev\n";
     system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
+    system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
     system("$cmd 'swapoff -a' ");
+    system("$cmd 'rm -rf /swap' ");
     system("$cmd 'free -h' ");
 
 #   # if($OS){
