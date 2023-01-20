@@ -27,7 +27,7 @@ my $mount = "yes";
 #system("ls /dev/[sh]d*");
 #die;
 ########
-my @disks = ("sda","sdb","sdd","sde","sdf","sdg");
+my @disks = ("sda","sdb","sdc","sde","sdf","sdg");
 my $mount_path = "/mnt/master";
 my $type = "ext4"; 
 #my $install = `rpm -qa| grep "parted"`;
@@ -48,7 +48,7 @@ if($mount eq "yes"){
 	for my $partedDev (@disks){
 		my $blkid = `blkid|grep "/dev/$partedDev"|awk -v FS=\\" '{print \$2}'`; #: UUID=\"(\w+)\"\s+
 		chomp $blkid;
-		print "\$blkid: $blkid\n";
+		print "***$partedDev \$blkid: $blkid\n";
 		#$blkid =~ /\/dev\/$partedDev:\s+UUID="(.*?)"/;# non-greedy match by?
 		system("mkdir -p $mount_path/$partedDev");
 		

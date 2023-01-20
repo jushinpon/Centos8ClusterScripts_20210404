@@ -64,8 +64,8 @@ my $hundredM = 100*1024*1024/4096;
 #unlink "./release.dat";
 #`touch ./release.dat`;
 
-unlink "./for_slurm_conf.dat";
-`touch ././for_slurm_conf.dat`;
+#unlink "./for_slurm_conf.dat";
+#`touch ./for_slurm_conf.dat`;
 
 for (@nodes){
 #$pm->start and next;
@@ -76,10 +76,13 @@ for (@nodes){
   
   # `$cmd "poweroff"`;
   # slurmd -C 
-  my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
-  chomp $slurmd;
-  `echo "$slurmd" >> ./for_slurm_conf.dat`;
-
+ # my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
+ # chomp $slurmd;
+ # `echo "$slurmd" >> ./for_slurm_conf.dat`;
+`$cmd "umount -l master:/home"`;
+`$cmd "mount master:/home"`;
+`$cmd "umount -l master:/opt"`;
+`$cmd "mount  master:/opt"`;
 #    my $OS = `$cmd "cat /etc/redhat-release"`;
 #    chomp $OS;
 #   # print "\$OS: $OS";

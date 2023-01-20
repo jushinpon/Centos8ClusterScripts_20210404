@@ -21,7 +21,8 @@ my $forkNo = 10;
 my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..24],
-    186 => [1..7]
+    186 => [1..7],
+    190 => [1..3]
     );
 
 my $ip = `/usr/sbin/ip a`;    
@@ -62,8 +63,27 @@ my %nfs;
 for (@nodes){
     my $nodeindex = sprintf("%02d",$_);
     my $nodename = "node"."$nodeindex";
-	$nfs{$nodename} = ["free"];
-	system("umount -l $nodename:/free");#umount all nfs folders 
+    $cmd = "/usr/bin/ssh $nodename ";
+	my @temp = `$cmd 'ls /|grep free|grep -v grep'`; 
+	chomp @temp;
+	#print "###temp: @temp\n";       
+	if(@temp){
+		$nfs{$nodename} = ["free"];
+		system("umount -l $nodename:/free");#umount all nfs folders 
+	}
+	else{
+		die "no free folder in $nodename\n";
+	}
+	my @mnt = `$cmd 'ls /mnt'`;
+	chomp @mnt;
+	print "@mnt\n";
+	for my $d (@mnt){
+		push @{$nfs{$nodename}},$d;	
+		system("umount -l $nodename:/mnt/$d");#umount all nfs folders 
+	}
+	print "***dev at $nodename: @{$nfs{$nodename}}\n";
+	#$nfs{$nodename} = ["free"];
+	#system("umount -l $nodename:/free");#umount all nfs folders 
 }
 
 my $mount_setting = "nfs noacl,nocto,nosuid,noatime,nodiratime,".
