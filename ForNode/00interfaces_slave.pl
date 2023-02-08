@@ -78,24 +78,24 @@ my $hostname="node"."$formatted_nodeID";
 `hostnamectl set-hostname $hostname`;
 
 #inner net setting
-`echo "BOOTPROTO=static" > /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "DEVICE=$Nic_inner" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "NAME=$Nic_inner" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "IPADDR=192.168.0.$fourthdigital" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "GATEWAY=192.168.0.101" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "DNS2=140.117.11.1" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "BROADCAST=192.168.0.255" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-#`echo "UUID=$nmcli{$Nic_inner}" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "HWADDR=$mac{$Nic_inner}" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`; 
-`echo "TYPE=Ethernet" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-`echo "MTU=$ServerSetting{MTU}" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
-
-system("ifdown $Nic_inner");## stop this NIC and force it to use new seeting by the following command 
-system("ip addr flush dev $Nic_inner");## remove all previous setting (because we want to assign new informatio)  
-system("ifup $Nic_inner"); ## use new setting
+#`echo "BOOTPROTO=static" > /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "DEVICE=$Nic_inner" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "NAME=$Nic_inner" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "IPADDR=192.168.0.$fourthdigital" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "GATEWAY=192.168.0.101" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "DNS2=140.117.11.1" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "BROADCAST=192.168.0.255" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+##`echo "UUID=$nmcli{$Nic_inner}" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "HWADDR=$mac{$Nic_inner}" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`; 
+#`echo "TYPE=Ethernet" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#`echo "MTU=$ServerSetting{MTU}" >> /etc/sysconfig/network-scripts/ifcfg-$Nic_inner`;
+#
+#system("ifdown $Nic_inner");## stop this NIC and force it to use new seeting by the following command 
+#system("ip addr flush dev $Nic_inner");## remove all previous setting (because we want to assign new informatio)  
+#system("ifup $Nic_inner"); ## use new setting
 
 #system('systemctl restart NetworkManager');
 #system("killall -9 yum");

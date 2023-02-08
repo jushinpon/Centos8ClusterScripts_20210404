@@ -62,10 +62,10 @@ wget python3);
 
 
 for (@slurm_pack){
-	system("dnf -y install $_");
+	system("dnf -y install $_  --nobest");
 	if($?){die "Installation of $_ package failed (08slurm_server.pl)\n";}
 }
-system ("dnf upgrade -y");
+system ("dnf upgrade -y --nobest --exclude=kernel*");
 system("ln -s /usr/bin/python3 /usr/bin/python");# need python for configure process
 
 #Begin the installation process

@@ -173,10 +173,10 @@ rrdtool-devel bzip2-devel zlib-devel ncurses-devel fribidi man2html libibmad lib
 wget python3 gtk*);
 
 for (@slurm_pack){
-	system("dnf -y install $_");
+	system("dnf -y install $_ --nobest");
 	if($?){die "Installation of $_ package failed (08slurm_server.pl)\n";}
 }
-system ("dnf upgrade -y");
+#system ("dnf upgrade -y  --nobest  --exclude=kernel*");
 system("ln -s /usr/bin/python3 /usr/bin/python");# for slurm configure process
 
 chdir("$buildPath");

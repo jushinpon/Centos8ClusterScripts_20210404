@@ -197,7 +197,7 @@ if($master4calculation eq "yes"){
 
 sleep(1);
 ######## start and enable slurm  for each node
-for (sort keys %coreNo){
+for (@avaIP){
 	$pm->start and next;
     $_ =~/192.168.0.(\d{1,3})/;
 	my $nodeID = $1 - 1;# node ID according to th fourth number of current IP
