@@ -28,8 +28,8 @@ system("yum install yum-utils -y");
 system("yum-complete-transaction --cleanup-only");
 system("package-cleanup --dupes");
 system("package-cleanup --problems");
-system("yum install epel-release -y\n");
-system("yum upgrade -y\n");
+system("yum install epel-release -y");
+system("yum upgrade -y  --nobest --exclude=kernel*");
 
 system("systemctl stop munge");
 system("killall munged");

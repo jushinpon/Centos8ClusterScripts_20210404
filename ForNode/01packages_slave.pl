@@ -56,4 +56,4 @@ system("dnf remove dnf-automatic -y");
 system("systemctl stop dnf-makecache.timer");
 system("systemctl disable dnf-makecache.timer");
 
-system("dnf -y upgrade");
+system("dnf -y upgrade --nobest --exclude=kernel*");
