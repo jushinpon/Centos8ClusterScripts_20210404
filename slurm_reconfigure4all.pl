@@ -111,6 +111,7 @@ $pm->wait_all_children;
 
 #check master node if it is used for computing
 `systemctl restart slurmd`;
+`systemctl restart slurmctld`;
 
 my $temp = `systemctl status slurmd|egrep "failed|inactive"`;
 if($temp){
