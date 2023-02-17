@@ -12,7 +12,8 @@ my %nodes = (
     161 => [1..42],#1,3,39..
    # 182 => [24],
     182 => [1..4,6..15,17..24],
-    186 => [1..7]
+    186 => [1..7],
+    190 => [1..3]
     );
 
 my $ip = `/usr/sbin/ip a`;    
@@ -72,7 +73,14 @@ for (@nodes){
 #slurm log rotate
   `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
   # `$cmd "poweroff"`;
-
+  # slurmd -C 
+ # my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
+ # chomp $slurmd;
+ # `echo "$slurmd" >> ./for_slurm_conf.dat`;
+`$cmd "umount -l master:/home"`;
+`$cmd "mount master:/home"`;
+`$cmd "umount -l master:/opt"`;
+`$cmd "mount  master:/opt"`;
 #    my $OS = `$cmd "cat /etc/redhat-release"`;
 #    chomp $OS;
 #   # print "\$OS: $OS";
@@ -82,6 +90,7 @@ for (@nodes){
 #        `echo "**********" >> ./release.dat`;
 #   # }
  #remove swap
+<<<<<<< HEAD
    # my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
    # $swap_dev =~ tr/://d;
    # chomp $swap_dev;
@@ -91,6 +100,17 @@ for (@nodes){
    # system("$cmd 'swapoff -a' ");
    # system("$cmd 'rm -rf /swap' ");
    # system("$cmd 'free -h' ");
+=======
+ #   my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
+ #   $swap_dev =~ tr/://d;
+ #   chomp $swap_dev;
+ #   print "\$swap_dev: $swap_dev\n";
+ #   system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
+ #   system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
+ #   system("$cmd 'swapoff -a' ");
+ #   system("$cmd 'rm -rf /swap' ");
+ #   system("$cmd 'free -h' ");
+>>>>>>> bff85574e98b8ed21416c91f6fa84548ee122f1a
 
 #   # if($OS){
 #        `echo "$nodename:" >> ./release.dat`;

@@ -1,9 +1,10 @@
+# lscpu --all --extended
 use warnings;
 use strict;
 use Parallel::ForkManager;
 use Cwd;
-my @nodes = (20..24);
-my @Ecores = (16..19);
+my @nodes = (6);
+my @Ecores = (16..23);
 for (@nodes){
     my $nodeindex=sprintf("%02d",$_);
     my $nodename= "node"."$nodeindex";

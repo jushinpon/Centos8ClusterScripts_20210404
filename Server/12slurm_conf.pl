@@ -52,102 +52,102 @@ print "$master_coreNo,$master_socketNo,$master_threadcoreNo,$master_coresocketNo
 my @partition = (
 'PartitionName=debug Nodes=node[01-24],master Default=YES MaxTime=1880 State=UP DisableRootJobs=YES',
 #'PartitionName=All Nodes=node[01-07,10-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
-'PartitionName=24Cores Nodes=node[01-03,05-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
-'PartitionName=16Cores Nodes=node[04,12-19] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
-'PartitionName=20Cores_i7_12G Nodes=node[20-24] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+#'PartitionName=24Cores Nodes=node[01-03,05-11] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+#'PartitionName=16Cores Nodes=node[04,12-19] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
+#'PartitionName=20Cores_i7_12G Nodes=node[20-24] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
 #'PartitionName=12Cores Nodes=node[33-38] Default=NO MaxTime=INFINITE State=UP DisableRootJobs=YES',
 #'PartitionName=64Cores Nodes=node[39-41] Default=YES MaxTime=INFINITE State=UP DisableRootJobs=NO',
 #'PartitionName=AMD64Cores Nodes=node[02-03] Default=YES MaxTime=INFINITE State=UP',
 #'PartitionName=AMD Nodes=node02 Default=NO MaxTime=INFINITE State=UP'
 );
 
-open my $ss1,"<./IP_coreNo.txt" or die "No IP_coreNo.txt to read";
-my @temp_array1=<$ss1>;
-my @input= grep (($_!~m{^\s*$|^#}),@temp_array1); # remove blank lines and comment lines
-close($ss1);
-for (@input){
-	$_  =~ s/^\s+|\s+$//;
-	chomp;	
-}
-
-my %coreNo;
-my %socketNo;
-my %threadcoreNo;
-my %coresocketNo;
-my %numaNo;
-for (1..$#input){#the first line shows the headers,skip it.
-	$input[$_] =~s/^\s+//g;#replace operation 
-	my @temp = split(/\s+/,$input[$_]);
-	chomp $temp[0];
-	chomp $temp[1];
-	chomp $temp[2];
-	chomp $temp[3];
-	chomp $temp[4];
-	chomp $temp[5];
-	$coreNo{$temp[0]}=$temp[1];
-	$socketNo{$temp[0]}=$temp[2];
-	$threadcoreNo{$temp[0]}=$temp[3];
-	$coresocketNo{$temp[0]}=$temp[4];
-	$numaNo{$temp[0]}=$temp[5];
-	print " IP and CoreNo: $temp[0]  $coreNo{$temp[0]} \n";
-	print " IP and SocketNo: $temp[0]  $socketNo{$temp[0]} \n";
-	print " IP and Thread perl Core: $temp[0]  $threadcoreNo{$temp[0]} \n";
-	print " IP and Core perl Socket: $temp[0]  $coresocketNo{$temp[0]} \n";
-	print " IP and NUMA node number: $temp[0]  $numaNo{$temp[0]} \n";
-}
+#open my $ss1,"<./IP_coreNo.txt" or die "No IP_coreNo.txt to read";
+#my @temp_array1=<$ss1>;
+#my @input= grep (($_!~m{^\s*$|^#}),@temp_array1); # remove blank lines and comment lines
+#close($ss1);
+#for (@input){
+#	$_  =~ s/^\s+|\s+$//;
+#	chomp;	
+#}
+#
+#my %coreNo;
+#my %socketNo;
+#my %threadcoreNo;
+#my %coresocketNo;
+#my %numaNo;
+#for (1..$#input){#the first line shows the headers,skip it.
+#	$input[$_] =~s/^\s+//g;#replace operation 
+#	my @temp = split(/\s+/,$input[$_]);
+#	chomp $temp[0];
+#	chomp $temp[1];
+#	chomp $temp[2];
+#	chomp $temp[3];
+#	chomp $temp[4];
+#	chomp $temp[5];
+#	$coreNo{$temp[0]}=$temp[1];
+#	$socketNo{$temp[0]}=$temp[2];
+#	$threadcoreNo{$temp[0]}=$temp[3];
+#	$coresocketNo{$temp[0]}=$temp[4];
+#	$numaNo{$temp[0]}=$temp[5];
+#	print " IP and CoreNo: $temp[0]  $coreNo{$temp[0]} \n";
+#	print " IP and SocketNo: $temp[0]  $socketNo{$temp[0]} \n";
+#	print " IP and Thread perl Core: $temp[0]  $threadcoreNo{$temp[0]} \n";
+#	print " IP and Core perl Socket: $temp[0]  $coresocketNo{$temp[0]} \n";
+#	print " IP and NUMA node number: $temp[0]  $numaNo{$temp[0]} \n";
+#}
 
 $ENV{TERM} = "vt100";
 my $pass = "xxx"; ##For all roots of nodes
 
 #### end of debug
 # COMPUTE NODES
-unlink "./slurm.conf";
-system("cp slurmConf_template.txt slurm.conf");# cp from template file
+#unlink "./slurm.conf";
+#system("cp slurmConf_template.txt slurm.conf");# cp from template file
 
-for (@avaIP){
-#	print "Keys: $_\n";
-    $_ =~/192.168.\d.(\d{1,3})/;
-	my $nodeID = $1 - 1;# node ID according to th fourth number of current IP
-	chomp($nodeID);
-    my $formatted_nodeID = sprintf("%02d",$nodeID);
-    my $Nodename="node"."$formatted_nodeID";
-    my $socketNo = $numaNo{$_};
-    my $coresocketNo = $coresocketNo{$_};#/$numaNo{$_};
-   #`echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} Sockets=$socketNo ThreadsPerCore=$threadcoreNo{$_} CoresPerSocket=$coresocketNo  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
-   `echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
-#Sockets=1 CoresPerSocket=12 ThreadsPerCore=2
-}
+#for (@avaIP){
+##	print "Keys: $_\n";
+#    $_ =~/192.168.\d.(\d{1,3})/;
+#	my $nodeID = $1 - 1;# node ID according to th fourth number of current IP
+#	chomp($nodeID);
+#    my $formatted_nodeID = sprintf("%02d",$nodeID);
+#    my $Nodename="node"."$formatted_nodeID";
+#    my $socketNo = $numaNo{$_};
+#    my $coresocketNo = $coresocketNo{$_};#/$numaNo{$_};
+#   #`echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} Sockets=$socketNo ThreadsPerCore=$threadcoreNo{$_} CoresPerSocket=$coresocketNo  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+#   `echo "NodeName=$Nodename NodeAddr=$_ CPUs=$coreNo{$_} State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+##Sockets=1 CoresPerSocket=12 ThreadsPerCore=2
+#}
 
-if ($master4calculation eq "yes"){	
-	#`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo Sockets=$master_socketNo ThreadsPerCore=$master_threadcoreNo CoresPerSocket=$master_coresocketNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
-	`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
-}
-
-for (@partition){`echo "$_" >> ./slurm.conf`;}
-
-unlink "/etc/slurm/slurm.conf";
-`cp ./slurm.conf /usr/local/etc/`;
-
+#if ($master4calculation eq "yes"){	
+#	#`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo Sockets=$master_socketNo ThreadsPerCore=$master_threadcoreNo CoresPerSocket=$master_coresocketNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+#	`echo "NodeName=master NodeAddr=192.168.0.101 CPUs=$master_coreNo RealMemory=$RealMemory4master  State=UNKNOWN" >> ./slurm.conf`;#append the data into the file
+#}
+#
+#for (@partition){`echo "$_" >> ./slurm.conf`;}
+#
+#unlink "/etc/slurm/slurm.conf";
+#`cp ./slurm.conf /usr/local/etc/`;
+#
 # The follwoing is for slurm setting
-for (@avaIP){	
-#for (sort keys %coreNo){
-    $pm->start and next;    
-    $_ =~/192.168.0.(\d{1,3})/;
-	my $nodeID = $1 - 1;# node ID according to th fourth number of current IP
-	chomp($nodeID);
-    my $formatted_nodeID = sprintf("%02d",$nodeID);
-    my $nodename="node"."$formatted_nodeID";
-    print "**Slurm setting for $nodename: scp slurm.conf\n";
-	chomp($nodename);
-	system("ssh $nodename \" systemctl stop slurmd\" ");    
-	my $exp = Expect->new;
-	$exp = Expect->spawn("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/ \n");	
-    $exp->soft_close();
-    #sleep(1);
-	$pm->finish;
-}# for loop
-$pm->wait_all_children;
-print "SCP done\n";
+#for (@avaIP){	
+##for (sort keys %coreNo){
+#    $pm->start and next;    
+#    $_ =~/192.168.0.(\d{1,3})/;
+#	my $nodeID = $1 - 1;# node ID according to th fourth number of current IP
+#	chomp($nodeID);
+#    my $formatted_nodeID = sprintf("%02d",$nodeID);
+#    my $nodename="node"."$formatted_nodeID";
+#    print "**Slurm setting for $nodename: scp slurm.conf\n";
+#	chomp($nodename);
+#	system("ssh $nodename \" systemctl stop slurmd\" ");    
+#	my $exp = Expect->new;
+#	$exp = Expect->spawn("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/ \n");	
+#    $exp->soft_close();
+#    #sleep(1);
+#	$pm->finish;
+#}# for loop
+#$pm->wait_all_children;
+#print "SCP done\n";
 #sleep(100);
 ### Server setting 
 system("rm -rf /var/spool/slurmctld");

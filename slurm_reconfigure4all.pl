@@ -34,6 +34,7 @@ use Cwd; #Find Current Path
 my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..4,6..15,17..24],
+    #182 => [1..4,6..15,17..24],
     186 => [1..7],
     190 => [1..3]
     );
@@ -110,6 +111,7 @@ $pm->wait_all_children;
 
 #check master node if it is used for computing
 `systemctl restart slurmd`;
+`systemctl restart slurmctld`;
 
 my $temp = `systemctl status slurmd|egrep "failed|inactive"`;
 if($temp){

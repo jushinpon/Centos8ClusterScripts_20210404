@@ -13,7 +13,8 @@ use warnings;
 my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..24],
-    186 => [1..7]
+    186 => [1..7],
+    190 => [1..3]
     );
 
 my $ip = `/usr/sbin/ip a`;    
@@ -59,14 +60,22 @@ for (@nodes){
     $cmd = "/usr/bin/ssh $nodename ";
 # could have trouble if more than one folders you want to collect	
     my @temp = `$cmd 'ls /|grep free|grep -v grep'`; 
-	print "###temp: @temp\n";       
+	chomp @temp;
+	#print "###temp: @temp\n";       
 	if(@temp){
 		$nfs{$nodename} = ["free"];
 	}
 	else{
 		die "no free folder in $nodename\n";
 	}
-
+	my @mnt = `$cmd 'ls /mnt'`;
+	chomp @mnt;
+	print "@mnt\n";
+	for my $d (@mnt){
+		push @{$nfs{$nodename}},$d;	
+	}
+	print "***dev at $nodename: @{$nfs{$nodename}}\n";
+	
 #NFS setting
 	system("$cmd 'rm -f /etc/exports'");
 	system("$cmd 'touch /etc/exports'");
@@ -85,6 +94,8 @@ for (@nodes){
 	`$cmd 'systemctl start nfs-server'`;
 	system("$cmd 'exportfs -auv'"); # umount all first if you have mounted some previously!
 	system("$cmd 'exportfs -arv'"); # make setting work!
+	print "####showing nfs folders at $nodename\n";
+	system("$cmd 'exportfs -s'"); # show all NFS folders
 	if($?){`echo "NFS setting failed at $nodename" >> ./NFSnode4server.out`;}
 sleep(1);
 }

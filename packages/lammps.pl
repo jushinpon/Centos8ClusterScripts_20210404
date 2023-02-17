@@ -23,10 +23,12 @@ sub ld_setting {
 }
 
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
+#my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
+my $mattached_path = "/opt/mpich-4.0.3/bin";#2023/01/27
 path_setting($mattached_path);#:/opt/intel/mkl/lib/intel64
 #my $mattached_ld = "/opt/mpich-3.3.2/lib";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-3.4.2/lib";#attached ld path in main script
+#my $mattached_ld = "/opt/mpich-3.4.2/lib";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-4.0.3/lib";#2023/01/27
 ld_setting($mattached_ld);
 
 #my $mattached_path = "/opt/openmpi-4.1.0/bin";#attached path in main script
@@ -64,8 +66,8 @@ my $currentPath = getcwd(); #get perl code path
 	my $getdat ="date"." $datformat ";
 	my $test=`$getdat`;
 	chomp $test;
-	my $lmp_exe = "/opt/lammps-mpich-3.4.2"."/lmp"."_$test";### make date information
-	my $lmp_exeDir = "/opt/lammps-mpich-3.4.2/";### make date information
+	my $lmp_exe = "/opt/lammps-mpich-4.0.3"."/lmp"."_$test";### make date information
+	my $lmp_exeDir = "/opt/lammps-mpich-4.0.3/";### make date information
     #my $lmp_exe = "/opt/lammps-mpich-3.4.2-bigwind"."/lmp"."_$test";### make date information
 	#my $lmp_exeDir = "/opt/lammps-mpich-3.4.2-bigwind/";### make date information
     
