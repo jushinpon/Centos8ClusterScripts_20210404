@@ -83,7 +83,7 @@ $pm->start and next;
     my $nodeindex=sprintf("%02d",$_);
     my $nodename= "node"."$nodeindex";
     my $cmd = "ssh $nodename ";
-
+    system("scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm");
     system ("scp  /usr/local/etc/slurm.conf root\@$nodename:/usr/local/etc/");
     system ("scp  /usr/local/etc/cgroup.conf root\@$nodename:/usr/local/etc/");
     if($?){`echo '$nodename scp failed!' >> failed_scp.txt`;}

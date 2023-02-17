@@ -62,14 +62,15 @@ my $hundredM = 100*1024*1024/4096;
 
 #unlink "./release.dat";
 #`touch ./release.dat`;
-
+system("cp ./slurm_rotate.txt /etc/logrotate.d/slurm");
 for (@nodes){
 #$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
-  
+#slurm log rotate
+  `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
   # `$cmd "poweroff"`;
 
 #    my $OS = `$cmd "cat /etc/redhat-release"`;
@@ -81,15 +82,15 @@ for (@nodes){
 #        `echo "**********" >> ./release.dat`;
 #   # }
  #remove swap
-    my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
-    $swap_dev =~ tr/://d;
-    chomp $swap_dev;
-    print "\$swap_dev: $swap_dev\n";
-    system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
-    system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
-    system("$cmd 'swapoff -a' ");
-    system("$cmd 'rm -rf /swap' ");
-    system("$cmd 'free -h' ");
+   # my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
+   # $swap_dev =~ tr/://d;
+   # chomp $swap_dev;
+   # print "\$swap_dev: $swap_dev\n";
+   # system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
+   # system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
+   # system("$cmd 'swapoff -a' ");
+   # system("$cmd 'rm -rf /swap' ");
+   # system("$cmd 'free -h' ");
 
 #   # if($OS){
 #        `echo "$nodename:" >> ./release.dat`;
