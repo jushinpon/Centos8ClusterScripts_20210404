@@ -66,7 +66,7 @@ chdir("$Dir4download/$currentVer");#$currentVer is the directory name after tar
 unlink "Makefile";
 sleep(1);
 #--enable-fast=all,O3 --with-slurm-include=/usr/local/include/slurmCPPFLAGS=-I/home/packages/mpich_download/mpich-3.3.2/src/pmi/pmi2/include
-system("./configure --prefix=$prefixPath --enable-fast=all,O3");# --with-slurm=[/usr/local] VERBOSE=1 |tee 00mpich_configure.txt"); #./configure
+system("./configure --prefix=$prefixPath --enable-fast=all,O3 --with-ucx=embedded");# --with-slurm=[/usr/local] VERBOSE=1 |tee 00mpich_configure.txt"); #./configure
 if($?){die "config $currentVer failed!\nReason $?:$!\n";}
 
 ##after the configure process is done, type "make" and then "make install"
