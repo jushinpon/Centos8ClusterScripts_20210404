@@ -35,7 +35,7 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "yes";## if you want to download the source, use yes. set no, if you have downloaded the source.
+my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	

@@ -65,22 +65,25 @@ my $hundredM = 100*1024*1024/4096;
 #`touch ./release.dat`;
 system("cp ./slurm_rotate.txt /etc/logrotate.d/slurm");
 for (@nodes){
-#$pm->start and next;
+$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
+
+   system("$cmd 'dnf install -y libatomic' ");
+
 #slurm log rotate
-  `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
+ # `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
   # `$cmd "poweroff"`;
   # slurmd -C 
  # my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
  # chomp $slurmd;
  # `echo "$slurmd" >> ./for_slurm_conf.dat`;
-`$cmd "umount -l master:/home"`;
-`$cmd "mount master:/home"`;
-`$cmd "umount -l master:/opt"`;
-`$cmd "mount  master:/opt"`;
+#`$cmd "umount -l master:/home"`;
+#`$cmd "mount master:/home"`;
+#`$cmd "umount -l master:/opt"`;
+#`$cmd "mount  master:/opt"`;
 #    my $OS = `$cmd "cat /etc/redhat-release"`;
 #    chomp $OS;
 #   # print "\$OS: $OS";
@@ -90,7 +93,6 @@ for (@nodes){
 #        `echo "**********" >> ./release.dat`;
 #   # }
  #remove swap
-<<<<<<< HEAD
    # my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
    # $swap_dev =~ tr/://d;
    # chomp $swap_dev;
@@ -100,17 +102,6 @@ for (@nodes){
    # system("$cmd 'swapoff -a' ");
    # system("$cmd 'rm -rf /swap' ");
    # system("$cmd 'free -h' ");
-=======
- #   my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
- #   $swap_dev =~ tr/://d;
- #   chomp $swap_dev;
- #   print "\$swap_dev: $swap_dev\n";
- #   system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
- #   system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
- #   system("$cmd 'swapoff -a' ");
- #   system("$cmd 'rm -rf /swap' ");
- #   system("$cmd 'free -h' ");
->>>>>>> bff85574e98b8ed21416c91f6fa84548ee122f1a
 
 #   # if($OS){
 #        `echo "$nodename:" >> ./release.dat`;
@@ -250,9 +241,9 @@ for (@nodes){
     #system("$cmd 'dnf install -y perl*'");    
     #system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
     #system("$cmd 'chown -R jsp: /free'");    
-#$pm->finish;
+$pm->finish;
 }
-#$pm->wait_all_children;
+$pm->wait_all_children;
 
 print "Maybe you need to do scontrol reconfigure\n";
 #my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
