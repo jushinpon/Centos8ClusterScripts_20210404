@@ -63,7 +63,7 @@ my $hundredM = 100*1024*1024/4096;
 
 #unlink "./release.dat";
 #`touch ./release.dat`;
-system("cp ./slurm_rotate.txt /etc/logrotate.d/slurm");
+system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
 for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
@@ -74,7 +74,11 @@ $pm->start and next;
    system("$cmd 'dnf install -y libatomic' ");
 
 #slurm log rotate
+<<<<<<< HEAD
  # `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
+=======
+  `scp  ./slurmlog_rotate root\@$nodename:/etc/logrotate.d/slurm`;
+>>>>>>> 23c45327f91c0b07ca0988bba4234e6c699a1999
   # `$cmd "poweroff"`;
   # slurmd -C 
  # my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
@@ -93,6 +97,7 @@ $pm->start and next;
 #        `echo "**********" >> ./release.dat`;
 #   # }
  #remove swap
+<<<<<<< HEAD
    # my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
    # $swap_dev =~ tr/://d;
    # chomp $swap_dev;
@@ -102,6 +107,17 @@ $pm->start and next;
    # system("$cmd 'swapoff -a' ");
    # system("$cmd 'rm -rf /swap' ");
    # system("$cmd 'free -h' ");
+=======
+ #   my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
+ #   $swap_dev =~ tr/://d;
+ #   chomp $swap_dev;
+ #   print "\$swap_dev: $swap_dev\n";
+ #   system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
+ #   system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
+ #   system("$cmd 'swapoff -a' ");
+ #   system("$cmd 'rm -rf /swap' ");
+ #   system("$cmd 'free -h' ");
+>>>>>>> 23c45327f91c0b07ca0988bba4234e6c699a1999
 
 #   # if($OS){
 #        `echo "$nodename:" >> ./release.dat`;
