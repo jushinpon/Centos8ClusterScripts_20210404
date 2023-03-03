@@ -65,13 +65,20 @@ my $hundredM = 100*1024*1024/4096;
 #`touch ./release.dat`;
 system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
 for (@nodes){
-#$pm->start and next;
+$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
+
+   system("$cmd 'dnf install -y libatomic' ");
+
 #slurm log rotate
+<<<<<<< HEAD
+ # `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
+=======
   `scp  ./slurmlog_rotate root\@$nodename:/etc/logrotate.d/slurm`;
+>>>>>>> 23c45327f91c0b07ca0988bba4234e6c699a1999
   # `$cmd "poweroff"`;
   # slurmd -C 
  # my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
@@ -90,6 +97,17 @@ for (@nodes){
 #        `echo "**********" >> ./release.dat`;
 #   # }
  #remove swap
+<<<<<<< HEAD
+   # my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
+   # $swap_dev =~ tr/://d;
+   # chomp $swap_dev;
+   # print "\$swap_dev: $swap_dev\n";
+   # system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
+   # system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
+   # system("$cmd 'swapoff -a' ");
+   # system("$cmd 'rm -rf /swap' ");
+   # system("$cmd 'free -h' ");
+=======
  #   my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
  #   $swap_dev =~ tr/://d;
  #   chomp $swap_dev;
@@ -99,6 +117,7 @@ for (@nodes){
  #   system("$cmd 'swapoff -a' ");
  #   system("$cmd 'rm -rf /swap' ");
  #   system("$cmd 'free -h' ");
+>>>>>>> 23c45327f91c0b07ca0988bba4234e6c699a1999
 
 #   # if($OS){
 #        `echo "$nodename:" >> ./release.dat`;
@@ -238,9 +257,9 @@ for (@nodes){
     #system("$cmd 'dnf install -y perl*'");    
     #system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
     #system("$cmd 'chown -R jsp: /free'");    
-#$pm->finish;
+$pm->finish;
 }
-#$pm->wait_all_children;
+$pm->wait_all_children;
 
 print "Maybe you need to do scontrol reconfigure\n";
 #my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;
