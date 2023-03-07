@@ -160,7 +160,7 @@ $pm->start and next;
 #        chomp $df;
 #        print "$nodename \n";
 #        `$cmd 'rm -f /swap/*'`;
-#        `$cmd 'dd if=/dev/zero of=/swap/swap bs=1024 count=$df'`;
+#        `$cmd 'dd if=/dev/zero of=/swap/ls swap bs=1024 count=$df'`;
 #        system("$cmd 'chmod 0644 /swap/swap'");
 #        `$cmd 'mkswap -f /swap/swap'`;
 #        `$cmd 'swapon /swap/swap'`;
