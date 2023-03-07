@@ -6,6 +6,12 @@
 #echo "rsync -av /home/tux me@myserver:/home/tux/" | at 3:30 AM tomorrow 
 #echo "/opt/batch.sh ~/Pictures" | at 3:30 AM 08/01/2022 
 #echo "echo hello" | at now + 3 days
+#% at 8pm Aug 31
+#at> echo hello
+#at> <EOT>
+#job 161 at Sat Aug 31 20:00:00 2019
+#/usr/sbin/poweroff
+
 use Parallel::ForkManager;
 $forkNo = 100;
 my $pm = Parallel::ForkManager->new("$forkNo");
@@ -14,9 +20,13 @@ my %nodes = (
     161 => [1..42],#1,3,39..
     182 => [1..24],
     186 => [1..7],
-    190 => [1..3]
+    190 => [1..3],
+    195 => [1..7]
     );
-
+chomp @ARGV;    
+my $what2do = "$ARGV[0]";
+#print "$ARGV[0]\n";
+#die;
 my $ip = `/usr/sbin/ip a`;    
 $ip =~ /140\.117\.\d+\.(\d+)/;
 my $cluster = $1;
@@ -51,16 +61,18 @@ $pm->start and next;
     $nodename= "node"."$nodeindex";
     print "$nodename\n";
     $cmd = "ssh $nodename ";
-    `$cmd "shutdown -h now"`;
+    #`$cmd "shutdown -h now"`;
+    #`$cmd "$what2do"`;
+    system("$cmd \"$what2do\"");
 $pm->finish;
 }
 $pm->wait_all_children;
 
 my $dat = `/usr/bin/date`;
 chomp $dat;
-print "shutdown all nodes at $dat\n";
+print "$what2do for all nodes at $dat\n";
 sleep(3);
 if($server eq "yes"){
-    print "shutdown server now\n";
-    `shutdown -h now`;
+    print "server action for $what2do\n";
+    `$what2do`;
 }

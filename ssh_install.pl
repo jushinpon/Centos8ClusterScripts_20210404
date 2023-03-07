@@ -74,11 +74,7 @@ $pm->start and next;
    system("$cmd 'dnf install -y libatomic' ");
 
 #slurm log rotate
-<<<<<<< HEAD
  # `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
-=======
-  `scp  ./slurmlog_rotate root\@$nodename:/etc/logrotate.d/slurm`;
->>>>>>> 23c45327f91c0b07ca0988bba4234e6c699a1999
   # `$cmd "poweroff"`;
   # slurmd -C 
  # my $slurmd = `$cmd "slurmd -C|grep -v UpTime"`;
@@ -97,7 +93,6 @@ $pm->start and next;
 #        `echo "**********" >> ./release.dat`;
 #   # }
  #remove swap
-<<<<<<< HEAD
    # my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
    # $swap_dev =~ tr/://d;
    # chomp $swap_dev;
@@ -107,17 +102,6 @@ $pm->start and next;
    # system("$cmd 'swapoff -a' ");
    # system("$cmd 'rm -rf /swap' ");
    # system("$cmd 'free -h' ");
-=======
- #   my $swap_dev = `$cmd "blkid|grep swap|awk '{print \\\$1}'"`;
- #   $swap_dev =~ tr/://d;
- #   chomp $swap_dev;
- #   print "\$swap_dev: $swap_dev\n";
- #   system("$cmd 'sed -i -e \"s|$swap_dev|#$swap_dev|g\" /etc/fstab' ");
- #   system("$cmd 'sed -i -e \"s|/swap/swap|#/swap/swap|g\" /etc/fstab' ");
- #   system("$cmd 'swapoff -a' ");
- #   system("$cmd 'rm -rf /swap' ");
- #   system("$cmd 'free -h' ");
->>>>>>> 23c45327f91c0b07ca0988bba4234e6c699a1999
 
 #   # if($OS){
 #        `echo "$nodename:" >> ./release.dat`;
@@ -192,7 +176,7 @@ $pm->start and next;
 #    }
 
 
-##modify /etc/rc.loca for each node    
+##modify /etc/rc.local for each node    
 #    unless($?){
 #        unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
 #	        `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
