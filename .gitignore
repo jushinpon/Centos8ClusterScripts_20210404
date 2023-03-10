@@ -2,7 +2,7 @@
 *.out
 *.txt
 *.sout
-diagnosis.pl
+#diagnosis.pl
 slurm.conf
 gres.conf
 test*.pl
