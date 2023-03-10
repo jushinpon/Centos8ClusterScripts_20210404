@@ -37,7 +37,7 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 use File::Copy; # Copy File
-
+`chmod -R 755 /opt/tf`;
 my $wgetORgit = "no";
 #my $user_deep_dir = "/home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD"; #where you put USER-DEEPMD
 my $prefix = "/opt/lmp_deepmd_mpich4.0.3";
@@ -86,7 +86,7 @@ if($wgetORgit eq "yes"){
 	#chdir("$Dir4download/lammps");# cd to this dir for downloading the packages
 	#system("git checkout tags/stable_3Mar2020 -b stable");#user-bigwind ok
 	##system("git checkout tags/stable_29OctMar2020 -b stable");#user-bigwind bad
-	die "******make deepmd lib first\n";
+	#die "******make deepmd lib first\n";
 ## copy our packages here
 
 }
