@@ -23,12 +23,14 @@ sub ld_setting {
 	$ENV{'LD_LIBRARY_PATH'} = "$attached_ld:$ld_library_path";		
 }
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
+#my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
 my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
-path_setting($mattached_path);
+#path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
+#my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-ld_setting($mattached_ld);
+#ld_setting($mattached_ld);
 
 #!/bin/sh
 use warnings;
@@ -50,10 +52,14 @@ system("rpm --import https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTE
 if($?){die "import intel repo key failed!\n";}
 system("yum install -y intel-mkl");
 
+#my $prefix = "/opt/QEGCC_MPICH3.3.2_thermoPW";
 my $prefix = "/opt/QEGCC_MPICH4.0.3_thermoPW";
 my $package = "q-e";
+#my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
 my $currentVer = "qe-7.1.tar.gz";#***** the latest version of this package (check the latest one if possible)
+#my $unzipFolder = "q-e-qe-6.5";#***** the unzipped folder of this package (check the latest one if possible)
 my $unzipFolder = "q-e-qe-7.1";#***** the unzipped folder of this package (check the latest one if possible)
+#my $URL = "https://github.com/QEF/q-e/archive/qe-6.5.tar.gz";#url to download
 my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-7.1.tar.gz";#url to download
 my $Dir4download = "$packageDir/qe_download"; #the directory we download Mpich
 
@@ -109,6 +115,11 @@ system("rm -rf $Dir4download/$unzipFolder/$unzipFolder1");
 system("cp -r $Dir4download/$unzipFolder1 $Dir4download/$unzipFolder/");
 if($?){die "copy thermo_pw to qe folder failed!\n";}
 
+chdir("$Dir4download/$unzipFolder/thermo_pw");# cd to this dir for downloading the packages
+system("make leave_qe");
+system("make join_qe");
+if($?){die "make join_qe in thermo_pw directory failed!\nReason:$?\n";}
+
 chdir("$Dir4download/$unzipFolder");# cd to this dir for downloading the packages
 my $date=`date +%Y%m%d`;
 
@@ -129,27 +140,22 @@ my $MPI_LIBS ="MPI_LIBS=\"-L/opt/slurm_mvapich2-2.3.4/lib -lmpi\"";#### need to 
 my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
 #$SCALAPACK_LIBS -with-scalapack=yes $FFT_LIBS $MPI_LIBS $LIBDIRS $BLAS_LIBS $SCALAPACK_LIBS
 #system("./configure --enable-parallel $prefix");-with-scalapack=intel
+#system("./configure  $FFLAGS $prefix4QE");
 system("./configure --enable-parallel  $FFLAGS $prefix4QE");
 if($?){die "**QE configure fails!\nReason:$?\n";}
 #after the configure process is done, type "make" and then "make install"
 system("make clean"); 
 if($?){die "**make QE clean fails";}
-
-chdir("$Dir4download/$unzipFolder/thermo_pw");# cd to this dir for downloading the packages
-system("make join_qe");
-if($?){die "make join_qe in thermo_pw directory failed!\nReason:$?\n";}
-
-chdir("$Dir4download/$unzipFolder");# cd to this dir for downloading the packages
-
-system("make thermo_pw -j $thread4make"); 
+system("make pwall -j $thread4make");
+system("ls bin");  
 #system("make pw -j $thread4make"); 
 #system("make all -j $thread4make"); #cp.x
 #if($?){die "make qe failed!\nReason:$?\n";}
-sleep(1);
 system("make install"); 
 #if($?){die "make install failed!\n";}
 print "QE with thermo_pw has been successfully installed!!\n";
-
+print "\n\nCheck thermo_pw.x in $prefix/bin!! \n\n";
+system("ls $prefix/bin"); 
 #if(!-e "/opt/QEsssp"){# if no /home/packages, make this folder	
 #	system("mkdir /opt/QEsssp");	
 #	system("mkdir /opt/QEsssp/Efficiency");	
