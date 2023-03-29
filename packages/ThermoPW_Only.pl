@@ -23,11 +23,11 @@ sub ld_setting {
 	$ENV{'LD_LIBRARY_PATH'} = "$attached_ld:$ld_library_path";		
 }
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
+my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
 path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-3.4.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 ld_setting($mattached_ld);
 
 #!/bin/sh

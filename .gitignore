@@ -6,3 +6,4 @@
 slurm.conf
 gres.conf
 test*.pl
+*test.pl
