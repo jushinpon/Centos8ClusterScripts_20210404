@@ -58,7 +58,7 @@ print "Total threads can be used for make: $thread4make\n";
 
 my $URL = "https://github.com/lammps/lammps.git";#url to download
 #my $URL = "https://lammps.sandia.gov/tars/lammps.tar.gz";#url to download
-my $Dir4download = "$packageDir/lammps_download"; #the directory we download Mpich
+my $Dir4download = "$packageDir/lammps_download_only"; #the directory we download Mpich
 my $currentPath = getcwd(); #get perl code path
 
 ##lmp_mpi will be in src
@@ -66,7 +66,7 @@ my $currentPath = getcwd(); #get perl code path
 	my $getdat ="date"." $datformat ";
 	my $test=`$getdat`;
 	chomp $test;
-	my $lmp_exe = "/opt/lammps-mpich-4.0.3"."/lmp"."_$test";### make date information
+	my $lmp_exe = "/opt/lammps-mpich-4.0.3"."/Onlylmp"."_$test";### make date information
 	my $lmp_exeDir = "/opt/lammps-mpich-4.0.3/";### make date information
     #my $lmp_exe = "/opt/lammps-mpich-3.4.2-bigwind"."/lmp"."_$test";### make date information
 	#my $lmp_exeDir = "/opt/lammps-mpich-3.4.2-bigwind/";### make date information
@@ -105,17 +105,22 @@ system("perl -p -i.bak -e 's/CCFLAGS\\s+=.+/CCFLAGS = -g -O3 -std=c++11 -fopenmp
 system("perl -p -i.bak -e 's/LINKFLAGS\\s+=.+/LINKFLAGS = -g -O3 -fopenmp/;' $Dir4download/lammps/src/MAKE/Makefile.mpi");
 
 chdir("$Dir4download/lammps/src");
+	
+	system("make lib-electrode args=\"-m mpi\"");#make voro++ lib first
+	system("make lib-linalg args=\"-m mpi\"");#make voro++ lib first
+	
 	system("make lib-voronoi args='-b -v voro++0.4.6'");#make voro++ lib first
 	if($?){die"make voro++ lib failed!\n";}#,"voronoi"
-	system("make lib-plumed args='-b'");#make voro++ lib first
-	if($?){die"make plumed lib failed!\n";}#,"voronoi"
+	#system("make lib-plumed args='-b'");#make voro++ lib first
+	#if($?){die"make plumed lib failed!\n";}#,"voronoi"
 
 	system ("make no-all");# uninstall all packages at the very beginning
 	#system ("make all");# install all packages at the very beginning
 	system ("make clean-all"); # clean all old object files
 	# the first three are the basic packages
 	my @lmp_package= ("EXTRA-FIX","EXTRA-MOLECULE","EXTRA-COMPUTE","EXTRA-DUMP",
-	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc","phonon","coreshell","diffraction");
+	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc","phonon","coreshell","diffraction",
+	"voronoi","electrode");
 	#for bigwind only
 	#my @lmp_package= ("kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","user-bigwind");
 	# You need to check lammps web about the package lib if needed.
