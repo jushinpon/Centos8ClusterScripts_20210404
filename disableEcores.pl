@@ -1,4 +1,6 @@
 # lscpu --all --extended
+#cat /proc/cpuinfo | grep "cpu MHz"
+
 use warnings;
 use strict;
 use Parallel::ForkManager;
