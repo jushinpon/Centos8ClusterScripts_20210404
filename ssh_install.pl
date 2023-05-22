@@ -63,7 +63,7 @@ my $hundredM = 100*1024*1024/4096;
 
 #unlink "./release.dat";
 #`touch ./release.dat`;
-system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
+#system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
 for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
