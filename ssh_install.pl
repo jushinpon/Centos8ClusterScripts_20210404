@@ -64,6 +64,7 @@ my $hundredM = 100*1024*1024/4096;
 #unlink "./release.dat";
 #`touch ./release.dat`;
 #system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
+#`dnf install lapack-devel -y`;
 for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
@@ -71,7 +72,10 @@ $pm->start and next;
     print "$nodename\n";
     $cmd = "ssh $nodename ";
 
-   system("$cmd 'dnf install -y libatomic' ");
+   #system("$cmd 'dnf install lapack-devel -y' ");
+   #system("$cmd 'dnf install lapack-devel -y' ");
+   `$cmd "/usr/bin/ps aux|/usr/bin/grep -v grep|/usr/bin/egrep dpcheck|awk '{print \\\$2}'|xargs kill -9"`;
+   `$cmd "echo 0 > /proc/sys/vm/nr_hugepages"`;
 
 #slurm log rotate
  # `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;

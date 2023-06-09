@@ -113,13 +113,13 @@ if($wannier eq "yes"){
 }
 
 if($hdf5 eq "yes"){
-	#chdir("$Dir4download/$unzipFolder");# cd to this dir for downloading the packages
-	#`wget  wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz`;
-	#`tar xvzf  hdf5-1.12.0.tar.gz`;
+	chdir("$Dir4download/$unzipFolder");# cd to this dir for downloading the packages
+	`wget  wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz`;
+	`tar xvzf  hdf5-1.12.0.tar.gz`;
 	chdir("$Dir4download/$unzipFolder/hdf5-1.12.0");# cd to this dir for downloading the packages
-	#`rm -rf /opt/hdf5`;
-	#`mkdir -p /opt/hdf5`;
-	#`./configure --prefix=/opt/hdf5 --enable-fortran `;
+	`rm -rf /opt/hdf5`;
+	`mkdir -p /opt/hdf5`;
+	`./configure --prefix=/opt/hdf5 --enable-fortran `;
 	system("make clean");
 	system("make -j $thread4make");
 	system("make install");
