@@ -38,7 +38,8 @@ use Cwd; #Find Current Path
 
 my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
 print "Total threads can be used for make: $thread4make\n";
-
+#@ARGV = ("yes","yes","yes","no","yes","yes"); 
+@ARGV = ("no","no","no","yes","no","no"); 
 my $qe = "$ARGV[0]";## if you want to download the QE source, use yes. Set no, if you have downloaded the source.
 my $wannier = "$ARGV[1]";#install Wannier 90
 my $hdf5 = "$ARGV[2]";#install hdf5

@@ -120,7 +120,7 @@ chdir("$Dir4download/lammps/src");
 	# the first three are the basic packages
 	my @lmp_package= ("EXTRA-FIX","EXTRA-MOLECULE","EXTRA-COMPUTE","EXTRA-DUMP",
 	"EXTRA-PAIR","class2","kspace","manybody","molecule","meam","misc","openmp","rigid","dipole","replica","shock","yaff","molfile","mc","phonon","coreshell","diffraction",
-	"voronoi","electrode");
+	"voronoi","electrode","granular");
 	#for bigwind only
 	#my @lmp_package= ("kspace","manybody","molecule","user-meamc","user-misc","user-omp","rigid","misc","dipole","replica","user-bigwind");
 	# You need to check lammps web about the package lib if needed.
