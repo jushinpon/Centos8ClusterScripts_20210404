@@ -12,8 +12,8 @@ if not works, you need to reboot
 use strict;
 use warnings;
 use Expect;
-my $adduser = "yes";
-my $setsmb = "yes";# you need to install 
+my $adduser = "no";
+my $setsmb = "no";# you need to install 
 #modify /etc/fatab for /home first
 #,usrquota,grpquota then mount -a -o remount
 my $setquota = "yes"; my $quota = "100";#use df -h to check first

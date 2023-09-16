@@ -55,7 +55,7 @@ for (@nodes){
     my $nodename= "node"."$nodeindex";
     my $mixed = `scontrol show node $nodename|grep MIXED`;
     if ($mixed){print "node with MIXED state: $nodename\n";
-        system("squeue |grep $nodename| awk \'{print \$1}'|xargs scancel");
+        system("squeue --nodelist=$nodename|grep -v JOBID| awk \'{print \$1}'|xargs scancel");
     }
         
 #$pm->finish;
