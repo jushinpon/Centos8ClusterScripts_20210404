@@ -16,7 +16,7 @@ my $adduser = "yes";
 my $setsmb = "yes";# you need to install 
 #modify /etc/fatab for /home first
 #,usrquota,grpquota then mount -a -o remount
-my $setquota = "yes"; my $quota = "20";#use df -h to check first
+my $setquota = "yes"; my $quota = "100";#use df -h to check first
 my $bsoft = int(1024*$quota)."M"; my $bhard = int(1024*$quota + 1024*5)."M";
 
 open my $ss,"< ./username.dat" or die "No Server_setting.dat to open.\n $!";#one line for an username
@@ -37,7 +37,7 @@ if($adduser eq "yes"){
     for my $new (@user_accounts){
         chomp $new;
         system("ps aux|grep -v grep|grep -v root|grep $new|awk '{print \$2}'|xargs kill");
-        #system("userdel -r $new");#-r flag to remove everything 
+        system("userdel -r $new");#-r flag to remove everything 
         system("rm -rf /home/$new"); 
         system("rm -rf /var/spool/mail/$new"); 
         system("useradd $new");

@@ -24,7 +24,8 @@ my %nodes = (
     195 => [1..7]
     );
 chomp @ARGV;    
-my $what2do = "$ARGV[0]";
+#my $what2do = "$ARGV[0]";
+my $what2do = "echo \'shutdown -h now\' | at 7:50 AM today";
 #print "$ARGV[0]\n";
 #die;
 my $ip = `/usr/sbin/ip a`;    
