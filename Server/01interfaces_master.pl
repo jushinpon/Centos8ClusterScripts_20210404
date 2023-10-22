@@ -97,7 +97,7 @@ system("dnf config-manager --set-enable powertools");
 
 system("rm -rf /var/run/yum.pid");
 #"iptables-services" not installed for Centos 8, replaced by "firewalld"
-my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make","numactl-devel","fail2ban"
+my @package = ("cmake","vim", "wget", "net-tools", "epel-release", "htop", "make","numactl-devel","fail2ban"
 			, "openssh*", "nfs-utils", "ypserv" ,"yp-tools","geany","psmisc"
 			,"firewalld", "ypbind" , "rpcbind","perl-Expect","gcc-gfortran","xorg-x11-server-Xorg","xorg-x11-xauth"
 			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN","yum-utils","dos2unix");

@@ -3,7 +3,7 @@
 	netbios name = 182_MASTER
 	security = USER
 	server string = SAMBA SERVER
-	unix extensions = No
+	smb1 unix extensions = No
 	workgroup = SAMBA
 	idmap config * : backend = tdb
 

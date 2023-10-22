@@ -27,6 +27,7 @@ if($wgetORgit eq "yes"){
 	system("git clone $URL");
 	die "git clone atomsk failed!!!\n" if($?);
 	chdir("$Dir4download/atomsk/src");
+	system("git checkout 0.12");
 	`sed -i 's:LAPACK=.*:LAPACK=-L'/opt/lapack' -llapack -lrefblas -ltmglib:' "Makefile"`;
 	chdir("$current_path");
 

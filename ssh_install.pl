@@ -10,8 +10,8 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 my %nodes = (
     #161 => [33..38],#1,3,39..
     161 => [1..42],#1,3,39..
-   # 182 => [24],
-    182 => [1..24],
+     182 => [6,20..24],
+    #182 => [1..24],
     186 => [1..7],
     190 => [1..3]
     );
@@ -72,15 +72,17 @@ for (@nodes){
     #print "$nodename\n";
     $cmd = "ssh $nodename ";
 
-   #system("$cmd 'dnf install lapack-devel -y' ");
-   #system("$cmd 'df -h|grep 100%' ");
-   my $temp = `$cmd 'cat /etc/redhat-release'`;
-   #print "$temp\n";
-   chomp $temp;
-   if($temp =~ /CentOS/){print "$nodename: $temp\n";
-    system("$cmd 'nohup /home/rocky-tools/migrate2rocky/migrate2rocky.sh -r 2>&1 > /home/mig2rock_$nodename.txt &' ");    
-   };
-   die;
+   #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
+   #system("$cmd 'dnf install -y libatomic*' ");
+   #print "$nodename\n";
+   system("$cmd 'reboot' ");
+   #my $temp = `$cmd 'cat /etc/redhat-release'`;
+   ##print "$temp\n";
+   #chomp $temp;
+   #if($temp =~ /CentOS/){print "$nodename: $temp\n";
+   # system("$cmd 'nohup /home/rocky-tools/migrate2rocky/migrate2rocky.sh -r 2>&1 > /home/mig2rock_$nodename.txt &' ");    
+   #};
+   
  #  sleep(2);
    #system("$cmd 'dnf install lapack-devel -y' ");
    #`$cmd "/usr/bin/ps aux|/usr/bin/grep -v grep|/usr/bin/egrep dpcheck|awk '{print \\\$2}'|xargs kill -9"`;

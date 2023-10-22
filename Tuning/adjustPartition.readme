@@ -1,0 +1,20 @@
+1. https://www.linuxtechi.com/extend-lvm-partitions/
+2. https://www.youtube.com/watch?v=k0JvEJAD7ps
+3. https://www.linuxtechi.com/reduce-size-lvm-partition/
+4. https://www.cnblogs.com/-abm/p/11349240.html
+
+lsblk
+pvs
+vgs
+lvs
+vgdisplay
+
+pvcreate /dev/XXX --> create pv
+vgextend XXX /dev/XXX --> increase volume for lv
+vgs to check XXX
+
+lvextend -r1 +100%FREE /dev/
+
+umount
+lvremove /dev/mapper/rl-swap
+lvextend -L 250G /dev/mapper/rl-root -r (need to use df -h / to check first)

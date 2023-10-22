@@ -1,15 +1,21 @@
-=Developed by Prof. Shin-Pon Ju at NSYSU Oct.09 2020
+=Developed by Prof. Shin-Pon Ju at NSYSU SEP.23 2023
 
-1. Perl script to compile and install QE with thermo_pw. You need to check the version of QE for the compatibility to 
-thermo_pw version.(https://dalcorso.github.io/thermo_pw/)
+1. Perl script to compile and install QE GPU version. 
+https://gitlab.com/QEF/q-e.git
 
-2. Download page: https://dalcorso.github.io/thermo_pw/
-3. QE : https://github.com/QEF/q-e/releases
+2. HPC SDK:
+https://developer.nvidia.com/hpc-sdk
 
-4. this installation: thermo_pw.1.3.0.tar.gz compatible with QE-6.5.
-**5. check sssp folder next time 
-https://www.materialscloud.org/discover/sssp/table/efficiency
-5.QE performance: https://glennklockwood.blogspot.com/2014/02/quantum-espresso-compiling-and-choice.html
+https://forums.developer.nvidia.com/t/compiling-quantum-espresso-with-gpu-support/222227
+./configure --with-cuda="/central/scratch/(username)/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda" --with-cuda-runtime=11.7 --with-cuda-cc=6.0 --enable-openmp --with-scalapack='intel' --with-cuda-mpi=yes --libdir="/central/scratch/(username)/nvidia/hpc_sdk/Linux_x86_64/22.7/math_libs"
+
+https://docs.nvidia.com/hpc-sdk/hpc-sdk-release-notes/index.html
+
+module use /opt/nvidia/hpc_sdk/modulefiles/nvhpc/
+module load /opt/nvidia/hpc_sdk/modulefiles/nvhpc/23.7
+
+$ sudo dnf config-manager --add-repo https://developer.download.nvidia.com/hpc-sdk/rhel/nvhpc.repo
+$ sudo dnf install -y nvhpc-cuda-multi-23.7
 =cut
 sub path_setting{
 	my $attached_path = shift;	
@@ -24,12 +30,16 @@ sub ld_setting {
 }
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
-path_setting($mattached_path);
+use Cwd; #Find Current Path
+#my $mattached_path = "/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/comm_libs/12.2/openmpi4/openmpi-4.1.5/bin:/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin:/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/cuda/12.2/bin";#attached path in main script
+
+#/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/comm_libs/12.2/openmpi4/openmpi-4.1.5/bin/mpif90
+
+#path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 #my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
+my $mattached_ld = "/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/comm_libs/12.2/openmpi4/openmpi-4.1.5/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 ld_setting($mattached_ld);
 
 #!/bin/sh
@@ -37,6 +47,9 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
+my $CUDA_HOME = '"/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/cuda/12.2"';
+my $cuda_cc = '86';
+my $cuda_runtime = '12.0';
 my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";
@@ -53,82 +66,35 @@ if(!-e $packageDir){# if no /home/packages, make this folder
 #system("yum install -y intel-mkl");
 
 #my $prefix = "/opt/QEGCC_MPICH3.3.2_thermoPW";
-my $prefix = "/opt/QEGCC_MPICH4.0.3_thermoPW";
+my $prefix = "/opt/QE_GPU";
 my $package = "q-e";
-#my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
-my $currentVer = "qe-7.1.tar.gz";#***** the latest version of this package (check the latest one if possible)
-#my $unzipFolder = "q-e-qe-6.5";#***** the unzipped folder of this package (check the latest one if possible)
-my $unzipFolder = "q-e-qe-7.1";#***** the unzipped folder of this package (check the latest one if possible)
-#my $URL = "https://github.com/QEF/q-e/archive/qe-6.5.tar.gz";#url to download
-my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-7.1.tar.gz";#url to download
-my $Dir4download = "$packageDir/qe_download"; #the directory we download Mpich
+my $URL = "https://gitlab.com/QEF/q-e.git";#url to download
+my $Dir4download = "$packageDir/qeGPU_download"; #the directory we download Mpich
 
-## thermo_pw
-my $package1 = "ThermoPW";
-my $currentVer1 = "thermo_pw.1.7.1.tar.gz";#***** the latest version of this package (check the latest one if possible)
-my $unzipFolder1 = "thermo_pw";#***** the unzipped folder of this package (check the latest one if possible)
-my $URL1 = "http://people.sissa.it/~dalcorso/thermo_pw/"."$currentVer1";#url to download
-#http://people.sissa.it/~dalcorso/thermo_pw/thermo_pw.1.7.0.tar.gz
 my $script_CurrentPath = getcwd(); #get perl code path
-
-#chdir("/opt");# cd to this dir for downloading the packages
-#system("rm -rf /opt/QEpot");
-#system("tar -xvzf $script_CurrentPath/QEpot.tar.gz");
-#if($?){die "tar QEpot.tar.gz failed!!\n";}
-#die;
-
-chdir("$script_CurrentPath");# cd to this dir for downloading the packages
 if($wgetORgit eq "yes"){
 	system("rm -rf $Dir4download");# remove the older directory first
 	system("mkdir $Dir4download");# make a directory in current path
 
-##download qe and thermo_pw
+##download qe 
 	chdir("$Dir4download");# cd to this dir for downloading the packages
 ##get the latest package in the directory and save it as the filename you want
-	system("wget $URL"); # download qe
+	system("git clone $URL"); # download qe
 	if($?){die "wget $URL failed!!\n";} 
-	system("wget $URL1"); # download thermo_pw
-	if($?){die "wget $URL1 failed!!\n";}
 	chdir("$script_CurrentPath");
 
 } 
 
-chdir("$Dir4download");# cd to this dir for downloading the packages
 
-system("rm -rf $unzipFolder");
-system("tar xvzf $currentVer");#unzip qe
-if($?){die "tar xvzf $currentVer failed!!\n";} 
-
-system("rm -rf $unzipFolder1");
-system("tar xvzf $currentVer1");#unzip thermo_pw
-if($?){die "tar xvzf $currentVer1 failed!!\n";} 
-
-if(! -d "$Dir4download/$unzipFolder" ){
-	die "No $unzipFolder folder after tar! You need to find the correct folder name\n";
-}
-
-if(! -d "$Dir4download/$unzipFolder1" ){
-	die "No $unzipFolder1 folder after tar! You need to find the correct folder name\n";
-}
-#copy required files and make (check "usage" of https://github.com/dalcorso/thermo_pw)
-system("rm -rf $Dir4download/$unzipFolder/$unzipFolder1");
-system("cp -r $Dir4download/$unzipFolder1 $Dir4download/$unzipFolder/");
-if($?){die "copy thermo_pw to qe folder failed!\n";}
-
-chdir("$Dir4download/$unzipFolder/thermo_pw");# cd to this dir for downloading the packages
-system("make leave_qe");
-system("make join_qe");
-if($?){die "make join_qe in thermo_pw directory failed!\nReason:$?\n";}
-
-chdir("$Dir4download/$unzipFolder");# cd to this dir for downloading the packages
-my $date=`date +%Y%m%d`;
+chdir("$Dir4download/q-e");# cd to this dir for downloading the packages
 
 my $prefix4QE = "--prefix=$prefix";
 system("rm -rf $prefix");
 
 #system("./configure $prefix F90=ifort F77=mpiifort MPIF90=mpiifort CC=mpiicc $BLAS_LIBS $LAPACK_LIBS $SCALAPACK_LIBS $FFT_LIBS $FFLAGS $MPI_LIBS --enable-parallel");
 # find all threads to make this package
-my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
+my $thread4make = `nproc`;
+chomp $thread4make;
 print "Total threads can be used for make: $thread4make\n";
 
 my $BLAS_LIBS="BLAS_LIBS=\"-L/opt/intel/mkl/lib/intel64 -lmkl_gf_lp64 -lmkl_sequential -lmkl_core\"";
@@ -141,8 +107,9 @@ my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
 #$SCALAPACK_LIBS -with-scalapack=yes $FFT_LIBS $MPI_LIBS $LIBDIRS $BLAS_LIBS $SCALAPACK_LIBS
 #system("./configure --enable-parallel $prefix");-with-scalapack=intel
 #system("./configure  $FFLAGS $prefix4QE");
-system("./configure --enable-parallel --enable-openmp $FFLAGS $prefix4QE");
-#system("./configure --enable-parallel  --enable-openmp MPIF90=mpif90 F90=ifort CC=icc $FFLAGS $prefix4QE");
+system("./configure F90=nvfortran CC=nvc CXX=nvc++ --enable-parallel --enable-openmp --with-cuda=$CUDA_HOME --with-cuda-cc=$cuda_cc --with-cuda-runtime=$cuda_runtime $prefix4QE --libdir=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/math_libs/12.2");
+#./configure F90=nvfortran CC=nvc CXX=nvc++ --enable-parallel --enable-openmp --with-cuda=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/cuda --with-cuda-cc=86 --with-cuda-runtime=12.0 --prefix=/opt/QE_GPU
+#--with-cuda=$CUDA_HOME --with-cuda-cc=70 --with-cuda-runtime=11.0
 if($?){die "**QE configure fails!\nReason:$?\n";}
 #after the configure process is done, type "make" and then "make install"
 system("make clean"); 

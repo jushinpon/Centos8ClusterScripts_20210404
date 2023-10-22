@@ -20,10 +20,10 @@ PairStyle(deepmd,PairDeepMD)
 #include <iostream>
 #include <fstream>
 
-#define GIT_SUMM v2.2.0.b0
-#define GIT_HASH 89d0d233
-#define GIT_BRANCH master
-#define GIT_DATE 2022-12-19 14:46:50 +0800
+#define GIT_SUMM v2.2.0
+#define GIT_HASH 6cdc5bff
+#define GIT_BRANCH HEAD
+#define GIT_DATE 2023-03-14 13:16:23 +0800
 #ifdef HIGH_PREC
 #define FLOAT_PREC double
 #else
@@ -31,7 +31,7 @@ PairStyle(deepmd,PairDeepMD)
 #endif
 #define DEEPMD_ROOT /opt/deepmd_lammpslib
 #define TensorFlow_INCLUDE_DIRS /opt/tf/include;/opt/tf/include
-#define TensorFlow_LIBRARY /opt/tf/lib/libtensorflow_cc.so;/opt/tf/lib/libtensorflow_framework.so
+#define TensorFlow_LIBRARY /opt/tf/lib/libtensorflow_cc.so
 #define DPMD_CVT_STR(x) #x
 #define DPMD_CVT_ASSTR(X) DPMD_CVT_STR(X)
 #define STR_GIT_SUMM DPMD_CVT_ASSTR(GIT_SUMM)
@@ -63,11 +63,11 @@ class PairDeepMD : public Pair {
   int get_node_rank();
   std::string get_file_content(const std::string & model);
   std::vector<std::string> get_file_content(const std::vector<std::string> & models);
- protected:  
+ protected:
   virtual void allocate();
   double **scale;
 
-private:  
+private:
   deepmd::DeepPot deep_pot;
   deepmd::DeepPotModelDevi deep_pot_model_devi;
   unsigned numb_models;
@@ -97,6 +97,25 @@ private:
   float eps;
   float eps_v;
 #endif
+
+  void make_fparam_from_compute(
+#ifdef HIGH_PREC
+      std::vector<double > & fparam
+#else
+      std::vector<float > & fparam
+#endif
+      );
+  bool do_compute;
+  std::string compute_id;
+
+    void make_ttm_fparam(
+#ifdef HIGH_PREC
+      std::vector<double > & fparam
+#else
+      std::vector<float > & fparam
+#endif
+      );
+
   void make_ttm_aparam(
 #ifdef HIGH_PREC
       std::vector<double > & dparam
@@ -109,6 +128,7 @@ private:
   int *counts,*displacements;
   tagint *tagsend, *tagrecv;
   double *stdfsend, *stdfrecv;
+  std::vector<int> type_idx_map;
 };
 
 }

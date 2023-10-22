@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 my $adduser = "yes";
-my $maxjobs = 4;
+my $maxjobs = 8;
 open my $ss,"< ./username.dat" or die "No Server_setting.dat to open.\n $!";#one line for an username
 my @temp_array = <$ss>;
 close $ss; 
@@ -22,6 +22,6 @@ my @user_accounts = grep (($_!~m{^\s*$|^#}),@temp_array); # remove blank lines
 chomp @user_accounts;
 for (@user_accounts){
     #print "$_\n";
-    system("sacctmgr -i add user $_ DefaultAccount=mel set MaxJobs=$maxjobs");
-    #system("sacctmgr -i modify user $_ set MaxJobs=$maxjobs");
+    #system("sacctmgr -i add user $_ DefaultAccount=mel set MaxJobs=$maxjobs");
+    system("sacctmgr -i modify user $_ set MaxJobs=$maxjobs");
 }
