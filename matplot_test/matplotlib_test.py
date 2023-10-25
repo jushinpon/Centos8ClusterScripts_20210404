@@ -14,6 +14,6 @@ plt.title('matplot example')
 
 # 添加图例
 plt.legend()
-
+plt.savefig("dp_temp.png") 
 # 显示图形
 plt.show()
