@@ -12,11 +12,11 @@ if not works, you need to reboot
 use strict;
 use warnings;
 use Expect;
-my $adduser = "yes";
-my $setsmb = "yes";# you need to install 
+my $adduser = "no";
+my $setsmb = "no";# you need to install 
 #modify /etc/fatab for /home first
 #,usrquota,grpquota then mount -a -o remount
-my $setquota = "yes"; my $quota = "200";#use df -h to check first
+my $setquota = "yes"; my $quota = "400";#use df -h to check first
 my $bsoft = int(1024*$quota)."M"; my $bhard = int(1024*$quota + 1024*5)."M";
 
 open my $ss,"< ./username.dat" or die "No Server_setting.dat to open.\n $!";#one line for an username

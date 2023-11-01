@@ -1,20 +1,97 @@
 1. https://www.linuxtechi.com/extend-lvm-partitions/
-2. https://www.youtube.com/watch?v=k0JvEJAD7ps
+2. https://www.youtube.com/watch?v=k0JvEJAD7ps   add new disk for extend lv from 9:00
 3. https://www.linuxtechi.com/reduce-size-lvm-partition/
 4. https://www.cnblogs.com/-abm/p/11349240.html
 
+LVM(Logical Volume Manager) provides the facility to increase and reduce the file system size. 
+
+df -h /home
+
+
 lsblk
-pvs
-vgs
-lvs
-vgdisplay
+
+
+pvs:
+[root@master ~]# pvs
+  PV             VG Fmt  Attr PSize   PFree
+  /dev/nvme0n1p1 cl lvm2 a--  238.47g    0
+  /dev/sda3      cl lvm2 a--  929.92g    0
+
+vgs:
+[root@master ~]# vgs
+  VG #PV #LV #SN Attr   VSize VFree
+  cl   2   3   0 wz--n- 1.14t    0
+
+
+lvs:
+[root@master ~]# lvs
+  LV   VG Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  home cl -wi-ao---- <1.08t
+  root cl -wi-ao---- 50.00g
+  swap cl -wi-ao---- 15.69g
+
+
+vgdisplay:
+  --- Volume group ---
+  VG Name               cl
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                3
+  Open LV               3
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               1.14 TiB
+  PE Size               4.00 MiB
+  Total PE              299109
+  Alloc PE / Size       299109 / 1.14 TiB
+  Free  PE / Size       0 / 0
+  VG UUID               qDhFX5-UElC-YxNu-KCjs-guLk-1Yx1-M4jQwX
+
+pvscan
+pvdisplay
+
+If Free PE/ Size has space left, you may use 
+
+Free PE/Size value exists:
+!!! -r If you do that, there is no necessity of resize2fs command!
+
+lvextend -L +2G /dev/mapper/vg_cloud-LogVol00   --> use df -h /home to get LV path
+lvextend -l +100%FREE /dev/mapper/vg_cloud-LogVol00
+resize2fs /dev/mapper/vg_cloud-LogVol00    ---> final step
+df -h /home/  --> final check
 
 pvcreate /dev/XXX --> create pv
 vgextend XXX /dev/XXX --> increase volume for lv
 vgs to check XXX
+
+
 
 lvextend -r1 +100%FREE /dev/
 
 umount
 lvremove /dev/mapper/rl-swap
 lvextend -L 250G /dev/mapper/rl-root -r (need to use df -h / to check first)
+
+new disk
+pvcreate /dev/XXX 
+vgextend lv_old /dev/XXX
+vgs --> free increases
+vgdisplay  --> check free
+
+ls /dev/mapper  --> check which one you want to extend
+lvextend -rl +100%FREE /dev/mapper/cl-home
+lvextend -rL 100G /dev/mapper/cl-root ---> modify to 100G
+
+trouble shooting
+
+(base) [root@master ~]# pvcreate /dev/sda
+  Cannot use /dev/sda: device is partitioned
+
+unmout first !!!!!
+parted /dev/sda mktable msdos
