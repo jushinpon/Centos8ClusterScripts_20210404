@@ -1,0 +1,1 @@
+rsync --rsh='ssh -p 20161' -av --progress --partial --append /opt/intel 140.117.60.161:/opt/intel

@@ -1,6 +1,6 @@
 DEEPMD_ROOT=/opt/deepmd_lammpslib
 TENSORFLOW_INCLUDE_DIRS="/opt/tf/include;/opt/tf/include"
-TENSORFLOW_LIBRARY_PATH="/opt/tf/lib;/opt/tf/lib"
+TENSORFLOW_LIBRARY_PATH="/opt/tf/lib"
 
 TF_INCLUDE_DIRS=`echo $TENSORFLOW_INCLUDE_DIRS | sed "s/;/ -I/g"`
 TF_LIBRARY_PATH=`echo $TENSORFLOW_LIBRARY_PATH | sed "s/;/ -L/g"`

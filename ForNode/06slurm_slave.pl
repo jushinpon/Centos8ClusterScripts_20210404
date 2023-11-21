@@ -12,7 +12,8 @@ system("timedatectl set-timezone Asia/Taipei");## setting timezone
 
 
 # find all threads to make this package
-my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
+#my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
+my $thread4make = `nproc`;
 chomp $thread4make;
 print "Total threads can be used for make: $thread4make\n";
 if($thread4make == 0){die "thread Number for make is $thread4make\n";}

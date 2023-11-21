@@ -37,7 +37,7 @@ if($adduser eq "yes"){
     for my $new (@user_accounts){
         chomp $new;
         system("ps aux|grep -v grep|grep -v root|grep $new|awk '{print \$2}'|xargs kill");
-        #system("userdel -r $new");#-r flag to remove everything 
+        system("userdel -r $new");#-r flag to remove everything 
         system("rm -rf /home/$new"); 
         system("rm -rf /var/spool/mail/$new"); 
         system("useradd $new");

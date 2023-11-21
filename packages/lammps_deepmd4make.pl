@@ -24,11 +24,11 @@ sub ld_setting {
 
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
 #my $mattached_path = "/opt/mpich-3.4.2/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-4.0.3/bin";#2023/01/27
+my $mattached_path = "/opt/mpich-4.0.3/bin";#:/opt/deepmd_lammpslib/bin";#2023/01/27 (don't use deep lib link)
 path_setting($mattached_path);#:/opt/intel/mkl/lib/intel64
 #my $mattached_ld = "/opt/mpich-3.3.2/lib";#attached ld path in main script
 #my $mattached_ld = "/opt/mpich-3.4.2/lib";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-4.0.3/lib";#2023/01/27
+my $mattached_ld = "/opt/mpich-4.0.3/lib";#:/opt/deepmd_lammpslib/lib";#2023/01/27
 ld_setting($mattached_ld);
 #/opt/anaconda3/envs/deepmd-cpuV203/include/deepmd/DeepPot.h
 #/home/packages/deepMD/deepmd-kit/source/build/api_cc/version.h
@@ -38,7 +38,7 @@ use strict;
 use Cwd; #Find Current Path
 use File::Copy; # Copy File
 `chmod -R 755 /opt/tf`;
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 #my $user_deep_dir = "/home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD"; #where you put USER-DEEPMD
 my $prefix = "/opt/lmp_deepmd_mpich4.0.3";
 `rm -rf /opt/lmp_deepmd_mpich4.0.3`;
@@ -48,14 +48,16 @@ if(!-e $packageDir){# if no /home/packages, make this folder
 	system("mkdir $packageDir");	
 }
 
-my $thread4make = `lscpu|grep "^CPU(s):" | sed 's/^CPU(s): *//g'`;
+my $thread4make = `nproc`;
 chomp $thread4make;
 print "Total threads can be used for make: $thread4make\n";
 #wget https://github.com/lammps/lammps/archive/stable_23Jun2022_update2.tar.gz
+#my $URL = "https://github.com/lammps/lammps/archive/stable_2Aug2023_update1.tar.gz";#url to download
 my $URL = "https://github.com/lammps/lammps/archive/stable_23Jun2022_update2.tar.gz";#url to download
 #my $URL = "https://lammps.sandia.gov/tars/lammps.tar.gz";#url to download
 my $Dir4download = "$packageDir/lammps4deepmd"; #the directory we download Mpich
 my $currentPath = getcwd(); #get perl code path
+#my $lmp_path = "/home/packages/lammps4deepmd/lammps-stable_2Aug2023_update1";
 my $lmp_path = "/home/packages/lammps4deepmd/lammps-stable_23Jun2022_update2";
 
 ##lmp_mpi will be in src
@@ -106,12 +108,14 @@ system("perl -p -i.bak -e 's/LINKFLAGS\\s+=.+/LINKFLAGS = -g -O3 -fopenmp/;' $lm
 
 chdir("$lmp_path/src");
 `rm -rf USER-DEEPMD`;
-`cp -R /home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD ./`;
+system("cp -R /home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD ./");
+if($?){die "No USER-DEEPMD in /home/packages/deepMD/deepmd-kit/source/build"}
+#if($?){system("cp -R $currentPath/USER-DEEPMD ./");}
 
 	system("make lib-voronoi args='-b -v voro++0.4.6'");#make voro++ lib first
 	if($?){die"make voro++ lib failed!\n";}#,"voronoi"
-	system("make lib-plumed args='-b'");#make voro++ lib first
-	if($?){die"make plumed lib failed!\n";}#,"voronoi"
+	#system("make lib-plumed args='-b'");#make voro++ lib first
+	#if($?){die"make plumed lib failed!\n";}#,"voronoi"
 
 	system ("make no-all");# uninstall all packages at the very beginning
     system("make no-user-deepmd");
@@ -128,11 +132,13 @@ chdir("$lmp_path/src");
 		system ("make yes-$installpack");	#make this package installed
 	}
 #
-	system ("make clean"); # clean all old object files
+	system ("make clean-all"); # clean all old object files
 	unlink ("lmp_mpi");#remove all old lmp executable
 #
 	system ("make -j $thread4make mpi");####**** check how many cores you may use for compiling lammps
-#	#print ""
+#	die
+
+	#print ""
 	if(-e "$lmp_exeDir" and -d "$lmp_exeDir" ){
 		unlink $lmp_exe;
 		system ("cp lmp_mpi $lmp_exe");

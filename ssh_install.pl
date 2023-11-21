@@ -10,8 +10,8 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 my %nodes = (
     #161 => [33..38],#1,3,39..
     161 => [1..42],#1,3,39..
-   # 182 => [24],
-    182 => [1..4,6..15,17..24],
+     182 => [6,20..24],
+    #182 => [1..24],
     186 => [1..7],
     190 => [1..3]
     );
@@ -66,16 +66,27 @@ my $hundredM = 100*1024*1024/4096;
 #system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
 #`dnf install lapack-devel -y`;
 for (@nodes){
-$pm->start and next;
+#$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
-    print "$nodename\n";
+    #print "$nodename\n";
     $cmd = "ssh $nodename ";
 
+   #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
+   #system("$cmd 'dnf install -y libatomic*' ");
+   #print "$nodename\n";
+   system("$cmd 'reboot' ");
+   #my $temp = `$cmd 'cat /etc/redhat-release'`;
+   ##print "$temp\n";
+   #chomp $temp;
+   #if($temp =~ /CentOS/){print "$nodename: $temp\n";
+   # system("$cmd 'nohup /home/rocky-tools/migrate2rocky/migrate2rocky.sh -r 2>&1 > /home/mig2rock_$nodename.txt &' ");    
+   #};
+   
+ #  sleep(2);
    #system("$cmd 'dnf install lapack-devel -y' ");
-   #system("$cmd 'dnf install lapack-devel -y' ");
-   `$cmd "/usr/bin/ps aux|/usr/bin/grep -v grep|/usr/bin/egrep dpcheck|awk '{print \\\$2}'|xargs kill -9"`;
-   `$cmd "echo 0 > /proc/sys/vm/nr_hugepages"`;
+   #`$cmd "/usr/bin/ps aux|/usr/bin/grep -v grep|/usr/bin/egrep dpcheck|awk '{print \\\$2}'|xargs kill -9"`;
+   #`$cmd "echo 0 > /proc/sys/vm/nr_hugepages"`;
 
 #slurm log rotate
  # `scp  ./slurm_rotate.txt root\@$nodename:/etc/logrotate.d/slurm`;
@@ -246,9 +257,9 @@ $pm->start and next;
     #system("$cmd 'dnf install -y perl*'");    
     #system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
     #system("$cmd 'chown -R jsp: /free'");    
-$pm->finish;
+#$pm->finish;
 }
-$pm->wait_all_children;
+#$pm->wait_all_children;
 
 print "Maybe you need to do scontrol reconfigure\n";
 #my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;

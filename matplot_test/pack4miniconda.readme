@@ -1,0 +1,4 @@
+dnf install qt5-qtbase-devel
+for base environment
+condat insatll numpy, sci-kit,,,
+matplotlib...

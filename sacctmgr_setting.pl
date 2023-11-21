@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 my $adduser = "yes";
-my $maxjobs = 20;
+my $maxjobs = 12;
 open my $ss,"< ./username.dat" or die "No Server_setting.dat to open.\n $!";#one line for an username
 my @temp_array = <$ss>;
 close $ss; 
