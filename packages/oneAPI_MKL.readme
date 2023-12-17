@@ -16,3 +16,45 @@ dnf install intel-hpckit
 dnf install intel-mkl
 
 source /opt/intel/oneapi/setvars.sh
+
+
+https://thelinuxcluster.com/2017/05/16/compiling-intel-blas95-and-lapack95-interface-wrapper-library/
+
+For blas95
+
+# cd $MKLROOT
+# cd interfaces/blas95
+# make libintel64  INSTALL_DIR=$MKLROOT/lib/intel64
+Once Compiled, the libraries are kept $MKLROOT/lib/intel64
+
+For Lapack95
+
+# cd $MKLROOT
+# cd interfaces/lapack95
+# make libintel64  INSTALL_DIR=$MKLROOT/lib/intel64
+Once Compiled, the libraries are kept $MKLROOT/lib/intel64
+
+
+The source code for the wrappers, makefiles are found …..\interfaces\fftw3xc subdirectory in the Intel MKL Directory
+
+Intel FFTW3 Interface Wrapper Library. Do the same for fftw3xc and fftw3xf
+
+# cd $MKLROOT
+# cd interfaces/fftw3xc
+# make libintel64  INSTALL_DIR=$MKLROOT/lib/intel64
+# cd $MKLROOT
+# cd interfaces/fftw3xf
+# make libintel64  INSTALL_DIR=$MKLROOT/lib/intel64
+Once Compiled, the libraries are kept $MKLROOT/lib/intel64
+
+Intel FFTW2 Interface Wrapper Library. Do the same for fftw2xc and fftw2xf
+
+# cd $MKLROOT
+# cd interfaces/fftw2xc
+# make libintel64  PRECISION=MKL_DOUBLE
+# make libintel64  PRECISION=MKL_SINGLE
+# cd $MKLROOT
+# cd interfaces/fftw2xf
+# make libintel64  PRECISION=MKL_DOUBLE INSTALL_DIR=$MKLROOT/lib/intel64
+# make libintel64  PRECISION=MKL_SINGLE INSTALL_DIR=$MKLROOT/lib/intel64
+Once Compiled, the libraries are kept $MKLROOT/lib/intel64

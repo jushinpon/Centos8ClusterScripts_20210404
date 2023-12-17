@@ -24,13 +24,13 @@ sub ld_setting {
 }
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
-path_setting($mattached_path);
+#my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
+#path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 #my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-ld_setting($mattached_ld);
+#my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
+#ld_setting($mattached_ld);
 
 #!/bin/sh
 use warnings;
@@ -53,7 +53,7 @@ if(!-e $packageDir){# if no /home/packages, make this folder
 #system("yum install -y intel-mkl");
 
 #my $prefix = "/opt/QEGCC_MPICH3.3.2_thermoPW";
-my $prefix = "/opt/thermoPW";
+my $prefix = "/opt/thermoPW-7-1";
 #my $prefix = "/opt/QEGCC_MPICH4.0.3_thermoPW";
 my $package = "q-e";
 #my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
@@ -142,12 +142,17 @@ my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
 #$SCALAPACK_LIBS -with-scalapack=yes $FFT_LIBS $MPI_LIBS $LIBDIRS $BLAS_LIBS $SCALAPACK_LIBS
 #system("./configure --enable-parallel $prefix");-with-scalapack=intel
 #system("./configure  $FFLAGS $prefix4QE");
-<<<<<<< HEAD
-system("./configure --enable-parallel --enable-openmp  $FFLAGS $prefix4QE");
-=======
-system("./configure --enable-parallel --enable-openmp $FFLAGS $prefix4QE");
-#system("./configure --enable-parallel  --enable-openmp MPIF90=mpif90 F90=ifort CC=icc $FFLAGS $prefix4QE");
->>>>>>> 097977494cec139dc0fbbc338ff2150ebe3c393d
+my $fftw_link = '-L${MKLROOT}/lib/intel64 -lmkl';
+my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
+my $QE_inst = "./configure --enable-parallel --enable-openmp --with-scalapack=intel --enable-shared $prefix4QE ".
+"FFLAGS=\"-O3 -assume byterecl -g -traceback\" ".
+"LAPACK_LIBS=\"$link\" ".
+"BLAS_LIBS=\"$link\" ".
+"SCALAPACK_LIBS=\"$link\" ".
+#"FFT_LIBS=\"$fftw_link\" ".
+"LAPACK=\"liblapack\"";
+print "\$QE_inst: $QE_inst";
+system("$QE_inst");
 if($?){die "**QE configure fails!\nReason:$?\n";}
 #after the configure process is done, type "make" and then "make install"
 system("make clean"); 
