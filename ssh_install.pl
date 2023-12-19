@@ -66,16 +66,17 @@ my $hundredM = 100*1024*1024/4096;
 #system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
 #`dnf install lapack-devel -y`;
 for (@nodes){
-#$pm->start and next;
+$pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
     #print "$nodename\n";
     $cmd = "ssh $nodename ";
 
+   system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
-   system("$cmd 'reboot' ");
+   #system("$cmd 'reboot' ");
    #my $temp = `$cmd 'cat /etc/redhat-release'`;
    ##print "$temp\n";
    #chomp $temp;
@@ -174,15 +175,21 @@ for (@nodes){
 #    unless($?){
 #        my $df = `$cmd 'df /swap|grep swap|awk "{print \\\$4}"'`;
 #        chomp $df;
-#        print "$nodename \n";
-#        `$cmd 'rm -f /swap/*'`;
-#        `$cmd 'dd if=/dev/zero of=/swap/ls swap bs=1024 count=$df'`;
-#        system("$cmd 'chmod 0644 /swap/swap'");
-#        `$cmd 'mkswap -f /swap/swap'`;
-#        `$cmd 'swapon /swap/swap'`;
-#        system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
-#        system("$cmd 'sed -i \"\\\$ a /swap/swap swap swap defaults 0 0\" /etc/fstab'");
-#        system("$cmd 'swapon -s'");
+    #    print "$nodename \n";
+    #    `$cmd 'swapoff -a'`;
+    #    `$cmd 'rm -rf /swap/*'`;
+    #    `$cmd 'rm -rf /free/swap'`;
+    #    `$cmd 'mkdir /free/swap'`;
+    #    $swap = 1024 * 1024 * 16;# 16G
+    #    `$cmd 'dd if=/dev/zero of=/free/swap/swap bs=1024 count=$swap'`;
+    #    #system("$cmd 'chmod 0644 /free/swap/swap'");
+    #    system("$cmd 'chmod 0600 /free/swap/swap'");
+    #    `$cmd 'mkswap -f /free/swap/swap'`;
+    #    `$cmd 'swapon /free/swap/swap'`;
+    #    system("$cmd 'sed -i \"/free/swap/d\" /etc/fstab'");
+    #    system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
+    #    system("$cmd 'sed -i \"\\\$ a /free/swap/swap swap swap defaults 0 0\" /etc/fstab'");
+    #    system("$cmd 'swapon -s'");
 #        sleep(1);
 #       # unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
 #	   #     `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
@@ -257,9 +264,9 @@ for (@nodes){
     #system("$cmd 'dnf install -y perl*'");    
     #system("$cmd 'dnf install -y perl-Parallel-ForkManager'");    
     #system("$cmd 'chown -R jsp: /free'");    
-#$pm->finish;
+$pm->finish;
 }
-#$pm->wait_all_children;
+$pm->wait_all_children;
 
 print "Maybe you need to do scontrol reconfigure\n";
 #my $slurmdown = `sinfo|grep All|grep down|awk '{print \$NF}'`;

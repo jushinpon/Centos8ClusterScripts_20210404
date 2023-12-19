@@ -37,7 +37,7 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
+my $wgetORgit = "yes";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -53,20 +53,20 @@ if(!-e $packageDir){# if no /home/packages, make this folder
 #system("yum install -y intel-mkl");
 
 #my $prefix = "/opt/QEGCC_MPICH3.3.2_thermoPW";
-my $prefix = "/opt/thermoPW-7-1";
+my $prefix = "/opt/thermoPW-7-2";
 #my $prefix = "/opt/QEGCC_MPICH4.0.3_thermoPW";
 my $package = "q-e";
 #my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
-my $currentVer = "qe-7.1.tar.gz";#***** the latest version of this package (check the latest one if possible)
+my $currentVer = "qe-7.2.tar.gz";#***** the latest version of this package (check the latest one if possible)
 #my $unzipFolder = "q-e-qe-6.5";#***** the unzipped folder of this package (check the latest one if possible)
-my $unzipFolder = "q-e-qe-7.1";#***** the unzipped folder of this package (check the latest one if possible)
+my $unzipFolder = "q-e-qe-7.2";#***** the unzipped folder of this package (check the latest one if possible)
 #my $URL = "https://github.com/QEF/q-e/archive/qe-6.5.tar.gz";#url to download
-my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-7.1.tar.gz";#url to download
+my $URL = "https://github.com/QEF/q-e/archive/refs/tags/qe-7.2.tar.gz";#url to download
 my $Dir4download = "$packageDir/qe_download"; #the directory we download Mpich
 
 ## thermo_pw
 my $package1 = "ThermoPW";
-my $currentVer1 = "thermo_pw.1.7.1.tar.gz";#***** the latest version of this package (check the latest one if possible)
+my $currentVer1 = "thermo_pw.1.8.1.tar.gz";#***** the latest version of this package (check the latest one if possible)
 my $unzipFolder1 = "thermo_pw";#***** the unzipped folder of this package (check the latest one if possible)
 my $URL1 = "http://people.sissa.it/~dalcorso/thermo_pw/"."$currentVer1";#url to download
 #http://people.sissa.it/~dalcorso/thermo_pw/thermo_pw.1.7.0.tar.gz
@@ -143,9 +143,13 @@ my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
 #system("./configure --enable-parallel $prefix");-with-scalapack=intel
 #system("./configure  $FFLAGS $prefix4QE");
 my $fftw_link = '-L${MKLROOT}/lib/intel64 -lmkl';
-my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
-my $QE_inst = "./configure --enable-parallel --enable-openmp --with-scalapack=intel --enable-shared $prefix4QE ".
-"FFLAGS=\"-O3 -assume byterecl -g -traceback\" ".
+my $link = '-L${MKLROOT}/lib -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
+#my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
+#sequential
+#my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl';
+#--with-scalapack=intel
+my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --with-scalapack=intel $prefix4QE ".
+"FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
 "LAPACK_LIBS=\"$link\" ".
 "BLAS_LIBS=\"$link\" ".
 "SCALAPACK_LIBS=\"$link\" ".

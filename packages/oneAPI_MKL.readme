@@ -1,3 +1,6 @@
+https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?operatingsystem=linux&distributions=dnf
+https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2024-0/yum-dnf-zypper.html
+
 tee > /tmp/oneAPI.repo << EOF
 [oneAPI]
 name=Intel® oneAPI repository
