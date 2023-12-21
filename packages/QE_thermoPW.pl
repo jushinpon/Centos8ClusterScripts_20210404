@@ -143,12 +143,15 @@ my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
 #system("./configure --enable-parallel $prefix");-with-scalapack=intel
 #system("./configure  $FFLAGS $prefix4QE");
 my $fftw_link = '-L${MKLROOT}/lib/intel64 -lmkl';
+#MKL 2024
 my $link = '-L${MKLROOT}/lib -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
+#my $link = ' -L${MKLROOT}/lib -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
+
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
 #sequential
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl';
 #--with-scalapack=intel
-my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --with-scalapack=intel $prefix4QE ".
+my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --with-scalapack=intel  $prefix4QE ".
 "FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
 "LAPACK_LIBS=\"$link\" ".
 "BLAS_LIBS=\"$link\" ".

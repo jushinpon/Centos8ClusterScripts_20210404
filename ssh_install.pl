@@ -72,7 +72,7 @@ $pm->start and next;
     #print "$nodename\n";
     $cmd = "ssh $nodename ";
 
-   system("$cmd 'dnf upgrade -y' ");
+   #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
@@ -175,21 +175,21 @@ $pm->start and next;
 #    unless($?){
 #        my $df = `$cmd 'df /swap|grep swap|awk "{print \\\$4}"'`;
 #        chomp $df;
-    #    print "$nodename \n";
-    #    `$cmd 'swapoff -a'`;
-    #    `$cmd 'rm -rf /swap/*'`;
-    #    `$cmd 'rm -rf /free/swap'`;
-    #    `$cmd 'mkdir /free/swap'`;
-    #    $swap = 1024 * 1024 * 16;# 16G
-    #    `$cmd 'dd if=/dev/zero of=/free/swap/swap bs=1024 count=$swap'`;
-    #    #system("$cmd 'chmod 0644 /free/swap/swap'");
-    #    system("$cmd 'chmod 0600 /free/swap/swap'");
-    #    `$cmd 'mkswap -f /free/swap/swap'`;
-    #    `$cmd 'swapon /free/swap/swap'`;
-    #    system("$cmd 'sed -i \"/free/swap/d\" /etc/fstab'");
-    #    system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
-    #    system("$cmd 'sed -i \"\\\$ a /free/swap/swap swap swap defaults 0 0\" /etc/fstab'");
-    #    system("$cmd 'swapon -s'");
+        print "$nodename \n";
+        `$cmd 'swapoff -a'`;
+        `$cmd 'rm -rf /swap/*'`;
+        `$cmd 'rm -rf /free/swap'`;
+       # `$cmd 'mkdir /free/swap'`;
+       # $swap = 1024 * 1024 * 16;# 16G
+       # `$cmd 'dd if=/dev/zero of=/free/swap/swap bs=1024 count=$swap'`;
+       # system("$cmd 'chmod 0644 /free/swap/swap'");
+       # system("$cmd 'chmod 0600 /free/swap/swap'");
+       #`$cmd 'mkswap -f /free/swap/swap'`;
+       #`$cmd 'swapon /free/swap/swap'`;
+        system("$cmd 'sed -i \"/free/swap/d\" /etc/fstab'");
+        system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
+        #system("$cmd 'sed -i \"\\\$ a /free/swap/swap swap swap defaults 0 0\" /etc/fstab'");
+        #system("$cmd 'swapon -s'");
 #        sleep(1);
 #       # unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
 #	   #     `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;
