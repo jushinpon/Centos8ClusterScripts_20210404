@@ -62,64 +62,71 @@ dmesg|grep NVRM -->API mismatch
 use warnings;
 use strict;
 use Parallel::ForkManager;
+
+my @badgpuNodes = qw(
+node09
+node12
+node18
+);
+
 my $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my @dnf = ("dnf install elrepo-release -y",
             #"dnf install nvidia-detect -y",
 "dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo",
-           "dnf module reset nvidia-driver -y",
+          # "dnf module reset nvidia-driver -y",
 #"dnf module enable nvidia-driver:525",
 #"dnf module install -y nvidia-driver:525",
             "sudo dnf -y module install nvidia-driver:latest-dkms"
 );
-
-my %nodes = (
-    #161 => [0],#8..18,20..22,39..41],#[1,3,39..42],#1,3,39..
-    #161 => [8..18],#8..18,20..22,39..41],#[1,3,39..42],#1,3,39..
-    #161 => [10],#[1,3,39..42],#1,3,39.., bad node 18
-    161 => [1,2,3,8..10,11..18,20..21,39..42],#[1,3,39..42],#1,3,39..    
-    #161 => [1..3],#[1,3,39..42],#1,3,39..    
-    182 => [23]
-    #182 => [7,20,21,22,23,24]
-    );
-#get current for the corresponding setting    
-my $ip = `/usr/sbin/ip a`;    
-$ip =~ /1\d0\.1\d\d\.\d+\.(\d+)/;
-my $cluster = $1;
-$cluster =~ s/^\s+|\s+$//;
-#print "\$cluster: $cluster\n";
-my @allnodes = @{$nodes{$cluster}};#get node information
-my @nodes;
-
+my $dnf = join(";",@dnf);
+chomp $dnf;
+#my %nodes = (
+#    #161 => [0],#8..18,20..22,39..41],#[1,3,39..42],#1,3,39..
+#    #161 => [8..18],#8..18,20..22,39..41],#[1,3,39..42],#1,3,39..
+#    #161 => [10],#[1,3,39..42],#1,3,39.., bad node 18
+#    161 => [1,2,3,8..10,11..18,20..21,39..42],#[1,3,39..42],#1,3,39..    
+#    #161 => [1..3],#[1,3,39..42],#1,3,39..    
+#    182 => [23]
+#    #182 => [7,20,21,22,23,24]
+#    );
+##get current for the corresponding setting    
+#my $ip = `/usr/sbin/ip a`;    
+#$ip =~ /1\d0\.1\d\d\.\d+\.(\d+)/;
+#my $cluster = $1;
+#$cluster =~ s/^\s+|\s+$//;
+##print "\$cluster: $cluster\n";
+#my @allnodes = @{$nodes{$cluster}};#get node information
+#my @nodes;
+#
 #test whether the connection is ok
-`touch ~/scptest.dat`;
-for (@allnodes){
-    my $nodeindex=sprintf("%02d",$_);
-    my $nodename= "node"."$nodeindex";
-    my $cmd = "/usr/bin/ssh $nodename ";
-    print "****Check $nodename status\n ";
-    #`echo "***$nodename" >> $output`;
-#use scp for ssh test
-	system("scp -o ConnectTimeout=5 ~/scptest.dat root\@$nodename:/root");    
-    if($?){
-		next;#not available
-		}
-	else{
-		print "scp at $nodename ok for ssh test\n";
-        push @nodes, $_;
-		}	
-}
-chomp @nodes;
+#`touch ~/scptest.dat`;
+#for (@allnodes){
+#    my $nodeindex=sprintf("%02d",$_);
+#    my $nodename= "node"."$nodeindex";
+#    my $cmd = "/usr/bin/ssh $nodename ";
+#    print "****Check $nodename status\n ";
+#    #`echo "***$nodename" >> $output`;
+##use scp for ssh test
+#	system("scp -o ConnectTimeout=5 ~/scptest.dat root\@$nodename:/root");    
+#    if($?){
+#		next;#not available
+#		}
+#	else{
+#		print "scp at $nodename ok for ssh test\n";
+#        push @nodes, $_;
+#		}	
+#}
+#chomp @nodes;
 
-for (@nodes){
+for (@badgpuNodes){
 #$pm->start and next;
-    my $nodeindex=sprintf("%02d",$_);
-    my $nodename= "node"."$nodeindex";
-    print "*****$nodename*****\n";
-    my $cmd = "/usr/bin/ssh $nodename ";
-    for my $dnf (@dnf){
+    
+    print "*****$_*****\n";
+    my $cmd = "/usr/bin/ssh $_ ";
+    #for my $dnf (@dnf){
         system("$cmd '$dnf'");
-    }
+    #}
 
 #$pm->finish;
 }
