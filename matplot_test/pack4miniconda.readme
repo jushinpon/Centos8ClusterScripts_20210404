@@ -2,3 +2,6 @@ dnf install qt5-qtbase-devel
 for base environment
 condat insatll numpy, sci-kit,,,
 matplotlib...
+
+
+sudo dnf install xcb-util xcb-util-* libxcb qt5-qtbase qt5-qtbase-gui xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-apps --nogpgcheck

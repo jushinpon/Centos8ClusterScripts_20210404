@@ -175,29 +175,29 @@ $pm->start and next;
 #    unless($?){
 #        my $df = `$cmd 'df /swap|grep swap|awk "{print \\\$4}"'`;
 #        chomp $df;
-        print "$nodename \n";
-        
-        my @swapon = `$cmd 'swapon'`;
-        map { s/^\s+|\s+$//g; } @swapon;
-        unless(@swapon){
-            `$cmd 'swapoff -a'`;
-            `$cmd 'rm -rf /swap/*'`;
-            `$cmd 'rm -rf /free/swap'`;
-            `$cmd 'mkdir /free/swap'`;
-            $swap = 1024 * 1024 * 16;# 16G
-            `$cmd 'dd if=/dev/zero of=/free/swap/swap bs=1024 count=$swap'`;
-            system("$cmd 'chmod 0644 /free/swap/swap'");
-            system("$cmd 'chmod 0600 /free/swap/swap'");
-            `$cmd 'mkswap -f /free/swap/swap'`;
-            `$cmd 'swapon /free/swap/swap'`;
-            system("$cmd 'sed -i \"/free/swap/d\" /etc/fstab'");
-            system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
-            system("$cmd 'sed -i \"\\\$ a /free/swap/swap swap swap defaults 0 0\" /etc/fstab'");
-            system("$cmd 'swapon -s'");
-        }
-        else{
-            print "swap space has been set in $nodename\n";
-        }
+#        print "$nodename \n";
+#        
+#        my @swapon = `$cmd 'swapon'`;
+#        map { s/^\s+|\s+$//g; } @swapon;
+#        unless(@swapon){
+#            `$cmd 'swapoff -a'`;
+#            `$cmd 'rm -rf /swap/*'`;
+#            `$cmd 'rm -rf /free/swap'`;
+#            `$cmd 'mkdir /free/swap'`;
+#            $swap = 1024 * 1024 * 16;# 16G
+#            `$cmd 'dd if=/dev/zero of=/free/swap/swap bs=1024 count=$swap'`;
+#            system("$cmd 'chmod 0644 /free/swap/swap'");
+#            system("$cmd 'chmod 0600 /free/swap/swap'");
+#            `$cmd 'mkswap -f /free/swap/swap'`;
+#            `$cmd 'swapon /free/swap/swap'`;
+#            system("$cmd 'sed -i \"/free/swap/d\" /etc/fstab'");
+#            system("$cmd 'sed -i \"/swap/d\" /etc/fstab'");
+#            system("$cmd 'sed -i \"\\\$ a /free/swap/swap swap swap defaults 0 0\" /etc/fstab'");
+#            system("$cmd 'swapon -s'");
+#        }
+#        else{
+#            print "swap space has been set in $nodename\n";
+#        }
 #        sleep(1);
 #       # unless(`ssh $nodename "grep 'systemctl restart slurmd' /etc/rc.local"`){
 #	   #     `ssh $nodename "echo 'systemctl restart slurmd' >> /etc/rc.local"`;

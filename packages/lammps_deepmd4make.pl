@@ -65,7 +65,7 @@ my $lmp_path = "/home/packages/lammps4deepmd/lammps-stable_23Jun2022_update2";
 	my $getdat ="date"." $datformat ";
 	my $test=`$getdat`;
 	chomp $test;
-	my $lmp_exe = "/opt/lammps-mpich-4.0.3"."/lmpdeepmd"."_$test";### make date information
+	my $lmp_exe = "/opt/lammps-mpich-4.0.3"."/lmpdeepmd";#."_$test";### make date information
 	my $lmp_exeDir = "/opt/lammps-mpich-4.0.3/";### make date information
     #my $lmp_exe = "/opt/lammps-mpich-3.4.2-bigwind"."/lmp"."_$test";### make date information
 	#my $lmp_exeDir = "/opt/lammps-mpich-3.4.2-bigwind/";### make date information
