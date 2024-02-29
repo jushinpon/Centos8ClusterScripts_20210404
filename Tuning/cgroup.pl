@@ -32,13 +32,13 @@ use strict;
 use warnings;
 #`yum install libcgroup`;
 #resource you want to control for UID
-my $CPUQuota= '20%';#allowed max cpu usage 
+my $CPUQuota= '30%';#allowed max cpu usage 
 my $MemoryMax= '1024M'; #allowed max ram usage = 20%
-my $TasksMax= 30;
-my $TasksMaxLimit= 30;# max task number
+my $TasksMax= 50;
+my $TasksMaxLimit= 50;# max task number
 my $BlockIOMax= "5M";#diso io per second
 
-open my $ss,"< ./username.dat" or die "No username.dat to open.\n $!";#one line for an username
+open my $ss,"< ../username.dat" or die "No username.dat to open.\n $!";#one line for an username
 my @temp_array = <$ss>;
 close $ss; 
 my @user_accounts = grep (($_!~m{^\s*$|^#}),@temp_array); # remove blank lines
