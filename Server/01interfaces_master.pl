@@ -138,7 +138,7 @@ if($?){
 	}
 #cpan App::cpanminus
 close($pack);
-system("dnf -y upgrade");
+system("dnf -y upgrade --nobest --exclude=kernel*");
 #set x11 forwarding: enable x11 forwarding  
 `sed -i "/X11Forwarding/d" /etc/ssh/sshd_config`;#remove old setting first
 `sed -i '\$ a X11Forwarding yes' /etc/ssh/sshd_config`;# $ a for sed appending
