@@ -22,6 +22,6 @@ my @user_accounts = grep (($_!~m{^\s*$|^#}),@temp_array); # remove blank lines
 chomp @user_accounts;
 for (@user_accounts){
     #print "$_\n";
-    #system("sacctmgr -i add user $_ DefaultAccount=mel set MaxJobs=$maxjobs");
-    system("sacctmgr -i modify user $_ set MaxJobs=$maxjobs");
+    system("sacctmgr -i add user $_ DefaultAccount=mel set MaxJobs=$maxjobs");
+    #system("sacctmgr -i modify user $_ set MaxJobs=$maxjobs");
 }

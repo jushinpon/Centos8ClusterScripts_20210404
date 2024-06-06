@@ -38,7 +38,7 @@ use strict;
 use Cwd; #Find Current Path
 use File::Copy; # Copy File
 `chmod -R 755 /opt/tf`;
-my $wgetORgit = "yes";
+my $wgetORgit = "no";
 #my $user_deep_dir = "/home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD"; #where you put USER-DEEPMD
 my $prefix = "/opt/lmp_deepmd_mpich4.0.3";
 `rm -rf /opt/lmp_deepmd_mpich4.0.3`;
@@ -108,7 +108,9 @@ system("perl -p -i.bak -e 's/LINKFLAGS\\s+=.+/LINKFLAGS = -g -O3 -fopenmp/;' $lm
 
 chdir("$lmp_path/src");
 `rm -rf USER-DEEPMD`;
+system("chmod 755 -R /home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD");
 system("cp -R /home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD ./");
+system("chmod 755 -R ./USER-DEEPMD");
 if($?){die "No USER-DEEPMD in /home/packages/deepMD/deepmd-kit/source/build"}
 #if($?){system("cp -R $currentPath/USER-DEEPMD ./");}
 

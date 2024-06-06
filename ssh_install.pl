@@ -3,7 +3,7 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 100;
+$forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
@@ -12,7 +12,7 @@ my %nodes = (
     161 => [1..42],#1,3,39..
      182 => [6,20..24],
     #182 => [1..24],
-    186 => [1..7],
+    186 => [1..10],
     190 => [1..3]
     );
 
@@ -74,6 +74,8 @@ $pm->start and next;
 
    #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
+   #system("$cmd 'umount -l /home;umount -l /opt;mount -a' ");
+   system("$cmd 'slurmd -C' ");
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
    #system("$cmd 'reboot' ");
