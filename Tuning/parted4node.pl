@@ -28,7 +28,7 @@ use warnings;
 my %partedDevs = (# disks you want to share with server
 	node01 => ["sdc","sdd"],
 	node02 => ["sdc","sdd"], 
-	node03 => ["sdc"] 
+	node03 => ["sda","sdc","sdd"] 
 	);
 my $hostname = `hostname`;
 chomp $hostname;
