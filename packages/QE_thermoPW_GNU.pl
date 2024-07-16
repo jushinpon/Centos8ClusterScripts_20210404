@@ -37,7 +37,7 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
+my $wgetORgit = "yes";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -151,7 +151,7 @@ my $link = '-L${MKLROOT}/lib -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_t
 #sequential
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl';
 #--with-scalapack=intel --enable-openmp CC=icc CXX=icpc
-my $QE_inst = "./configure --enable-parallel --enable-openmp  --enable-shared $prefix4QE ";#.
+my $QE_inst = "./configure --enable-parallel --enable-openmp $prefix4QE ";#.
 #"FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
 #"LAPACK_LIBS=\"$link\" ".
 #"BLAS_LIBS=\"$link\" ".

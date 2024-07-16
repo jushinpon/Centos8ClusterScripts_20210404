@@ -23,7 +23,7 @@ use Cwd;
 
 $forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my @nodes = (6);
+my @nodes = (17);
 
 #+++++++++++ parameters you need to assign correctly!!!!!
 my $gpu_info = "yes";#check and output gpu card information for all nodes

@@ -25,7 +25,7 @@ my @package = ("vim", "wget", "net-tools", "epel-release", "htop", "make"
 			, "gcc-c++", "nfs-utils","yp-tools", "gcc-gfortran","psmisc","perl-Expect","gcc-gfortran","xorg-x11-server-Xorg","xorg-x11-xauth"
 			,"perl-MCE-Shared","perl-Parallel-ForkManager","tmux","perl-CPAN"
 			, "ypbind" , "rpcbind","xauth","oddjob-mkhomedir","perl-Statistics-Descriptive","libibverbs"
-			,"libibverbs-utils","infiniband-diags","perftest");
+			,"libibverbs-utils","infiniband-diags","perftest","lapack","libatomic");
 system ("dnf -y install perl* --nobest --skip-broken");# for perl* only
 for (@package){system("dnf -y install $_");}
 system("echo \'yes\'|cpan App::cpanminus");
