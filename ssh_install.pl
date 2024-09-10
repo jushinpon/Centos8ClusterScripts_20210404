@@ -80,7 +80,7 @@ $pm->start and next;
    #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
    #system("$cmd 'umount -l /home;umount -l /opt;mount -a' ");
-   system("$cmd 'slurmd -C' ");
+   #system("$cmd 'slurmd -C' ");
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
    #system("$cmd 'shutdown -h now' ");
