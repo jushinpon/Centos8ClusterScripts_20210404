@@ -10,8 +10,8 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 my %nodes = (
     #161 => [33..38],#1,3,39..
     161 => [1..42],#1,3,39..
-     182 => [6,20..24],
-    #182 => [1..24],
+    # 182 => [6,20..24],
+    182 => [1..24],
     186 => [1..7],
     190 => [1..3]
     );
@@ -72,7 +72,7 @@ $pm->start and next;
     #print "$nodename\n";
     $cmd = "ssh $nodename ";
 
-   #system("$cmd 'dnf upgrade -y' ");
+   system("$cmd 'cpan Algorithm::Combinatorics' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
