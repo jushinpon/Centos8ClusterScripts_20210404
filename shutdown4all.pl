@@ -25,7 +25,7 @@ my %nodes = (
     );
 chomp @ARGV;    
 #my $what2do = "$ARGV[0]";
-my $what2do = "echo \'shutdown -h now\' | at 4:50 PM today";
+my $what2do = "echo \'shutdown -h now\' | at 5:30 PM 09/19/2024";
 #print "$ARGV[0]\n";
 #die;
 my $ip = `/usr/sbin/ip a`;    
