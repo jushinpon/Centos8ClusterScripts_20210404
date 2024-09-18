@@ -3,16 +3,16 @@
 #nohup ifdown enp1s0 down && ifup enp1s0 up &
 
 use Parallel::ForkManager;
-$forkNo = 100;
+$forkNo = 1;
 my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
 my %nodes = (
-    #161 => [33..38],#1,3,39..
-    161 => [1..42],#1,3,39..
-    # 182 => [6,20..24],
-    182 => [1..24],
-    186 => [1..7],
+    161 => [3,28,30,31,38],#1,3,39..
+    #161 => [1..42],#1,3,39..
+     182 => [6,20..24],
+    #182 => [1..24],
+    186 => [1..10],
     190 => [1..3]
     );
 
@@ -65,6 +65,8 @@ my $hundredM = 100*1024*1024/4096;
 #`touch ./release.dat`;
 #system("cp ./slurmlog_rotate /etc/logrotate.d/slurm");
 #`dnf install lapack-devel -y`;
+#system("dnf install libatomic -y ");
+#   system("dnf upgrade -y ");
 for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
@@ -72,11 +74,16 @@ $pm->start and next;
     #print "$nodename\n";
     $cmd = "ssh $nodename ";
 
-   system("$cmd 'cpan Algorithm::Combinatorics' ");
+   #system("$cmd 'dnf install lapack-devel -y' ");
+   system("$cmd 'dnf install libatomic lapack -y' ");
+   #system("$cmd 'cpan Algorithm::Combinatorics' ");
+   #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
+   #system("$cmd 'umount -l /home;umount -l /opt;mount -a' ");
+   #system("$cmd 'slurmd -C' ");
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
-   #system("$cmd 'reboot' ");
+   #system("$cmd 'shutdown -h now' ");
    #my $temp = `$cmd 'cat /etc/redhat-release'`;
    ##print "$temp\n";
    #chomp $temp;

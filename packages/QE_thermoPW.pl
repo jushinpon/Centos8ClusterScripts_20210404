@@ -24,12 +24,12 @@ sub ld_setting {
 }
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
-#my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
+my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
 #path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 #my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-#my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-4.0.3/lib";#attached ld path in main script
 #ld_setting($mattached_ld);
 
 #!/bin/sh
@@ -37,7 +37,7 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
-my $wgetORgit = "yes";## if you want to download the source, use yes. set no, if you have downloaded the source.
+my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";
 if(!-e $packageDir){# if no /home/packages, make this folder	
@@ -150,16 +150,19 @@ my $link = '-L${MKLROOT}/lib -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_t
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
 #sequential
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl';
-#--with-scalapack=intel
-my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --with-scalapack=intel  $prefix4QE ".
-"FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
-"LAPACK_LIBS=\"$link\" ".
-"BLAS_LIBS=\"$link\" ".
-"SCALAPACK_LIBS=\"$link\" ".
-#"FFT_LIBS=\"$fftw_link\" ".
-"LAPACK=\"liblapack\"";
+#--with-scalapack=intel --enable-openmp CC=icc CXX=icpc
+my $QE_inst = "./configure --enable-parallel --enable-openmp  --enable-shared $prefix4QE ";#.
+#"FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
+#"LAPACK_LIBS=\"$link\" ".
+#"BLAS_LIBS=\"$link\" ".
+#"SCALAPACK_LIBS=\"$link\" ".
+##"CFLAGS=\"-O3 -qopenmp\" ".
+#"LDFLAGS=\"-qopenmp\" ";#.
+##"FFT_LIBS=\"$fftw_link\" ".
+#"LAPACK=\"liblapack\"";
 print "\$QE_inst: $QE_inst";
 system("$QE_inst");
+#die;
 if($?){die "**QE configure fails!\nReason:$?\n";}
 #after the configure process is done, type "make" and then "make install"
 system("make clean"); 

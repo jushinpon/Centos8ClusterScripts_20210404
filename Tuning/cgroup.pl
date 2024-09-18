@@ -32,8 +32,8 @@ use strict;
 use warnings;
 #`yum install libcgroup`;
 #resource you want to control for UID
-my $CPUQuota= '80%';#allowed max cpu usage 
-my $MemoryMax= '1024M'; #allowed max ram usage = 20%
+my $CPUQuota= '200%';#allowed max cpu usage 
+my $MemoryMax= '2048M'; #allowed max ram usage = 20%
 my $TasksMax= 50;
 my $TasksMaxLimit= 50;# max task number
 my $BlockIOMax= "5M";#diso io per second

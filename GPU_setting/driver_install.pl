@@ -62,21 +62,31 @@ dmesg|grep NVRM -->API mismatch
 use warnings;
 use strict;
 use Parallel::ForkManager;
-
+#node01
+#node02
+#node10
+#node13
+#node16
+#node20
+#node39
+#node08
 my @badgpuNodes = qw(
-node07
+node10
+node11
+node16
+node21
 );
 
-my $forkNo = 1;
+my $forkNo = 20;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my @dnf = ("dnf remove nvidia* -y","dnf install elrepo-release -y",
+my @dnf = ("dnf autoremove nvidia* -y","dnf autoremove \"*cublas*\" \"cuda*\" -y", "dnf install elrepo-release -y",
             #"dnf install nvidia-detect -y",
 "dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo",
            "dnf module reset nvidia-driver -y",
-"dnf module enable nvidia-driver:525",
+"dnf module enable nvidia-driver:525 -y",
 "dnf module install -y nvidia-driver:525",
-            #"sudo dnf -y module install nvidia-driver:latest-dkms",
-            #"dnf install kmod-nvidia -y",
+            #"sudo dnf -y module install nvidia-driver:latest-dkms ",
+           #"dnf install kmod-nvidia -y",
             "dnf update -y",
             #"reboot"
 );
@@ -84,7 +94,7 @@ my $dnf = join(";",@dnf);
 chomp $dnf;
 
 for (@badgpuNodes){
-#$pm->start and next;
+$pm->start and next;
     
     print "*****$_*****\n";
     my $cmd = "/usr/bin/ssh $_ ";
@@ -100,6 +110,6 @@ for (@badgpuNodes){
 #dmesg|grep NVRM -->API mismatch
     #}
 
-#$pm->finish;
+$pm->finish;
 }
-#$pm->wait_all_children;
+$pm->wait_all_children;
