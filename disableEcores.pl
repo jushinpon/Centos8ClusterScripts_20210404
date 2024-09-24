@@ -7,11 +7,12 @@ use Parallel::ForkManager;
 use Cwd;
 
 my %nodes = (
-    i9 => [6],
-    i7 => [20..24]
+    #i9 => [6],
+    #i7 => [20..24]
+    i7 => [23]
 );
 my %disable = (
-    i9 => [16..23],
+    #i9 => [16..23],
     i7 => [16..19]
 
 );
@@ -32,7 +33,7 @@ for my $cpu (keys %nodes){
             my $cpuid = "cpu$ic";
             #print "\$cpuid: $cpuid\n";
             push @allE,"\@reboot sleep 10 && echo 0 > /sys/devices/system/cpu/$cpuid/online"; 
-            #system("$cmd \"echo 0 > /sys/devices/system/cpu/$cpuid/online\"");
+            system("$cmd \"echo 0 > /sys/devices/system/cpu/$cpuid/online\"");
         }
         chomp @allE;
         my $Ecores = join("\n",@allE);
