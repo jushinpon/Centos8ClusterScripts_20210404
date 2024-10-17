@@ -53,7 +53,7 @@ if(!-e $packageDir){# if no /home/packages, make this folder
 #system("yum install -y intel-mkl");
 
 #my $prefix = "/opt/QEGCC_MPICH3.3.2_thermoPW";
-my $prefix = "/opt/thermoPW-7-2";
+my $prefix = "/opt/thermoPW-7-2_gcc";
 #my $prefix = "/opt/QEGCC_MPICH4.0.3_thermoPW";
 my $package = "q-e";
 #my $currentVer = "qe-6.5.tar.gz";#***** the latest version of this package (check the latest one if possible)
@@ -136,7 +136,11 @@ my $BLAS_LIBS="BLAS_LIBS=\"-L/opt/intel/mkl/lib/intel64 -lmkl_gf_lp64 -lmkl_sequ
 #my $LAPACK_LIBS="LAPACK_LIBS=\"-L\$\{MKLROOT\}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_openmpi_lp64 -lpthread -lm -ldl\"";-lmkl_blacs_openmpi_lp64
 my $SCALAPACK_LIBS="SCALAPACK_LIBS=\"-L/opt/intel/mkl/lib/intel64 -L/opt/slurm_mvapich2-2.3.4/lib -lmkl_scalapack_lp64 -lmkl_gf_lp64 -lmkl_sequential -lmkl_core  -lpthread -lm -ldl\"";
 my $FFT_LIBS="FFT_LIBS=\"-L/opt/intel/mkl/lib/intel64 -L/opt/slurm_mvapich2-2.3.4/lib -lmkl_scalapack_lp64 -lmkl_gf_lp64 -lmkl_blacs_openmpi_lp64 -lmkl_sequential -lmkl_core\"";
-my $FFLAGS="FFLAGS=\"-O3 \"";
+#my $FFLAGS="FFLAGS=\"-O3 \"";#ok
+#my $FFLAGS="FFLAGS=\"-O3 -xHost -march=native -fopenmp\"";#ok
+my $FFLAGS="FFLAGS=\"-O3 -fopenmp\"";#for cluster works
+#my $FFLAGS="FFLAGS=\"-O3 -xHost -no-prec-div -fopenmp\"";#for cluster works
+
 my $MPI_LIBS ="MPI_LIBS=\"-L/opt/slurm_mvapich2-2.3.4/lib -lmpi\"";#### need to use your own path for impi
 my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
 #$SCALAPACK_LIBS -with-scalapack=yes $FFT_LIBS $MPI_LIBS $LIBDIRS $BLAS_LIBS $SCALAPACK_LIBS
