@@ -32,6 +32,7 @@ use Cwd; #Find Current Path
 
 #`chown root:root  /usr/local/etc/slurmdbd.conf`;
 my %nodes = (
+    #161 => [1..14,19,27,28,30,31,38],#1,3,39..
     161 => [1..42],#1,3,39..
     182 => [1..24],
     #182 => [1..4,6..15,17..24],

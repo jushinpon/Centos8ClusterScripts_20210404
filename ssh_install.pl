@@ -8,7 +8,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
 my %nodes = (
-    161 => [3,28,30,31,38],#1,3,39..
+    161 => [15..18,20..26,29,32,34..37,39..42],#1,3,39..
     #161 => [1..42],#1,3,39..
      182 => [6,20..24],
     #182 => [1..24],
@@ -75,7 +75,7 @@ $pm->start and next;
     $cmd = "ssh $nodename ";
 
    #system("$cmd 'dnf install lapack-devel -y' ");
-   system("$cmd 'dnf install libatomic lapack -y' ");
+   system("$cmd 'shutdown -h now' ");
    #system("$cmd 'cpan Algorithm::Combinatorics' ");
    #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
