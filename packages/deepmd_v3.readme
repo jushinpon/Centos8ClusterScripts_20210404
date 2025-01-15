@@ -1,0 +1,23 @@
+offline install
+
+conda create -n deepmd-cpu
+
+check release versions:
+https://github.com/deepmodeling/deepmd-kit/releases
+
+wget the lastest one (cd /home)
+wget https://github.com/deepmodeling/deepmd-kit/releases/download/v3.0.0b4/deepmd-kit-3.0.0b4-cpu-Linux-x86_64.sh
+
+you need to set path to use dp:
+export PATH=/opt/deepmd-cpu/bin:$PATH
+
+
+conda env create -n deepmd-cpu python=3.10
+
+sudo dnf install glibc-devel
+sudo dnf install glibc-static
+export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
+
+
+pip install torch torchvision torchaudio 
+pip install git+https://github.com/deepmodeling/deepmd-kit@v3.0.0b4

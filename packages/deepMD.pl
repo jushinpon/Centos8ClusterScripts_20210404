@@ -53,6 +53,7 @@ if($wgetORgit eq "yes"){
 	system("git clone --recursive https://github.com/deepmodeling/deepmd-kit.git deepmd-kit");
 	chdir("$Dir4download/deepmd-kit");
 	system("git checkout 2024Q1");#use pretrained model
+	#system("git checkout v3.0.0b4");#use pretrained model
 	#system("git checkout v2.2.0.b0");
 	#system("git checkout v2.2.0");
 	if($?){die "checkout failed!\n";}	

@@ -142,7 +142,11 @@ my $SCALAPACK_LIBS="SCALAPACK_LIBS=\"-L/opt/intel/mkl/lib/intel64 -L/opt/slurm_m
 my $FFT_LIBS="FFT_LIBS=\"-L/opt/intel/mkl/lib/intel64 -L/opt/slurm_mvapich2-2.3.4/lib -lmkl_scalapack_lp64 -lmkl_gf_lp64 -lmkl_blacs_openmpi_lp64 -lmkl_sequential -lmkl_core\"";
 #my $FFLAGS="FFLAGS=\"-O3 \"";#ok
 #my $FFLAGS="FFLAGS=\"-O3 -xHost -march=native -fopenmp\"";#ok
+<<<<<<< Updated upstream
 my $FFLAGS="FFLAGS=\"-O3 -fopenmp\"";#for cluster works -xCORE-AVX2 -no-prec-div
+=======
+my $FFLAGS="FFLAGS=\"-O3 -fopenmp\"";#for cluster works
+>>>>>>> Stashed changes
 #my $FFLAGS="FFLAGS=\"-O3 -xHost -no-prec-div -fopenmp\"";#for cluster works
 my $MPI_LIBS ="MPI_LIBS=\"-L/opt/slurm_mvapich2-2.3.4/lib -lmpi\"";#### need to use your own path for impi
 my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
@@ -157,6 +161,7 @@ my $link = '-L${MKLROOT}/lib -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_t
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl';
 #sequential
 #my $link = '-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl';
+<<<<<<< Updated upstream
 #--with-scalapack=intel --enable-openmp CC=icc CXX=icpc --enable-openmp --enable-static $FFLAGS
 #my $QE_inst = "./configure --enable-parallel --enable-openmp  --enable-shared  ";#.ok --with-scalapack=intel
 ###
@@ -168,6 +173,11 @@ my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --w
 " --with-blas=\"-L\${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl\" ".
 "--with-lapack=\"-L\${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl\"";#ok --enable-share$FFLAGSd--enable-parallel --enable-openmp 
 
+=======
+#--with-scalapack=intel --enable-openmp CC=icc CXX=icpc
+#my $QE_inst = "./configure --enable-parallel --enable-openmp  --enable-shared $prefix4QE ";#.ok
+my $QE_inst = "./configure --enable-parallel --enable-openmp --with-scalapack=intel $FFLAGS $prefix4QE ";#ok
+>>>>>>> Stashed changes
 #my $QE_inst = "./configure --enable-parallel --enable-openmp --with-scalapack=intel $link $FFLAGS --enable-shared $prefix4QE ";#not ok
 #"FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
 #"LAPACK_LIBS=\"$link\" ".
