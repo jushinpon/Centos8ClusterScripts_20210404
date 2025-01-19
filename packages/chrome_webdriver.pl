@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 =b
+pip install selenium (don't use conda to install selenium)
 make a txt file, chrome.txt:
 chrome_url=https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.83/linux64/chrome-linux64.zip
 chromedriver_url=https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.83/linux64/chromedriver-linux64.zip
