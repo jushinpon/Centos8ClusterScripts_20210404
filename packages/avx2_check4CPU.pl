@@ -1,30 +1,39 @@
-grep -m1 'flags' /proc/cpuinfo | grep -o 'avx[^ ]*'
-lscpu | grep 'Flags'
-When Compiling Software Like Quantum ESPRESSO:
-Check Your CPU's Capabilities:
+#!/usr/bin/perl
 
-Verify whether your specific Intel Core i7 CPU model supports AVX, AVX2, or AVX-512 before choosing compiler flags.
-Use Appropriate Compiler Flags:
+use strict;
+use warnings;
 
-For AVX:
+# Cluster and node mapping
+my %nodes = (
+    161 => [1..42],
+    182 => [6, 20..24],
+    186 => [1..10],
+    190 => [1..3]
+);
 
-bash
-Copy code
--xAVX
-For AVX2:
+# Determine cluster based on IP
+my $ip = `/usr/sbin/ip a`;
+$ip =~ /140\.117\.\d+\.(\d+)/;
+my $cluster = $1;
+$cluster =~ s/^\s+|\s+$//;
 
-bash
-Copy code
--xCORE-AVX2
-For AVX-512 (if supported):
+# Prepare nodes list based on cluster
+my @allnodes = @{$nodes{$cluster}};
 
-bash
-Copy code
--xCORE-AVX512
-Avoid Using -xHost in Heterogeneous Environments:
+# Test connectivity and check AVX flags
+for my $node (@allnodes) {
+    my $nodeindex = sprintf("%02d", $node);
+    my $nodename = "node$nodeindex";
+    print "Checking $nodename status\n";
 
-If compiling on a different machine than the target, -xHost may produce binaries incompatible with the target CPU.
-Ensure Compatibility in Cluster Environments:
+    # Test SSH connectivity with a simple command and check for AVX flags
+    my $avx_output = `ssh -o ConnectTimeout=5 root\@$nodename "grep -m1 'flags' /proc/cpuinfo | grep -o 'avx[^ ]*'"`;
 
-Compile for the Lowest Common Denominator:
-If using a cluster with mixed CPU capabilities, target the instruction set supported by all nodes.
+    # Verify SSH success and output AVX details
+    if ($?) {
+        print "SSH connection to $nodename failed.\n";
+    } else {
+        chomp $avx_output;
+        print "$nodename supports: \n$avx_output\n";
+    }
+}

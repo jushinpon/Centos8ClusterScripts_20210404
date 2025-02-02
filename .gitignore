@@ -9,5 +9,3 @@ test*.pl
 *test.pl
 crontab_setting
 *slice*
-*chromedriver-*
-*chrome*

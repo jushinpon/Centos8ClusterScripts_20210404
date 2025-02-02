@@ -38,7 +38,7 @@ use strict;
 use Cwd; #Find Current Path
 use File::Copy; # Copy File
 `chmod -R 755 /opt/tf`;
-my $wgetORgit = "no";
+my $wgetORgit = "yes";
 #my $user_deep_dir = "/home/packages/deepMD/deepmd-kit/source/build/USER-DEEPMD"; #where you put USER-DEEPMD
 my $prefix = "/opt/lmp_deepmd_mpich4.0.3";
 `rm -rf /opt/lmp_deepmd_mpich4.0.3`;
@@ -53,7 +53,8 @@ chomp $thread4make;
 print "Total threads can be used for make: $thread4make\n";
 #wget https://github.com/lammps/lammps/archive/stable_23Jun2022_update2.tar.gz
 #my $URL = "https://github.com/lammps/lammps/archive/stable_2Aug2023_update1.tar.gz";#url to download
-my $URL = "https://github.com/lammps/lammps/archive/stable_23Jun2022_update2.tar.gz";#url to download
+my $URL = "https://github.com/lammps/lammps/archive/stable_29Aug2024_update1.tar.gz";#url to download
+#my $URL = "https://github.com/lammps/lammps/archive/stable_23Jun2022_update2.tar.gz";#url to download
 #my $URL = "https://lammps.sandia.gov/tars/lammps.tar.gz";#url to download
 my $Dir4download = "$packageDir/lammps4deepmd"; #the directory we download Mpich
 my $currentPath = getcwd(); #get perl code path

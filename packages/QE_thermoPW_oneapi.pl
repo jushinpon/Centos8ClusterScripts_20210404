@@ -32,7 +32,7 @@ path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 #my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
-my $mattached_ld = "/opt/mpich-4.0.3/lib";#attached ld path in main script
+my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/oneapi/mkl/latest/lib";#attached ld path in main script
 ld_setting($mattached_ld);
 
 #!/bin/sh
