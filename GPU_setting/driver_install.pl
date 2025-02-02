@@ -71,6 +71,7 @@ use Parallel::ForkManager;
 #node39
 #node08
 my @badgpuNodes = qw(
+node18
 node24
 );
 
