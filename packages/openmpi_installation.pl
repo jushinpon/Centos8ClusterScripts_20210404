@@ -5,10 +5,9 @@ use Cwd; # Get current working directory
 
 # Define installation directories
 my $packageDir = "/home/packages";
-my $openmpi_version = "5.0.6-1";
+my $openmpi_version = "5.0.6";
 my $prefixPath = "/opt/openmpi-$openmpi_version";
 my $URL = "https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-$openmpi_version.tar.gz";
-
 # Create package directory if it doesn't exist
 system("mkdir -p $packageDir") unless -d $packageDir;
 
