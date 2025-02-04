@@ -20,20 +20,31 @@ $cluster =~ s/^\s+|\s+$//;
 # Prepare nodes list based on cluster
 my @allnodes = @{$nodes{$cluster}};
 
+# Print header
+print "\nChecking AVX2 support for nodes in cluster: $cluster\n";
+print "---------------------------------------------------\n";
+print "Node Name    | AVX Support\n";
+print "------------ | --------------------------------\n";
+
 # Test connectivity and check AVX flags
 for my $node (@allnodes) {
     my $nodeindex = sprintf("%02d", $node);
     my $nodename = "node$nodeindex";
-    print "Checking $nodename status\n";
 
-    # Test SSH connectivity with a simple command and check for AVX flags
+    # Test SSH connectivity and check for AVX flags
     my $avx_output = `ssh -o ConnectTimeout=5 root\@$nodename "grep -m1 'flags' /proc/cpuinfo | grep -o 'avx[^ ]*'"`;
 
-    # Verify SSH success and output AVX details
+    # Verify SSH success
     if ($?) {
-        print "SSH connection to $nodename failed.\n";
+        printf "%-12s | \033[31mSSH FAILED\033[0m\n", $nodename;
     } else {
         chomp $avx_output;
-        print "$nodename supports: \n$avx_output\n";
+        if ($avx_output =~ /\bavx2\b/) {
+            printf "%-12s | \033[32mAVX2 Supported\033[0m (%s)\n", $nodename, $avx_output;
+        } elsif ($avx_output =~ /\bavx\b/) {
+            printf "%-12s | \033[33mOnly AVX1 Supported\033[0m (%s)\n", $nodename, $avx_output;
+        } else {
+            printf "%-12s | \033[31mNo AVX Support Detected\033[0m\n", $nodename;
+        }
     }
 }
