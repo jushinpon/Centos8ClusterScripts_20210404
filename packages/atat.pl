@@ -36,7 +36,7 @@ system("tar -xvf atat.tar.gz") == 0 or die "Failed to extract ATAT!\n";
 #system("mv atat $installDir");
 chdir("$Dir4download/atat")|| die "NO $Dir4download/atat\n";
 # Use Perl's system call to run sed
-my $sed_command = "sed -i 's|^BINDIR=\\\$(HOME)/bin/|BINDIR=/opt/atat/bin/|' ./makefile";
+my $sed_command = "sed -i 's|^BINDIR=\\\$(HOME)/bin/|BINDIR=/opt/atat/|' ./makefile";
 `rm -rf /opt/atat/bin/`;
 `mkdir -p /opt/atat/bin/`;
 system($sed_command) == 0 or die "Failed to execute sed command: $!";
