@@ -1,6 +1,13 @@
 =Developed by Prof. Shin-Pon Ju at NSYSU Oct.09 2020
 conda deactivate first
 source /opt/intel/oneapi/setvars.sh
+sudo dnf install -y openmpi openmpi-devel
+
+module load mpi/openmpi-x86_64
+need the following:
+dnf install -y environment-modules
+source /etc/profile.d/modules.sh
+
 1. Perl script to compile and install QE with thermo_pw. You need to check the version of QE for the compatibility to 
 thermo_pw version.(https://dalcorso.github.io/thermo_pw/)
 
@@ -56,7 +63,7 @@ if(!-e $packageDir){# if no /home/packages, make this folder
 #system("yum install -y intel-mkl");
 
 #my $prefix = "/opt/QEGCC_MPICH3.3.2_thermoPW";
-my $prefix = "/opt/thermoPW-7-2_avx2openmpi";
+my $prefix = "/opt/thermoPW-7-2_avx2openmpi5";
 #my $prefix = "/opt/thermoPW-7-2_intel";
 #my $prefix = "/opt/QEGCC_MPICH4.0.3_thermoPW";
 my $package = "q-e";
@@ -165,12 +172,13 @@ my $link = '-L${MKLROOT}/lib -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_intel_t
 #my $QE_inst = "./configure --enable-parallel --enable-openmp  --enable-shared  ";#.ok --with-scalapack=intel
 ###
 #my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --with-scalapack=intel ".
-#"CC=mpicc FC=mpif90 F77=mpif90 MPIF90=mpif90 $FFLAGS $prefix4QE ";#ok --enable-share$FFLAGSd--enable-parallel --enable-openmp 
+#"CC=mpicc FC=mpif90 F77=mpif90 MPIF90=mpif90 $FFLAGS $prefix4QE ";#ok --enable-share$FFLAGSd--enable-parallel --enable-openmp --with-scalapack=intel
 
-my $QE_inst = "./configure --enable-parallel --enable-openmp --enable-shared --with-scalapack=intel ".
-"CC=mpicc FC=mpif90 F77=mpif90 MPIF90=mpif90 $FFLAGS $CFLAGS $prefix4QE ".
-" --with-blas=\"-L\${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl\" ".
-"--with-lapack=\"-L\${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl\"";#ok --enable-share$FFLAGSd--enable-parallel --enable-openmp 
+my $QE_inst = "./configure --enable-parallel --enable-openmp ".
+" $FFLAGS $CFLAGS $prefix4QE ".
+"CC=mpicc FC=mpif90 F77=mpif90 MPIF90=mpif90 $FFLAGS $CFLAGS $prefix4QE ";#.
+#" --with-blas=\"-L\${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl\" ".
+#"--with-lapack=\"-L\${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl\"";#ok --enable-share$FFLAGSd--enable-parallel --enable-openmp 
 
 #my $QE_inst = "./configure --enable-parallel --enable-openmp --with-scalapack=intel $link $FFLAGS --enable-shared $prefix4QE ";#not ok
 #"FFLAGS=\"-O3 -assume byterecl -g -traceback -qopenmp\" ".
