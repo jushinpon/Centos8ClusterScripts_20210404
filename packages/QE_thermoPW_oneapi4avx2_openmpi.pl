@@ -191,7 +191,7 @@ my $QE_inst = "./configure --enable-parallel --enable-openmp ".
 #"LAPACK=\"liblapack\"";
 print "\$QE_inst: $QE_inst";
 system("make veryclean;$QE_inst");
-#die;
+die;
 if($?){die "**QE configure fails!\nReason:$?\n";}
 #after the configure process is done, type "make" and then "make install"
 system("make clean"); 

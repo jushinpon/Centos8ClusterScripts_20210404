@@ -8,8 +8,8 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 #$reboot_check = "yes";
 
 my %nodes = (
-    161 => [15..18,20..26,29,32,34..37,39..42],#1,3,39..
-    #161 => [1..42],#1,3,39..
+    #161 => [34,36,39,40,41],#1,3,39..
+    161 => [1..42],#1,3,39..
      182 => [6,20..24],
     #182 => [1..24],
     186 => [1..10],
@@ -71,16 +71,21 @@ for (@nodes){
 $pm->start and next;
     $nodeindex=sprintf("%02d",$_);
     $nodename= "node"."$nodeindex";
-    #print "$nodename\n";
+    print "$nodename\n";
     $cmd = "ssh $nodename ";
 
    #system("$cmd 'dnf install lapack-devel -y' ");
-   system("$cmd 'shutdown -h now' ");
+   #system("$cmd 'cp /home/libslurm.so.36 /usr/local/lib/libslurm.so.36' ");
+   system("$cmd 'reboot' ");
+   #system("$cmd 'shutdown -h now' ");
    #system("$cmd 'cpan Algorithm::Combinatorics' ");
    #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");
    #system("$cmd 'umount -l /home;umount -l /opt;mount -a' ");
    #system("$cmd 'slurmd -C' ");
+   #system("$cmd 'lscpu|grep \"Model name\"' ");
+   #system("$cmd 'lscpu|grep \"NUMA node0\"' ");
+   print "\n";
    #system("$cmd 'dnf install -y libatomic*' ");
    #print "$nodename\n";
    #system("$cmd 'shutdown -h now' ");

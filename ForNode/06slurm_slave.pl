@@ -67,6 +67,7 @@ for (@slurm_pack){
 	#if($?){die "Installation of $_ package failed (08slurm_server.pl)\n";}
 }
 #system ("dnf upgrade -y");
+`rm -f /usr/bin/python`;
 system("ln -s /usr/bin/python3 /usr/bin/python");# need python for configure process
 
 #Begin the installation process

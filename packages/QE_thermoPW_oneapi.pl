@@ -40,6 +40,11 @@ use warnings;
 use strict;
 use Cwd; #Find Current Path
 
+system("dnf install gcc gcc-gfortran make patch automake libtool blas-devel lapack-devel openssl-devel bzip2-devel fftw3-devel
+ libxc-devel python3-devel -y");
+# For some versions, you might need these too
+system("dnf install libXext-devel libXi-devel -y");
+
 my $wgetORgit = "no";## if you want to download the source, use yes. set no, if you have downloaded the source.
 
 my $packageDir = "/home/packages";

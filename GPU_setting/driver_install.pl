@@ -62,29 +62,32 @@ dmesg|grep NVRM -->API mismatch
 use warnings;
 use strict;
 use Parallel::ForkManager;
-#node01
-#node02
-#node10
-#node13
-#node16
-#node20
-#node39
-#node08
+#node06
+#node03
+#node04
+#node05
 my @badgpuNodes = qw(
-node18
-node24
+node06
+node03
+node04
+node05
 );
 
-my $forkNo = 20;
+my $forkNo = 10;
 my $pm = Parallel::ForkManager->new("$forkNo");
-my @dnf = ("dnf autoremove nvidia* -y","dnf autoremove \"*cublas*\" \"cuda*\" -y", "dnf install elrepo-release -y",
+my @dnf = ("dnf autoremove *nvidia* -y","dnf install elrepo-release -y",
             #"dnf install nvidia-detect -y",
-"dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo",
+"dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo",
            "dnf module reset nvidia-driver -y",
 #"dnf module enable nvidia-driver:525 -y",
 #"dnf module install -y nvidia-driver:525",
-            "sudo dnf -y module install nvidia-driver:latest-dkms ",
-           #"dnf install kmod-nvidia -y",
+            "dnf clean all",
+            "sudo dnf -y module install nvidia-driver:latest-dkms",
+            "modprobe -r nvidia",
+            "modprobe nvidia",
+            "systemctl restart nvidia-persistenced",
+            "nvidia-smi",
+            #"dnf install kmod-nvidia -y",
             #"dnf update -y",
             #"reboot"
 );

@@ -1,4 +1,8 @@
 =Developed by Prof. Shin-Pon Ju at NSYSU Oct.09 2020
+sudo dnf install gcc gcc-gfortran make patch automake libtool blas-devel lapack-devel openssl-devel bzip2-devel fftw3-devel libxc-devel python3-devel
+# For some versions, you might need these too
+sudo dnf install libXext-devel libXi-devel
+
 conda deactivate first
 source /opt/intel/oneapi/setvars.sh
 1. Perl script to compile and install QE with thermo_pw. You need to check the version of QE for the compatibility to 
@@ -28,12 +32,12 @@ sub ld_setting {
 #my $mattached_path = "/opt/slurm_mvapich2-2.3.4/bin";#attached path in main script
 #my $mattached_path = "/opt/mpich-3.3.2/bin";#attached path in main script
 my $mattached_path = "/opt/mpich-4.0.3/bin";#attached path in main script
-path_setting($mattached_path);
+#path_setting($mattached_path);
 #/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin
 #my $mattached_ld = "/opt/slurm_mvapich2-2.3.4/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 #my $mattached_ld = "/opt/mpich-3.3.2/lib:/opt/intel/mkl/lib/intel64";#attached ld path in main script
 my $mattached_ld = "/opt/mpich-4.0.3/lib:/opt/intel/oneapi/mkl/latest/lib";#attached ld path in main script
-ld_setting($mattached_ld);
+#ld_setting($mattached_ld);
 
 #!/bin/sh
 use warnings;
@@ -144,9 +148,11 @@ my $FFT_LIBS="FFT_LIBS=\"-L/opt/intel/mkl/lib/intel64 -L/opt/slurm_mvapich2-2.3.
 #my $FFLAGS="FFLAGS=\"-O3 -xHost -march=native -fopenmp\"";#ok
 #my $FFLAGS="FFLAGS=\"-O3 -fopenmp\"";#for cluster works -xCORE-AVX2 -no-prec-div
 # Set up compilation options with AVX2
-my $FFLAGS = "FFLAGS=\"-O3 -mavx2 -mfma -fopenmp -funroll-loops\"";
-my $CFLAGS = "CFLAGS=\"-O3 -mavx2 -mfma -fopenmp -funroll-loops\"";
-
+#my $FFLAGS = "FFLAGS=\"-O3 -mavx2 -mfma -fopenmp -funroll-loops\"";
+#my $CFLAGS = "CFLAGS=\"-O3 -mavx2 -mfma -fopenmp -funroll-loops\"";
+my $FFLAGS = "FFLAGS=\"-O3 -march=core-avx2 -mfma -fopenmp -funroll-loops\"";
+my $CFLAGS = "CFLAGS=\"-O3 -march=core-avx2 -mfma -fopenmp -funroll-loops\"";
+#-march=core-avx2
 #my $FFLAGS="FFLAGS=\"-O3 -xHost -no-prec-div -fopenmp\"";#for cluster works
 my $MPI_LIBS ="MPI_LIBS=\"-L/opt/slurm_mvapich2-2.3.4/lib -lmpi\"";#### need to use your own path for impi
 my $LIBDIRS="LIBDIRS=\"/opt/slurm_mvapich2-2.3.4/lib\"";
