@@ -10,7 +10,7 @@ use Cwd; #Find Current Path
 my $forkNo = 50;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my $expectT = 10;# time peroid for expect
-my @nodes = (39);# new nodes you want to install
+my @nodes = (3);# new nodes you want to install
 # install slurm for all new nodes
 for (@nodes){		
 	$pm->start and next;
@@ -27,7 +27,7 @@ for (@nodes){
 	#$exp->send ("nohup perl ./Uninstall_old_slurm.pl &\n") if ($exp->expect($expectT,'#'));
 		
 	$exp->send ("rm -f nohup.out\n") if ($exp->expect($expectT,'#'));
-	$exp->send ("nohup ./06slurm_slave.pl &\n") if ($exp->expect($expectT,'#'));
+	$exp->send ("nohup perl ./06slurm_slave.pl &\n") if ($exp->expect($expectT,'#'));
 	#$exp -> send("\n") if ($exp->expect($expectT,'#'));
 	$exp -> send("exit\n") if ($exp->expect($expectT,'#'));
 	$exp->soft_close();
