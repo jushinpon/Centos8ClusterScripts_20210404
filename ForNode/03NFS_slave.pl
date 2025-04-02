@@ -34,3 +34,4 @@ if(!`grep 'systemctl restart slurmd' /etc/rc.local`){
 	
 `setsebool -P use_nfs_home_dirs 1`;
 system("mount -a");
+system("systemctl daemon-reload");

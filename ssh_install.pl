@@ -10,7 +10,7 @@ my $pm = Parallel::ForkManager->new("$forkNo");
 my %nodes = (
     #161 => [34,36,39,40,41],#1,3,39..
     #161 => [1..42],#1,3,39..
-    161 => [3],#1,3,39..
+    161 => [17,22,26,28,29,32,35..38,42],#1,3,39..
      182 => [6,20..24],
     #182 => [1..24],
     186 => [1..10],
@@ -76,10 +76,10 @@ $pm->start and next;
     $cmd = "ssh $nodename ";
 
    #system("$cmd 'dnf install lapack-devel -y' ");
-   system("$cmd 'cp /home/libslurm.so.36 /usr/local/lib/libslurm.so.36' ");
+   #system("$cmd 'cp /home/libslurm.so.36 /usr/local/lib/libslurm.so.36' ");
    #system("scp ./Uninstall_old_slurm.pl root\@$nodename:/root ");
    #system("$cmd 'perl Uninstall_old_slurm.pl' ");
-   #system("$cmd 'shutdown -h now' ");
+   system("$cmd 'reboot' ");
    #system("$cmd 'cpan Algorithm::Combinatorics' ");
    #system("$cmd 'dnf upgrade -y' ");
    #system("$cmd 'umount -l master:/home;umount -l master:/opt;mount -a' ");

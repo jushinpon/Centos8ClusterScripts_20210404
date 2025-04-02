@@ -4,7 +4,7 @@ use Parallel::ForkManager;
 
 # List of nodes where GPU drivers need to be fixed
 my @gpuNodes = qw(
-node28
+node40
 );
 
 # Number of parallel processes
