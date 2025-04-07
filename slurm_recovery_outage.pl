@@ -9,6 +9,10 @@ my $slurmctld_spool = "/var/spool/slurmctld";
 my $backup_prefix = strftime("%Y%m%d_%H%M%S", localtime);
 my $backup_file = "/root/slurmctld_backup_$backup_prefix.tar.gz";
 
+# === Clear all jobs before stopping slurmctld===
+print "[MASTER] Cancelling all jobs...\n";
+system("squeue | grep -v JOBID | awk '{print \$1}' | xargs scancel");
+
 print "[MASTER] Stopping slurmctld...\n";
 system("systemctl stop slurmctld") == 0 or die "Failed to stop slurmctld\n";
 
@@ -21,9 +25,9 @@ system("rm -rf $slurmctld_spool/*") == 0 or die "Failed to clean slurmctld spool
 print "[MASTER] Starting slurmctld...\n";
 system("systemctl start slurmctld") == 0 or die "Failed to start slurmctld\n";
 
-# === Clear held/requeued failed jobs ===
-print "[MASTER] Cancelling held/requeued failed jobs...\n";
-system("squeue | grep 'launch failed requeued held' | awk '{print \\\$1}' | xargs scancel");
+# === Clear all jobs after starting slurmctld===
+print "[MASTER] Cancelling all jobs...\n";
+system("squeue | grep -v JOBID | awk '{print \$1}' | xargs scancel");
 
 # === Resume all nodes ===
 print "[MASTER] Resuming all nodes...\n";
@@ -35,7 +39,7 @@ my %nodes = (
     182 => [1..24],
     186 => [1..7],
     195 => [1..7],
-    190 => [1..3],
+    190 => [1..3]
 );
 
 my %badnodes = (
