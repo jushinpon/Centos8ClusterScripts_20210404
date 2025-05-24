@@ -4,7 +4,11 @@ use Parallel::ForkManager;
 
 # List of nodes where GPU drivers need to be fixed
 my @gpuNodes = qw(
+node24
+node28
 node40
+node18
+node20
 );
 
 # Number of parallel processes
@@ -41,7 +45,7 @@ my @commands = (
     "nvidia-smi",
     "cat /proc/driver/nvidia/version",
     "dmesg | grep NVRM",
-    "reboot"
+    #"reboot"
 );
 
 my $cmd_sequence = join(";", @commands);

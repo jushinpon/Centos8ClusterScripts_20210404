@@ -67,21 +67,23 @@ use Parallel::ForkManager;
 #node04
 #node05
 my @badgpuNodes = qw(
-node06
-node03
-node04
-node05
+node40
 );
 
 my $forkNo = 10;
 my $pm = Parallel::ForkManager->new("$forkNo");
 my @dnf = ("dnf autoremove *nvidia* -y","dnf install elrepo-release -y",
             #"dnf install nvidia-detect -y",
-"dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo",
+            "dnf clean all",
+            "sudo rm -f /etc/yum.repos.d/cuda-rhel9.repo",
+            "sudo dnf clean all",
+"sudo dnf makecache",
+"sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo",
+"sudo dnf clean all",
+"sudo dnf makecache",
            "dnf module reset nvidia-driver -y",
 #"dnf module enable nvidia-driver:525 -y",
 #"dnf module install -y nvidia-driver:525",
-            "dnf clean all",
             "sudo dnf -y module install nvidia-driver:latest-dkms",
             "modprobe -r nvidia",
             "modprobe nvidia",

@@ -3,11 +3,9 @@ use warnings;
 use Parallel::ForkManager;
 use Cwd;
 
-# Adjust based on the cluster's capacity
-my $forkNo = 1;
+my $forkNo = 4;  # 假设CPU有4个核心
 my $pm = Parallel::ForkManager->new($forkNo);
 
-# Define nodes
 my %nodes = (
     161 => [1..42],
     182 => [1..24],
@@ -17,52 +15,71 @@ my %nodes = (
     166 => [1..7]
 );
 
-# Get cluster ID from IP
-my $ip_output = `/usr/sbin/ip a`;
-$ip_output =~ /14\d\.1\d+\.\d+\.(\d+)/;
+my $ip = `/usr/sbin/ip a`;
+$ip =~ /14\d\.1\d+\.\d+\.(\d+)/;
 my $cluster = $1;
 $cluster =~ s/^\s+|\s+$//;
 
-# Retrieve nodes for this cluster
-my @allnodes = @{$nodes{$cluster} // []};
+my @allnodes = @{$nodes{$cluster}};
+`/usr/bin/touch ~/scptest.dat`;
 
-my (@gpu_nodes, @bad_gpu_nodes);
+my @allgpu;
+my @badgpu;
+my @errgpu;
 
-for my $node (@allnodes) {
+sub run_command {
+    my ($cmd) = @_;
+    my @output = `$cmd`;
+    if ($?) {
+        warn "Error executing command: $!";
+        return ();
+    }
+    return @output;
+}
+
+for (@allnodes) {
     $pm->start and next;
 
-    my $nodeindex = sprintf("%02d", $node);
-    my $nodename = "node$nodeindex";
+    my $node_index = sprintf("%02d", $_);
+    my $nodename = "node" . $node_index;
+    my $cmd = "/usr/bin/ssh $nodename ";
 
-    # Check if NVIDIA GPU exists using lspci
-    my $gpu_check_cmd = "timeout 3 /usr/bin/ssh $nodename 'lspci | grep NV' 2>&1";
-    my @gpu_check = `$gpu_check_cmd`;
-    if ($? >> 8 || !@gpu_check) {
-        $pm->finish;
-    }
+    my @temp = run_command("timeout 10 $cmd '/usr/sbin/lspci|/usr/bin/egrep \"RTX 2080|RTX 3060|RTX 2060\"'");
+    map { s/^\s+|\s+$//g; } @temp;
 
-    # Check for GPU presence and get model
-    my $gpu_info_cmd = "timeout 3 /usr/bin/ssh $nodename 'which nvidia-smi && nvidia-smi --query-gpu=name --format=csv,noheader' 2>&1";
-    my @gpu_info = `$gpu_info_cmd`;
-    s/^\s+|\s+$//g for @gpu_info;
-    my $gpu_models = join(", ", @gpu_info);
-    
-    if ($gpu_models =~ /2060|2080|3060/) {
-        push @gpu_nodes, "$nodename ($gpu_models)";
+    if (@temp) {
+        print "\n\n$nodename has a gpu card:\n";
+        push @allgpu, $nodename;
 
-        # Check GPU health
-        my $gpu_health_cmd = "timeout 3 /usr/bin/ssh $nodename 'nvidia-smi' 2>&1";
-        my @gpu_health = `$gpu_health_cmd`;
-        if (grep { /Failed to initialize NVML|GPU has fallen off the bus|Unable to establish connection/ } @gpu_health) {
-            push @bad_gpu_nodes, "$nodename ($gpu_models)";
+        my @dkms_output = run_command("timeout 10 $cmd 'dkms status nvidia'");
+        my $dkms_status = join("", @dkms_output);
+        $dkms_status =~ s/^\s+|\s+$//g;
+        print "dkms status nvidia:\n$dkms_status\n";
+
+        if ($dkms_status !~ /installed/) {
+            print "DKMS status for NVIDIA is not correctly installed on $nodename\n";
+            push @badgpu, $nodename;
+        } else {
+            print "nvidia-smi:\n";
+            my @temp1 = run_command("timeout 10 $cmd 'nvidia-smi|grep GPU'");
+            my @temp2 = run_command("timeout 10 $cmd 'nvidia-smi|grep ERR'");
+            print "nvidia-smi done\n";
+
+            map { s/^\s+|\s+$//g; } @temp1;
+
+            unless (@temp1) { push @badgpu, $nodename; }
+            if (@temp2) { push @errgpu, $nodename; }
         }
     }
-    
+
     $pm->finish;
 }
 
-$pm->wait_all_children;
+print "\n\n***All GPU:\n";
+print "$_\n" for @allgpu;
 
-# Summary Report
-print "\n\n*** GPU Nodes:\n", join("\n\n", @gpu_nodes), "\n\n" if @gpu_nodes;
-print "\n\n*** Bad GPU Nodes (Require Driver Reinstallation):\n", join("\n\n", @bad_gpu_nodes), "\n\n" if @bad_gpu_nodes;
+print "\n\n***Bad GPU:\n";
+print "$_\n" for @badgpu;
+
+print "\n\n***ERR GPU:\n";
+print "$_\n" for @errgpu;

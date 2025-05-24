@@ -12,7 +12,8 @@ my %nodes = (
     182 => [1..24],
     186 => [1..7],
     195 => [1..7],
-    190 => [1..3]
+    190 => [1..3],
+    166 => [1..7]
     );
 
 my $ip = `/usr/sbin/ip a`;    
@@ -27,6 +28,7 @@ my @allnodes = @{$nodes{$cluster}};#get node information
 my @allgpu;
 my @badgpu;
 my @errgpu;
+my @no_dkms;
 for (@allnodes){
 #$pm->start and next;
     my $nodeindex=sprintf("%02d",$_);
@@ -42,7 +44,7 @@ for (@allnodes){
         push @allgpu,$nodename;
         my $dkms = `timeout 10 $cmd 'dkms status nvidia'`;
         $dkms =~ s/^\s+|\s+$//g;
-        print "dkms status nvidia:\n$dkms\n";
+        print "dkms status nvidia:$dkms\n";
 
 
         print "nvidia-smi:\n";
@@ -51,8 +53,10 @@ for (@allnodes){
         print "nvidia-smi done\n";
 
         map { s/^\s+|\s+$//g; } @temp1;
+        map { s/^\s+|\s+$//g; } @temp2;
         
         unless(@temp1){push @badgpu,$nodename;}
+        unless($dkms){push @no_dkms,$nodename;}
         if(@temp2){push @errgpu,$nodename;}
 
         #print "@temp\n";
@@ -65,16 +69,25 @@ for (@allnodes){
    # }
        
 }
-print "\n\n***All GPU:\n";
+
+open(my $fh, '>', 'gpu_check.log') or die "Could not open file: $!";
+print $fh "\n***All GPU:\n";
 for (@allgpu){
-    print "$_\n";
+    print $fh "$_\n";
 }
 
-print "\n\n***Bad GPU:\n";
+print $fh "\n***Bad GPUs:\n";
 for (@badgpu){
-    print "$_\n";
+    print $fh "$_\n";
 }
-print "\n\n***ERR GPU:\n";
+print "\n***ERR GPU:\n";
 for (@errgpu){
-    print "$_\n";
+    print $fh "$_\n";
 }
+print $fh "\n***No dkms:\n";
+for (@no_dkms){
+    print $fh "$_\n";
+}
+close $fh;
+print "Check gpu status done\n";
+system("cat gpu_check.log");

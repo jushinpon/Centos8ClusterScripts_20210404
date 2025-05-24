@@ -2,6 +2,7 @@
 *.out
 *.txt
 *.sout
+*.log
 #diagnosis.pl
 slurm.conf
 gres.conf
