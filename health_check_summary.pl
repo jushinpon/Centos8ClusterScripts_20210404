@@ -3,10 +3,20 @@
 use strict;
 use warnings;
 use POSIX qw(strftime);
+# remove the old log file if exists
+my $log_dir = "/root/";
+my $log_prefix = "health_check_";
+my @log_files = glob("$log_dir$log_prefix*.log");
+
+foreach my $file (@log_files) {
+    print "Removing old log file: $file\n";
+    unlink $file or warn "Failed to remove $file: $!";
+}
+#die;
 
 # Create log file
 my $timestamp = strftime("%Y-%m-%d_%H-%M-%S", localtime);
-my $logfile = "health_check_$timestamp.log";
+my $logfile = "/root/health_check_$timestamp.log";
 open my $LOG, '>', $logfile or die "Cannot open log file: $!";
 
 # Initialize a summary of problems
