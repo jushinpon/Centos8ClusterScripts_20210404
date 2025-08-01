@@ -1,11 +1,13 @@
+#!/usr/bin/perl
 use strict;
 use warnings;
 use Parallel::ForkManager;
 use Cwd;
 
-my $forkNo = 4;  # 假设CPU有4个核心
+my $forkNo = 1;  # You can increase this to 5~10 for parallel node checking
 my $pm = Parallel::ForkManager->new($forkNo);
 
+# Define your node groups by IP base
 my %nodes = (
     161 => [1..42],
     182 => [1..24],
@@ -15,6 +17,7 @@ my %nodes = (
     166 => [1..7]
 );
 
+# Determine cluster group based on server IP
 my $ip = `/usr/sbin/ip a`;
 $ip =~ /14\d\.1\d+\.\d+\.(\d+)/;
 my $cluster = $1;
@@ -26,60 +29,69 @@ my @allnodes = @{$nodes{$cluster}};
 my @allgpu;
 my @badgpu;
 my @errgpu;
+my @no_dkms;
 
-sub run_command {
-    my ($cmd) = @_;
-    my @output = `$cmd`;
-    if ($?) {
-        warn "Error executing command: $!";
-        return ();
-    }
-    return @output;
-}
-
-for (@allnodes) {
+for my $nodeid (@allnodes) {
     $pm->start and next;
 
-    my $node_index = sprintf("%02d", $_);
-    my $nodename = "node" . $node_index;
-    my $cmd = "/usr/bin/ssh $nodename ";
+    my $nodeindex = sprintf("%02d", $nodeid);
+    my $nodename = "node$nodeindex";
+    my $cmd = "/usr/bin/ssh $nodename";
 
-    my @temp = run_command("timeout 10 $cmd '/usr/sbin/lspci|/usr/bin/egrep \"RTX 2080|RTX 3060|RTX 2060\"'");
-    map { s/^\s+|\s+$//g; } @temp;
+    # Detect GPU via lspci
+    my @gpu_check = `timeout 10 $cmd '/usr/sbin/lspci | grep -E "RTX 2080|RTX 3060|RTX 2060"'`;
+    map { s/^\s+|\s+$//g } @gpu_check;
 
-    if (@temp) {
-        print "\n\n$nodename has a gpu card:\n";
+    if (@gpu_check) {
+        print "\n\n$nodename has a GPU card:\n";
         push @allgpu, $nodename;
 
-        my @dkms_output = run_command("timeout 10 $cmd 'dkms status nvidia'");
-        my $dkms_status = join("", @dkms_output);
-        $dkms_status =~ s/^\s+|\s+$//g;
-        print "dkms status nvidia:\n$dkms_status\n";
+        # DKMS check
+        my $dkms = `timeout 10 $cmd 'dkms status nvidia 2>&1'`;
+        $dkms =~ s/^\s+|\s+$//g;
+        print "dkms status nvidia: $dkms\n";
 
-        if ($dkms_status !~ /installed/) {
-            print "DKMS status for NVIDIA is not correctly installed on $nodename\n";
-            push @badgpu, $nodename;
-        } else {
-            print "nvidia-smi:\n";
-            my @temp1 = run_command("timeout 10 $cmd 'nvidia-smi|grep GPU'");
-            my @temp2 = run_command("timeout 10 $cmd 'nvidia-smi|grep ERR'");
-            print "nvidia-smi done\n";
-
-            map { s/^\s+|\s+$//g; } @temp1;
-
-            unless (@temp1) { push @badgpu, $nodename; }
-            if (@temp2) { push @errgpu, $nodename; }
+        if ($dkms =~ /command not found/i || $dkms eq '') {
+            push @no_dkms, $nodename;
         }
+
+        # nvidia-smi basic check
+        print "nvidia-smi:\n";
+        my @smi_check = `timeout 10 $cmd 'nvidia-smi -L 2>&1'`;
+        my @smi_err = `timeout 10 $cmd 'nvidia-smi | grep ERR 2>&1'`;
+
+        map { s/^\s+|\s+$//g } @smi_check;
+        map { s/^\s+|\s+$//g } @smi_err;
+
+        if (!@smi_check || join(" ", @smi_check) =~ /not found/i) {
+            push @badgpu, $nodename;
+        }
+
+        if (@smi_err) {
+            push @errgpu, $nodename;
+        }
+
+        print "nvidia-smi done\n";
     }
 
     $pm->finish;
 }
+$pm->wait_all_children;
 
-print "\n\n***All GPU:\n";
-print "$_\n" for @allgpu;
+# Write results to log
+open(my $fh, '>', 'gpu_check.log') or die "Could not open log: $!";
+print $fh "\n*** All GPU Nodes (Total: " . scalar(@allgpu) . ")\n";
+print $fh "$_\n" for @allgpu;
 
-print "\n\n***Bad GPU:\n";
-print "$_\n" for @badgpu;
+print $fh "\n*** Bad GPUs (nvidia-smi not working): " . scalar(@badgpu) . "\n";
+print $fh "$_\n" for @badgpu;
 
-print "\n\n***ERR GPU:\n";
-print "$_\n" for @errgpu;
+print $fh "\n*** ERR in nvidia-smi output: " . scalar(@errgpu) . "\n";
+print $fh "$_\n" for @errgpu;
+
+print $fh "\n*** DKMS missing or broken: " . scalar(@no_dkms) . "\n";
+print $fh "$_\n" for @no_dkms;
+
+close $fh;
+print "\nCheck GPU status done. Summary:\n";
+system("cat gpu_check.log");
