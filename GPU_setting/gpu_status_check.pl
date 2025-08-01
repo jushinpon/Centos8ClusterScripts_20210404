@@ -48,7 +48,8 @@ for (@allnodes){
 
 
         print "nvidia-smi:\n";
-        my @temp1 = `timeout 10 $cmd 'nvidia-smi|grep GPU'`;
+        my @temp1 = `timeout 10 $cmd 'nvidia-smi|grep Memory-Usage'`;
+        #my @temperr = `timeout 10 $cmd 'nvidia-smi|grep Error'`;
         my @temp2 = `timeout 10 $cmd 'nvidia-smi|grep ERR'`;
         print "nvidia-smi done\n";
 
@@ -71,20 +72,20 @@ for (@allnodes){
 }
 
 open(my $fh, '>', 'gpu_check.log') or die "Could not open file: $!";
-print $fh "\n***All GPU:\n";
+print $fh "\n***All GPU: ".@allgpu."\n";
 for (@allgpu){
     print $fh "$_\n";
 }
 
-print $fh "\n***Bad GPUs:\n";
+print $fh "\n***Bad GPUs: ".@badgpu."\n";
 for (@badgpu){
     print $fh "$_\n";
 }
-print "\n***ERR GPU:\n";
+print "\n***ERR GPU: ". @errgpu. "\n";
 for (@errgpu){
     print $fh "$_\n";
 }
-print $fh "\n***No dkms:\n";
+print $fh "\n***No dkms:".@no_dkms."\n";
 for (@no_dkms){
     print $fh "$_\n";
 }
