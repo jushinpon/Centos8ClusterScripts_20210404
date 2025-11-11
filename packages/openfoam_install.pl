@@ -16,7 +16,7 @@ my %nodes = (
      182 => [6,20..24],
     #182 => [1..24],
     186 => [1..10],
-    190 => [1..3]
+    190 => [2..3]
     );
 
 my $ip = `/usr/sbin/ip a`;    
@@ -45,6 +45,8 @@ for (@allnodes){
         push @nodes,$_;
 		}    
 }
+#install openfoam for server node
+system("rpm --import https://download.copr.fedorainfracloud.org/results/openfoam/openfoam/pubkey.gpg && dnf install openfoam -y;dnf install libfabric -y");
 
 for (@nodes){
 $pm->start and next;

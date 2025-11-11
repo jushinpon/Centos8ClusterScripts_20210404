@@ -85,7 +85,7 @@ my @ls = `ssh $nodename 'ls /root/{*.pl,Server_setting.dat}'`;
 my $lsno = @ls;
 chomp $lsno;
 #print "ls number: $lsno\n";
-if($lsno == 9){
+if($lsno == 11){
 	chomp $nodename;
 	$scpstatus{$nodename} = "good";
 }
